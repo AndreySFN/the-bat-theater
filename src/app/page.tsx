@@ -1,95 +1,46 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import React from 'react';
+import {Map} from './Map'
+import Image from 'next/image'
+import styles from './page.module.scss';
+import { ShowtimeCard } from './molecules/ShowtimeCard';
+import { Schedule } from './sections/Schedule';
 
-export default function Home() {
+const Home: React.FC = () => {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol>
-          <li>
-            Get started by editing <code>src/app/page.tsx</code>.
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <>
+    <Image src='/image.png' alt='Афиша' width={2000} height={300} style={{position: 'absolute', zIndex: -1, 
+      objectFit: 'cover', maxWidth: '100%'}}/>
+    <div className={styles.container}>
+      <header className={styles.header}>
+        <h1>Давай споём!</h1>
+        <p>Караоке вечер</p>
+      </header>
 
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.secondary}
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className={styles.footer}>
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        <Schedule>
+        <ShowtimeCard dateTime={new Date(2024, 9, 28, 19, 0)} place={'Арт-студия "Луна". Клин, улица Захватаева, 4'} />
+            {/* <ShowtimeCard dateTime={new Date(2024, 11, 11, 19, 0)} place={'ЦСКА Арена'} isSoldOut /> */}
+        </Schedule>
+          
+
+      <section className={styles.about}>
+        <h2>О событии</h2>
+        <p>Приглашаем вас на незабываемый караоке-вечер! 🎤✨ <br/>
+
+Готовьтесь петь свои любимые хиты, наслаждаться атмосферой веселья и хорошего настроения. Мы подготовили для вас отличную подборку песен, уютную обстановку и массу позитивных эмоций.
+<br/>
+Приходите с друзьями, чтобы вместе провести вечер, полный музыки, смеха и ярких впечатлений! Не упустите шанс стать звездой сцены и показать свои вокальные таланты. 🌟
+<br/>
+До встречи на нашем караоке-вечере!</p>
+      </section>
+
+      <section className={styles.address}>
+        <h2>Адрес</h2>
+        <p>Клин, улица Захватаева, 4</p>
+        <Map/>
+        </section>
     </div>
+    </>
   );
-}
+};
+
+export default Home;
