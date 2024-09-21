@@ -1,6 +1,7 @@
 export interface Options {
     dateTime: Date;
     nethouseLink: string;
+    place: string;
 }
 
 export interface DataTransferObject {

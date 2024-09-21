@@ -19,6 +19,7 @@
 
 .header {
   // text-align: center;
+  max-width: 80%;
   height: 300px;
   color: white;
   display: flex;
@@ -52,4 +53,21 @@
     max-width: 100%;
     height: auto;
   }
+}
+
+.announce {
+  text-align: center;
+  margin-top: 30px;
+}
+
+.announceContent {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.advertisment {
+  
 }

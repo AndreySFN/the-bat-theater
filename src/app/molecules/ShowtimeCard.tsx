@@ -5,13 +5,14 @@ import { BuyTicketButton } from "@/app/atoms/BuyTicketButtonProps";
 export interface ShowtimeCardProps {
     dateTime: Date;
     place: string;
+    link: string;
     isSoldOut?: boolean;
 }
 
-export const ShowtimeCard = ({ dateTime, place, isSoldOut }: ShowtimeCardProps) => {
+export const ShowtimeCard = ({ dateTime, place, isSoldOut, link }: ShowtimeCardProps) => {
     const Extra = isSoldOut ? (
         <Tag color="default">Все билеты проданы</Tag>
-    ) : (    <BuyTicketButton url={"https://events.nethouse.ru/buy_tickets/109466/"} />
+    ) : (    <BuyTicketButton url={link} />
     );
 
     return (
