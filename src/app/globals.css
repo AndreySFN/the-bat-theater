@@ -46,7 +46,7 @@ a {
 /* Мобильные устройства (до 480px) */
 @media (max-width: 480px) {
   html {
-    font-size: 14px; /* 1rem = 14px */
+    font-size: 12px; /* 1rem = 14px */
   }
 }
 

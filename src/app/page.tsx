@@ -6,6 +6,7 @@ import { AboutSection } from './sections/AboutSection';
 import { AddressSection } from './sections/AddressSection';
 import { AnnounceSection } from './sections/AnnounceSection';
 import styles from './MainPage.module.scss';
+import Link from 'next/link';
 
 export default async function MainPage() {
   const data = await getAllData();
@@ -27,8 +28,10 @@ export default async function MainPage() {
       />
       <div className={styles.container}>
         <header className={styles.header}>
+        {/* eslint-disable-next-line react/no-unescaped-entities */}
           <h1>Арт-студия "Луна"</h1>
           <p>Погружение в удивительный мир искусства</p>
+          <Link href ='tel:+79067370208'><p>+7 (906) 737 02-08</p></Link>
         </header>
 
         <AnnounceSection eventsData={data} />

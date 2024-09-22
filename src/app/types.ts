@@ -2,6 +2,7 @@ export interface Options {
     dateTime: Date;
     nethouseLink: string;
     place: string;
+    price?: string;
 }
 
 export interface DataTransferObject {

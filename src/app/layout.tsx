@@ -2,6 +2,13 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import { Footer } from "./Footer";
+import { Playfair_Display } from 'next/font/google';
+
+const playfairDisplay = Playfair_Display({
+  subsets: ['latin', 'cyrillic'], // Укажите нужные subsets
+  // Если используете CSS-переменную:
+  variable: '--font-playfair-display',
+});
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -51,7 +58,7 @@ export default function RootLayout({
     <head>
       <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     </head>
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body className={`${playfairDisplay.className} ${geistSans.variable} ${geistMono.variable}`}>
         {children}
         <Footer/>
       </body>

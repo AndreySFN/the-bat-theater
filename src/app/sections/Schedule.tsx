@@ -6,4 +6,4 @@ export interface ScheduleProps {
 }
 
 export const Schedule = ({children}: ScheduleProps) => 
-    <section className={styles.schedule}><h2>Расписание</h2>{children}</section>
+    <section className={styles.schedule}><h2>Расписание:</h2>{children}</section>
