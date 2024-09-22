@@ -25,7 +25,7 @@ export const EventCard: React.FC<EventCardProps> = ({title, desc, imageUrl, date
         cover={<Image alt="АФИША" src={imageUrl} width={280} height={300}/>}
         bodyStyle={{display: 'flex', flexDirection: 'column', alignItems: 'center', flexGrow: 1}}
         >
-            <div style={{flexGrow: '1', display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}} >
+            <div style={{flexGrow: '1', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '100%'}} >
             <CMeta title={metaTitle} description={desc} />
             <Button style={{marginTop: '1.5rem'}}>подробности</Button>
             </div>
