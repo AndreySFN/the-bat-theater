@@ -1,24 +1,27 @@
-import React from 'react';
+import { Button } from 'antd';
+import { omit } from 'lodash';
 import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { Button } from 'antd';
-import { getAllData, getData } from '../utils';
-import { DataTransferObject } from '../types';
-import { Schedule } from '../sections/Schedule';
-import { ShowtimeCard } from '../molecules/ShowtimeCard';
+import React from 'react';
+
 import styles from './EventPage.module.scss';
-import { AddressSection } from '../sections/AddressSection';
-import { EventAboutSection } from '../sections/EventAboutSection';
-import { AnnounceSection } from '../sections/AnnounceSection';
-import { omit } from 'lodash'
 import { MetricaDictionary } from '../metrika';
+import { ShowtimeCard } from '../molecules/ShowtimeCard';
+import { AddressSection } from '../sections/AddressSection';
+import { AnnounceSection } from '../sections/AnnounceSection';
+import { EventAboutSection } from '../sections/EventAboutSection';
+import { Schedule } from '../sections/Schedule';
+import { DataTransferObject } from '../types';
+import { getAllData, getData } from '../utils';
 interface Props {
   params: { name: string };
 }
 
-export async function generateMetadata({ params: { name } }: Props): Promise<Metadata> {
+export async function generateMetadata({
+  params: { name },
+}: Props): Promise<Metadata> {
   const data: DataTransferObject | null = await getData(name);
 
   if (!data) {
@@ -53,11 +56,10 @@ export async function generateMetadata({ params: { name } }: Props): Promise<Met
   };
 }
 
-
 export default async function EventPage({ params }: Props) {
   const { name } = params;
   const data: DataTransferObject | null = await getData(name);
-  const advertisment = await getAllData()
+  const advertisment = await getAllData();
 
   if (!data) {
     notFound();
@@ -78,13 +80,15 @@ export default async function EventPage({ params }: Props) {
       <div className={styles.container}>
         <header className={styles.header}>
           <div>
-        {/* eslint-disable-next-line react/no-unescaped-entities */}
-        <h3 style={{fontStyle: 'italic', fontWeight: 100}}>Арт-студия "Луна"</h3>
-          <h1>{title}</h1>
+            {/* eslint-disable-next-line react/no-unescaped-entities */}
+            <h3 style={{ fontStyle: 'italic', fontWeight: 100 }}>
+              Арт-студия "Луна"
+            </h3>
+            <h1>{title}</h1>
           </div>
           <p>{shortDesc}</p>
           <Link href="/">
-            <Button style={{fontWeight: 200}}>📅 ВСЕ МЕРОПРИЯТИЯ 📅</Button>
+            <Button style={{ fontWeight: 200 }}>📅 ВСЕ МЕРОПРИЯТИЯ 📅</Button>
           </Link>
         </header>
 
@@ -99,11 +103,15 @@ export default async function EventPage({ params }: Props) {
             />
           ))}
         </Schedule>
-        <Link href ='tel:+79067370208' style={{textAlign: 'center'}}><h2 style={{fontWeight: 100}}>☎️ +7 (906) 737 02-08 ☎️</h2></Link>
+        <Link href="tel:+79067370208" style={{ textAlign: 'center' }}>
+          <h2 style={{ fontWeight: 100 }}>☎️ +7 (906) 737 02-08 ☎️</h2>
+        </Link>
         <EventAboutSection description={desc} />
         <AddressSection mapKey={mapKey} />
-        <AnnounceSection title='Другие мероприятия' eventsData={omit(advertisment, name)} />
-
+        <AnnounceSection
+          title="Другие мероприятия"
+          eventsData={omit(advertisment, name)}
+        />
       </div>
     </>
   );

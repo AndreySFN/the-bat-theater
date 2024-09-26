@@ -1,7 +1,7 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
 export const MetricaDictionary: Record<string, ReactNode> = {
-    sweet_box: <script type="text/javascript" >{`
+  sweet_box: <script type="text/javascript" >{`
    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
    m[i].l=1*new Date();
    for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
@@ -14,9 +14,10 @@ export const MetricaDictionary: Record<string, ReactNode> = {
         accurateTrackBounce:true,
         webvisor:true
    });`}
-</script>,
-enchanted_hut: 
-<script type="text/javascript" >{`
+  </script>,
+  enchanted_hut: 
+    <script type="text/javascript">
+      {`
    (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
    m[i].l=1*new Date();
    for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
@@ -29,5 +30,6 @@ enchanted_hut:
         accurateTrackBounce:true,
         webvisor:true
    });`}
-</script>
-}
+    </script>
+  ),
+};
