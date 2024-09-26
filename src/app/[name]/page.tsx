@@ -13,6 +13,7 @@ import { AddressSection } from '../sections/AddressSection';
 import { EventAboutSection } from '../sections/EventAboutSection';
 import { AnnounceSection } from '../sections/AnnounceSection';
 import { omit } from 'lodash'
+import { MetricaDictionary } from '../metrika';
 interface Props {
   params: { name: string };
 }
@@ -62,10 +63,11 @@ export default async function EventPage({ params }: Props) {
     notFound();
   }
 
-  const { desc, options, shortDesc, title, } = data;
+  const { desc, options, shortDesc, title, mapKey } = data;
 
   return (
     <>
+      {MetricaDictionary[name]}
       <Image
         src={`/posters/${name}.png`}
         alt="Афиша"
@@ -99,7 +101,7 @@ export default async function EventPage({ params }: Props) {
         </Schedule>
         <Link href ='tel:+79067370208' style={{textAlign: 'center'}}><h2 style={{fontWeight: 100}}>☎️ +7 (906) 737 02-08 ☎️</h2></Link>
         <EventAboutSection description={desc} />
-        <AddressSection />
+        <AddressSection mapKey={mapKey} />
         <AnnounceSection title='Другие мероприятия' eventsData={omit(advertisment, name)} />
 
       </div>

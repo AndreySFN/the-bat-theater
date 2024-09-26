@@ -35,11 +35,6 @@ export const formatDate = (date?: Date): string => {
   
     // Конвертируем строки даты в объекты Date
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    data.options = data.options.map((option: any) => ({
-      ...option,
-      dateTime: new Date(option.dateTime),
-    }));
-  
     console.log(data)
     return data as DataTransferObject;
   };

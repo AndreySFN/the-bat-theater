@@ -1,6 +1,6 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-export const Map = () => (
+export const MainMap = () => (
     <div style={{ position: 'relative', overflow: 'hidden' }}>
       <a
         href="https://yandex.com/maps/10733/klin/?utm_medium=mapframe&utm_source=maps"

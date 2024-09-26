@@ -36,7 +36,7 @@ export default async function MainPage() {
 
         <AnnounceSection eventsData={data} />
         <AboutSection content={aboutContent} />
-        <AddressSection />
+        <AddressSection mapKey='main' />
       </div>
     </>
   );
