@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import styles from './styles.module.scss';
 
 export interface ScheduleProps {
@@ -6,4 +6,8 @@ export interface ScheduleProps {
 }
 
 export const Schedule = ({ children }: ScheduleProps) => (
-  <section className={styles.schedule}><h2>Расписание:</h2>{children}</section>;
+  <section className={styles.schedule}>
+    <h2>Расписание:</h2>
+    {children}
+  </section>
+);

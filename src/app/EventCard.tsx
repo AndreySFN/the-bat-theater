@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { formatDate } from './utils';
 import Link from 'next/link';
 import { CMeta } from './CMeta';
+import React from 'react';
 
 export interface EventCardProps {
   imageUrl: string;
@@ -18,7 +19,7 @@ export const EventCard: React.FC<EventCardProps> = ({
   imageUrl,
   date,
   href,
-}) => {
+}: EventCardProps) => {
   const metaTitle = (
     <>
       <h5>{formatDate(date)}</h5>

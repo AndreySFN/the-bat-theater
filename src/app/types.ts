@@ -11,4 +11,8 @@ export interface DataTransferObject {
   desc: string;
   mapKey?: string;
   options: Array<Options>;
+  ym: number;
+  coverUrl: string;
+  miniCoverUrl: string;
+  galleryUrl: string;
 }

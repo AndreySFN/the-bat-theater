@@ -1,17 +1,29 @@
+import React from 'react';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
+
 export const MainMap = () => (
   <div style={{ position: 'relative', overflow: 'hidden' }}>
     <a
       href="https://yandex.com/maps/10733/klin/?utm_medium=mapframe&utm_source=maps"
-      style={{ color: '#eee', fontSize: '12px', position: 'absolute', top: '0px' }}
+      style={{
+        color: '#eee',
+        fontSize: '12px',
+        position: 'absolute',
+        top: '0px',
+      }}
     >
-    >
+      {'>'}
       Клин
     </a>
     <a
       href="https://yandex.com/maps/10733/klin/house/ulitsa_zakhvatayeva_4/Z08YcQVpQEABQFtsfX9zeH5nZg==/?ll=36.729956%2C56.329243&source=serp_navig&utm_medium=mapframe&utm_source=maps&z=17.13"
-      style={{ color: '#eee', fontSize: '12px', position: 'absolute', top: '14px' }}
+      style={{
+        color: '#eee',
+        fontSize: '12px',
+        position: 'absolute',
+        top: '14px',
+      }}
     >
       Улица Захватаева, 4 — Яндекс Карты
     </a>

@@ -23,6 +23,6 @@ export const AddressSection: React.FC<IAddressSectionProps> = ({
       <h2>Адрес:</h2>
       <h3>{address}</h3>
       <Мap />
-    </section>;
+    </section>
   );
 };

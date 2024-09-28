@@ -9,6 +9,10 @@ import { AddressSection } from './sections/AddressSection';
 import { AnnounceSection } from './sections/AnnounceSection';
 import { getAllData } from './utils';
 
+import Image from 'next/image';
+import YandexMetrika from '@/app/YandexMetrika';
+import { MAIN_YANDEX_METRICA_ID } from '@/app/consts';
+
 export default async function MainPage() {
   const data = await getAllData();
 
@@ -21,20 +25,23 @@ export default async function MainPage() {
 
   return (
     <>
-      {/* <Image
-        src="/main_poster.png"
-        alt="Афиша"
-        width={2000}
-        height={300}
-        className={styles.backgroundImage}
-      /> */}
+      <YandexMetrika counter={MAIN_YANDEX_METRICA_ID} />
       <header className={styles.header}>
-        {/* eslint-disable-next-line react/no-unescaped-entities */}
-        <h1>Арт-студия "Луна"</h1>
-        <p>Погружение в удивительный мир искусства</p>
-        <Link href="tel:+79067370208">
-          <p>+7 (906) 737 02-08</p>
-        </Link>
+        <Image
+          src="/main_poster.png"
+          alt="Афиша"
+          width={2000}
+          height={300}
+          className={styles.backgroundImage}
+        />
+        <div className={styles.headerContainer}>
+          {/* eslint-disable-next-line react/no-unescaped-entities */}
+          <h1>Арт-студия "Луна"</h1>
+          <p>Погружение в удивительный мир искусства</p>
+          <Link href="tel:+79067370208">
+            <p>+7 (906) 737 02-08</p>
+          </Link>
+        </div>
       </header>
       <div className={styles.container}>
         <AnnounceSection eventsData={data} />

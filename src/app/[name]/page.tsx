@@ -1,4 +1,4 @@
-import { Button } from 'antd';
+import { Button, Carousel } from 'antd';
 import { omit } from 'lodash';
 import { Metadata } from 'next';
 import Image from 'next/image';
@@ -7,7 +7,6 @@ import { notFound } from 'next/navigation';
 import React from 'react';
 
 import styles from './EventPage.module.scss';
-import { MetricaDictionary } from '../metrika';
 import { ShowtimeCard } from '../molecules/ShowtimeCard';
 import { AddressSection } from '../sections/AddressSection';
 import { AnnounceSection } from '../sections/AnnounceSection';
@@ -15,6 +14,8 @@ import { EventAboutSection } from '../sections/EventAboutSection';
 import { Schedule } from '../sections/Schedule';
 import { DataTransferObject } from '../types';
 import { getAllData, getData } from '../utils';
+import { PHONE_NUMBER } from '@/app/consts';
+import YandexMetrika from '@/app/YandexMetrika';
 interface Props {
   params: { name: string };
 }
@@ -38,10 +39,10 @@ export async function generateMetadata({
       siteName: 'TicketWave',
       images: [
         {
-          url: `https://ticketwave.ru/posters/${name}.png`,
+          url: `https://ticketwave.ru/miniposters/${name}.png`,
           width: 800,
           height: 600,
-          alt: 'Спектакли и тематические вечера',
+          alt: data.title,
         },
       ],
       locale: 'ru_RU',
@@ -49,8 +50,8 @@ export async function generateMetadata({
     },
     twitter: {
       card: 'summary_large_image',
-      title: 'Арт-студия "Луна"',
-      description: 'Спектакли и тематические вечера',
+      title: data.title,
+      description: data.shortDesc,
       images: ['https://ticketwave.ru/preview.png'],
     },
   };
@@ -59,39 +60,40 @@ export async function generateMetadata({
 export default async function EventPage({ params }: Props) {
   const { name } = params;
   const data: DataTransferObject | null = await getData(name);
-  const advertisment = await getAllData();
+  const advertisment = omit(await getAllData(), name);
 
   if (!data) {
     notFound();
   }
 
-  const { desc, options, shortDesc, title, mapKey } = data;
+  const { desc, options, shortDesc, title, mapKey, ym } = data;
 
   return (
     <>
-      {MetricaDictionary[name]}
-      <Image
-        src={`/posters/${name}.png`}
-        alt="Афиша"
-        width={2000}
-        height={300}
-        className={styles.backgroundImage}
-      />
-      <div className={styles.container}>
-        <header className={styles.header}>
+      <YandexMetrika counter={ym} />
+      <header className={styles.header}>
+        <Image
+          src={`/posters/${name}.png`}
+          alt="Афиша"
+          width={2000}
+          height={300}
+          className={styles.backgroundImage}
+        />
+        <div className={styles.headerContainer}>
           <div>
-            {/* eslint-disable-next-line react/no-unescaped-entities */}
             <h3 style={{ fontStyle: 'italic', fontWeight: 100 }}>
+              {/* eslint-disable-next-line react/no-unescaped-entities */}
               Арт-студия "Луна"
             </h3>
             <h1>{title}</h1>
+            <p>{shortDesc}</p>
           </div>
-          <p>{shortDesc}</p>
           <Link href="/">
             <Button style={{ fontWeight: 200 }}>📅 ВСЕ МЕРОПРИЯТИЯ 📅</Button>
           </Link>
-        </header>
-
+        </div>
+      </header>
+      <div className={styles.container}>
         <Schedule>
           {options.map(({ dateTime, nethouseLink, place }) => (
             <ShowtimeCard
@@ -103,15 +105,13 @@ export default async function EventPage({ params }: Props) {
             />
           ))}
         </Schedule>
-        <Link href="tel:+79067370208" style={{ textAlign: 'center' }}>
-          <h2 style={{ fontWeight: 100 }}>☎️ +7 (906) 737 02-08 ☎️</h2>
+        <Link href={`tel:${PHONE_NUMBER}`} style={{ textAlign: 'center' }}>
+          <h2 style={{ fontWeight: 100 }}>☎️ {PHONE_NUMBER} ☎️</h2>
         </Link>
         <EventAboutSection description={desc} />
+        <Carousel></Carousel>
         <AddressSection mapKey={mapKey} />
-        <AnnounceSection
-          title="Другие мероприятия"
-          eventsData={omit(advertisment, name)}
-        />
+        <AnnounceSection title="Другие мероприятия" eventsData={advertisment} />
       </div>
     </>
   );

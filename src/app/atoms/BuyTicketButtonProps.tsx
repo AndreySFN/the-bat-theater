@@ -1,7 +1,7 @@
 // Убираем 'use client'
 import { Button } from 'antd';
 import Link from 'next/link';
-
+import React from 'react';
 interface BuyTicketButtonProps {
   url: string;
   price?: string;

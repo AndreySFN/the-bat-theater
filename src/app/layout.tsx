@@ -5,6 +5,7 @@ import './globals.css';
 import { Footer } from './Footer';
 
 import { Playfair_Display } from 'next/font/google';
+import React from 'react';
 
 const playfairDisplay = Playfair_Display({
   subsets: ['latin', 'cyrillic'], // Укажите нужные subsets
