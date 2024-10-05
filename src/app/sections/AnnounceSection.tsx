@@ -15,12 +15,12 @@ export const AnnounceSection: React.FC<AnnounceSectionProps> = ({
 }) => (
   <section className={styles.announce}>
     <h2>{title}</h2>
-    <div className={styles.announceContent}>
+    <span className={styles.announceContent}>
       {Object.entries(eventsData)
         .sort(
           (a, b) =>
-            b[1].options[0].dateTime.getTime() -
-            a[1].options[0].dateTime.getTime()
+            a[1].options[0].dateTime.getTime() -
+            b[1].options[0].dateTime.getTime()
         )
         .map(([key, { shortDesc, title, options }]) => (
           <EventCard
@@ -32,6 +32,6 @@ export const AnnounceSection: React.FC<AnnounceSectionProps> = ({
             title={title}
           />
         ))}
-    </div>
+    </span>
   </section>
 );

@@ -1,5 +1,5 @@
-import { Button, Carousel } from 'antd';
-import { omit } from 'lodash';
+import { Button } from 'antd';
+import { isEmpty, omit } from 'lodash';
 import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -14,8 +14,11 @@ import { EventAboutSection } from '../sections/EventAboutSection';
 import { Schedule } from '../sections/Schedule';
 import { DataTransferObject } from '../types';
 import { getAllData, getData } from '../utils';
-import { PHONE_NUMBER } from '@/app/consts';
-import YandexMetrika from '@/app/YandexMetrika';
+import { LUNA_ART_STUDIO_TITLE, MAX_WIDTH } from '@/app/consts';
+import { CustomCarousel } from '@/app/atoms/CustomCarousel';
+import { Section } from '@/layouts/Section';
+import { OurProjects } from '@/features/OurProjects';
+import { YandexMetrika } from '../YandexMetrika';
 interface Props {
   params: { name: string };
 }
@@ -66,11 +69,11 @@ export default async function EventPage({ params }: Props) {
     notFound();
   }
 
-  const { desc, options, shortDesc, title, mapKey, ym } = data;
-
+  const { desc, options, shortDesc, title, mapKey, ym, previews } = data;
+  console.log(ym);
   return (
     <>
-      <YandexMetrika counter={ym} />
+      <YandexMetrika id={String(ym)} />
       <header className={styles.header}>
         <Image
           src={`/posters/${name}.png`}
@@ -83,7 +86,7 @@ export default async function EventPage({ params }: Props) {
           <div>
             <h3 style={{ fontStyle: 'italic', fontWeight: 100 }}>
               {/* eslint-disable-next-line react/no-unescaped-entities */}
-              Арт-студия "Луна"
+              {LUNA_ART_STUDIO_TITLE}
             </h3>
             <h1>{title}</h1>
             <p>{shortDesc}</p>
@@ -105,11 +108,20 @@ export default async function EventPage({ params }: Props) {
             />
           ))}
         </Schedule>
-        <Link href={`tel:${PHONE_NUMBER}`} style={{ textAlign: 'center' }}>
-          <h2 style={{ fontWeight: 100 }}>☎️ {PHONE_NUMBER} ☎️</h2>
-        </Link>
+        {/* <h2 style={{ fontWeight: 100, textAlign: 'center' }}>
+          <Link href={PHONE_NUMBER_LINK}>☎️ {PHONE_NUMBER} ☎️</Link>
+        </h2> */}
+        {!isEmpty(previews) && (
+          <Section>
+            <CustomCarousel
+              imagesList={previews}
+              width={MAX_WIDTH}
+              height={MAX_WIDTH / 1.5}
+            />
+          </Section>
+        )}
         <EventAboutSection description={desc} />
-        <Carousel></Carousel>
+        {isEmpty(previews) && <OurProjects />}
         <AddressSection mapKey={mapKey} />
         <AnnounceSection title="Другие мероприятия" eventsData={advertisment} />
       </div>

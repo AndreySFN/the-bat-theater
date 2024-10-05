@@ -6,23 +6,21 @@ interface BuyTicketButtonProps {
   url: string;
   price?: string;
   isSoldOut: boolean;
+  className?: string;
 }
 
 export const BuyTicketButton = ({
   url,
   price,
   isSoldOut,
+  className = '',
 }: BuyTicketButtonProps) => {
   return (
-    <Link href={url}>
-      <Button
-        disabled={isSoldOut}
-        type="primary"
-        style={{ height: '5rem', display: 'block' }}
-      >
+    <Button disabled={isSoldOut} type="primary" className={className}>
+      <Link href={url}>
         <h3>{isSoldOut ? 'ПРОДАЖИ ЗАКРЫТЫ' : 'КУПИТЬ БИЛЕТ'}</h3>
         <div>{price && !isSoldOut && <h4>{price}</h4>}</div>
-      </Button>
-    </Link>
+      </Link>
+    </Button>
   );
 };

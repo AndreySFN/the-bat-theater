@@ -38,9 +38,16 @@ export const ShowtimeCard = async ({
       <Card title={<h3>{formatDate(dateTime)}</h3>} style={{ width: '100%' }}>
         <div className={styles.content}>
           <h3 style={{ fontWeight: 100 }}>{place}</h3>
-          <BuyTicketButton price={price} url={link} isSoldOut={isSoldOut} />
+          <BuyTicketButton
+            className={styles.button}
+            price={price}
+            url={link}
+            isSoldOut={isSoldOut}
+          />
         </div>
       </Card>
     </div>
   );
 };
+
+// style={{ height: '5rem', display: 'block' }}

@@ -6,6 +6,7 @@ import { Footer } from './Footer';
 
 import { Playfair_Display } from 'next/font/google';
 import React from 'react';
+import { LUNA_ART_STUDIO_TITLE } from './consts';
 
 const playfairDisplay = Playfair_Display({
   subsets: ['latin', 'cyrillic'], // Укажите нужные subsets
@@ -25,10 +26,13 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'Арт-студия "Луна"',
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-expect-error
+  'yandex-verification': '8bb2a08b2a778121',
+  title: LUNA_ART_STUDIO_TITLE,
   description: 'Спектакли и тематические вечера',
   openGraph: {
-    title: 'Арт-студия "Луна',
+    title: LUNA_ART_STUDIO_TITLE,
     description: 'Спектакли и тематические вечера',
     url: 'https://ticketwave.ru', // Замените на ваш реальный URL
     siteName: 'TicketWave',
@@ -45,7 +49,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Арт-студия "Луна"',
+    title: LUNA_ART_STUDIO_TITLE,
     description: 'Спектакли и тематические вечера',
     images: ['https://ticketwave.ru/preview.png'], // Замените на URL вашего изображения
   },

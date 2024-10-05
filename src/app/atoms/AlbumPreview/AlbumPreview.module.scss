@@ -1,0 +1,27 @@
+.content {
+  position: relative;
+  overflow: hidden; // Это важно, чтобы скрывать выезжающий контент за пределами блока
+  height: 100%;
+
+  h2 {
+    font-size: 1.5rem;
+  }
+  h3 {
+    text-align: right;
+  }
+
+  .description {
+    position: absolute;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    padding: 0.5rem;
+    bottom: 0; // Начальная позиция ниже видимой части контейнера
+    width: 100%;
+    & .--clickable {
+      transition: padding-bottom 0.3s ease; // Плавная анимация
+      &:hover{
+        padding-bottom: 2rem; // При наведении поднимаем блок вверх
+      }
+    }
+  }
+}

@@ -5,6 +5,12 @@ export interface Options {
   price?: string;
 }
 
+export interface IPreviews {
+  url: string;
+  title?: string;
+  subtitle?: string;
+}
+
 export interface DataTransferObject {
   title: string;
   shortDesc: string;
@@ -15,4 +21,5 @@ export interface DataTransferObject {
   coverUrl: string;
   miniCoverUrl: string;
   galleryUrl: string;
+  previews: Array<IPreviews>;
 }

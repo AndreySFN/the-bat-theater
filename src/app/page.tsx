@@ -10,8 +10,14 @@ import { AnnounceSection } from './sections/AnnounceSection';
 import { getAllData } from './utils';
 
 import Image from 'next/image';
-import YandexMetrika from '@/app/YandexMetrika';
-import { MAIN_YANDEX_METRICA_ID } from '@/app/consts';
+import {
+  LUNA_ART_STUDIO_TITLE,
+  MAIN_YANDEX_METRICA_ID,
+  PHONE_NUMBER,
+  PHONE_NUMBER_LINK,
+} from '@/app/consts';
+import { OurProjects } from '@/features/OurProjects';
+import { YandexMetrika } from './YandexMetrika';
 
 export default async function MainPage() {
   const data = await getAllData();
@@ -25,7 +31,7 @@ export default async function MainPage() {
 
   return (
     <>
-      <YandexMetrika counter={MAIN_YANDEX_METRICA_ID} />
+      <YandexMetrika id={String(MAIN_YANDEX_METRICA_ID)} />
       <header className={styles.header}>
         <Image
           src="/main_poster.png"
@@ -36,15 +42,17 @@ export default async function MainPage() {
         />
         <div className={styles.headerContainer}>
           {/* eslint-disable-next-line react/no-unescaped-entities */}
-          <h1>Арт-студия "Луна"</h1>
+          <h1>{LUNA_ART_STUDIO_TITLE}</h1>
           <p>Погружение в удивительный мир искусства</p>
-          <Link href="tel:+79067370208">
-            <p>+7 (906) 737 02-08</p>
+          <Link href={PHONE_NUMBER_LINK}>
+            <p>{PHONE_NUMBER}</p>
           </Link>
         </div>
       </header>
       <div className={styles.container}>
-        <AnnounceSection eventsData={data} />
+        <AnnounceSection title="Руза 19.10:" eventsData={data} />
+        <AnnounceSection title="Гастроли Руза 19.10:" eventsData={data} />
+        <OurProjects />
         <AboutSection content={aboutContent} />
         <AddressSection mapKey="main" />
       </div>

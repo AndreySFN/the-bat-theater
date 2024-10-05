@@ -12,3 +12,11 @@
         display: block;
     }
 }
+
+.button {
+    height: 5rem;
+    display: block;
+    @media (max-width: 768px) {
+       width: 100%;
+    }
+}

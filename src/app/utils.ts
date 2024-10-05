@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-import { DataTransferObject } from './types';
+import { DataTransferObject, IPreviews } from './types';
 
 export const formatDate = (date?: Date): string => {
   if (!date) {
@@ -59,4 +59,11 @@ export const getData = (recordId: string): DataTransferObject | null => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   console.log(data);
   return data as DataTransferObject;
+};
+
+export const getMainCarousel = (): Array<IPreviews> => {
+  const jsonPath = path.join(process.cwd(), 'main_carousel.json');
+  const fileContents = fs.readFileSync(jsonPath, 'utf8');
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return JSON.parse(fileContents);
 };

@@ -1,58 +1,53 @@
 /* eslint-disable */
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-'use client';
-import Script from 'next/script';
 import React from 'react';
-const YandexMetrika = ({ counter }) => {
-  // Функция для генерации inline-скриптов для инициализации Метрики
-  const generateInitScript = (counterId: never) => `
-    ym(${counterId}, "init", {
-      clickmap: true,
-      trackLinks: true,
-      accurateTrackBounce: true,
-      webvisor: true
-    });
-  `;
+import Script from 'next/script';
 
-  // @ts-ignore
-  return (
-    <>
-      {
-        <div key={counter.id}>
-          {/* Скрипт Яндекс.Метрики */}
-          <Script
-            strategy="afterInteractive"
-            src="https://mc.yandex.ru/metrika/tag.js"
-            onLoad={() => {
-              window.ym =
-                window.ym ||
-                function () {
-                  // eslint-disable-next-line prefer-rest-params
-                  (window.ym.a = window.ym.a || []).push(arguments);
-                };
-              window.ym(counter.id, 'init', {
-                clickmap: true,
-                trackLinks: true,
-                accurateTrackBounce: true,
-                webvisor: true,
-                // eslint-disable-next-line react/prop-types
-                ...counter.options, // Дополнительные опции, если необходимо
-              });
-            }}
-          />
+interface YMOptions {
+  clickmap?: boolean;
+  trackLinks?: boolean;
+  accurateTrackBounce?: boolean;
+  webvisor?: boolean;
+  // Вы можете добавить дополнительные опции, если необходимо
+  [key: string]: any;
+}
 
-          {/* Inline-скрипт для инициализации Метрики */}
-          <Script
-            id={`yandex-metrika-init-${counter.id}`}
-            strategy="afterInteractive"
-          >
-            {generateInitScript(counter.id)}
-          </Script>
-        </div>
-      }
-    </>
-  );
+interface YandexMetrikaProps {
+  id: string;
+  options?: YMOptions;
+}
+
+export const YandexMetrika: React.FC<YandexMetrikaProps> = ({
+  id,
+  options,
+}) => (
+  <>
+    <Script id={`yandex-metrika-${id}`} strategy="afterInteractive">
+      {`
+        (function(m,e,t,r,i,k,a){
+          m[i]=m[i]||function(){
+            (m[i].a=m[i].a||[]).push(arguments)
+          };
+          m[i].l=1*new Date();
+          for (var j = 0; j < document.scripts.length; j++) {
+            if (document.scripts[j].src === r) { return; }
+          }
+          k=e.createElement(t),a=e.getElementsByTagName(t)[0],
+          k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+        })
+        (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+        ym(${id}, "init", ${JSON.stringify(options)});
+      `}
+    </Script>
+  </>
+);
+
+YandexMetrika.defaultProps = {
+  options: {
+    clickmap: true,
+    trackLinks: true,
+    accurateTrackBounce: true,
+    webvisor: true,
+  },
 };
-
-export default YandexMetrika;
