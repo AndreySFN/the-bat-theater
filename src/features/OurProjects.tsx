@@ -1,8 +1,8 @@
 import React from 'react';
 import { Section } from '@/layouts/Section';
-import { getMainCarousel } from '@/app/utils';
-import { CustomCarousel } from '@/app/atoms/CustomCarousel';
-import { MAX_WIDTH } from '@/app/consts';
+import { getMainCarousel } from '@/utils/dataHandler/dataHandler';
+import { CustomCarousel } from '@/atoms/CustomCarousel';
+import { MAX_WIDTH } from '@/consts';
 const generateMainCarousel = async () => {
   const imageList = await getMainCarousel();
   return (

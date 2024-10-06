@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { EventCard } from '../EventCard';
+import { EventCard } from '../atoms/EventCard';
 import styles from './AnnounceSection.module.scss';
-import { RecordObjectElement } from '../types';
+import { RecordObjectElement } from '@/utils/dataHandler/types';
 
 interface AnnounceSectionProps {
   title?: string;

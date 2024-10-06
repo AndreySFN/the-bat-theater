@@ -1,5 +1,3 @@
-// dataHandler.ts
-
 import fs from 'fs/promises';
 import path from 'path';
 
@@ -8,39 +6,7 @@ import {
   RootObject,
   RecordObjectElement,
   TDataObject,
-} from './types';
-
-/**
- * Форматирует дату в строку вида "день месяц, часы:минуты".
- * @param date Объект Date.
- * @returns Отформатированная строка.
- */
-export const formatDate = (date?: Date): string => {
-  if (!date) {
-    return '';
-  }
-  const months = [
-    'января',
-    'февраля',
-    'марта',
-    'апреля',
-    'мая',
-    'июня',
-    'июля',
-    'августа',
-    'сентября',
-    'октября',
-    'ноября',
-    'декабря',
-  ];
-
-  const day = date.getDate();
-  const month = months[date.getMonth()];
-  const hours = date.getHours().toString().padStart(2, '0');
-  const minutes = date.getMinutes().toString().padStart(2, '0');
-
-  return `${day} ${month}, ${hours}:${minutes}`;
-};
+} from '@/utils/dataHandler/types';
 
 /**
  * Загружает и парсит JSON-файл.
@@ -104,7 +70,7 @@ export const getMainCarousel = async (): Promise<IPreviews[]> => {
   return await loadJsonFile<IPreviews[]>('main_carousel.json');
 };
 
-// utils.ts
+// dataHandler.ts
 
 /**
  * Извлекает источник пользователя из searchParams.

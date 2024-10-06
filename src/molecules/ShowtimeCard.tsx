@@ -1,7 +1,7 @@
-import { BuyTicketButton } from '@/app/atoms/BuyTicketButtonProps';
+import { BuyTicketButton } from '@/atoms/BuyTicketButtonProps';
 import { Card } from 'antd';
 import React from 'react';
-import { formatDate } from '../utils';
+import { formatDate } from '@/utils/dateUtils';
 import styles from './showtimeCard.module.scss';
 export interface ShowtimeCardProps {
   dateTime: Date;

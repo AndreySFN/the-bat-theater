@@ -9,18 +9,21 @@ import { notFound } from 'next/navigation';
 import React from 'react';
 
 import styles from './EventPage.module.scss';
-import { ShowtimeCard } from '../../molecules/ShowtimeCard';
-import { AddressSection } from '../../sections/AddressSection';
-import { AnnounceSection } from '../../sections/AnnounceSection';
-import { EventAboutSection } from '../../sections/EventAboutSection';
-import { Schedule } from '../../sections/Schedule';
-import { RecordObjectElement } from '../../types';
-import { getRootObjectElementList, getTicketKey } from '../../utils'; // Импортируем getUserSource
-import { LUNA_ART_STUDIO_TITLE, MAX_WIDTH } from '@/app/consts';
-import { CustomCarousel } from '@/app/atoms/CustomCarousel';
+import { ShowtimeCard } from '@/molecules/ShowtimeCard';
+import { AddressSection } from '@/sections/AddressSection';
+import { AnnounceSection } from '@/sections/AnnounceSection';
+import { EventAboutSection } from '@/sections/EventAboutSection';
+import { Schedule } from '@/sections/Schedule';
+import { RecordObjectElement } from '@/utils/dataHandler/types';
+import {
+  getRootObjectElementList,
+  getTicketKey,
+} from '../../../utils/dataHandler/dataHandler'; // Импортируем getUserSource
+import { LUNA_ART_STUDIO_TITLE, MAX_WIDTH } from '@/consts';
+import { CustomCarousel } from '@/atoms/CustomCarousel';
 import { Section } from '@/layouts/Section';
 import { OurProjects } from '@/features/OurProjects';
-import { YandexMetrika } from '../../YandexMetrika';
+import { YandexMetrika } from '../../../atoms/YandexMetrika';
 import { v4 as generateUUID } from 'uuid';
 
 interface Props {

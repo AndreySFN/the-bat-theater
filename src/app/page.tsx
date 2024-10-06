@@ -4,10 +4,10 @@ import React from 'react';
 
 // import Image from 'next/image';
 import styles from './MainPage.module.scss';
-import { AboutSection } from './sections/AboutSection';
-import { AddressSection } from './sections/AddressSection';
-import { AnnounceSection } from './sections/AnnounceSection';
-import { getAllData } from './utils';
+import { AboutSection } from '../sections/AboutSection';
+import { AddressSection } from '../sections/AddressSection';
+import { AnnounceSection } from '../sections/AnnounceSection';
+import { getAllData } from '../utils/dataHandler/dataHandler';
 
 import Image from 'next/image';
 import {
@@ -15,9 +15,9 @@ import {
   MAIN_YANDEX_METRICA_ID,
   PHONE_NUMBER,
   PHONE_NUMBER_LINK,
-} from '@/app/consts';
+} from '@/consts';
 import { OurProjects } from '@/features/OurProjects';
-import { YandexMetrika } from './YandexMetrika';
+import { YandexMetrika } from '../atoms/YandexMetrika';
 
 export default async function MainPage() {
   const data = await getAllData();

@@ -1,7 +1,7 @@
 import React from 'react';
 
 import styles from './AddressSection.module.scss';
-import { MapsDictionary, TMapKeys } from '../Maps/MapsDictionary';
+import { MapsDictionary, TMapKeys } from '@/atoms/maps/MapsDictionary';
 
 export interface IAddressSectionProps {
   address?: string;

@@ -1,8 +1,8 @@
 import { Button, Card } from 'antd';
 import Image from 'next/image';
 import Link from 'next/link';
-import { CMeta } from './CMeta';
 import React from 'react';
+import Meta from 'antd/es/card/Meta';
 
 export interface EventCardProps {
   imageUrl: string;
@@ -52,7 +52,7 @@ export const EventCard: React.FC<EventCardProps> = ({
             width: '100%',
           }}
         >
-          <CMeta title={metaTitle} description={desc} />
+          <Meta title={metaTitle} description={desc} />
           <Button style={{ marginTop: '1.5rem' }}>подробности и билеты</Button>
         </div>
       </Card>

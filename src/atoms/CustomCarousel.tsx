@@ -1,7 +1,7 @@
 import React from 'react';
 import { Carousel } from 'antd';
-import { IPreviews } from '@/app/types';
-import { AlbumPreview } from '@/app/atoms/AlbumPreview';
+import { IPreviews } from '@/utils/dataHandler/types';
+import { AlbumPreview } from '@/atoms/AlbumPreview';
 import styles from './CustomCarousel.module.scss';
 
 export interface ICustomCarouselProps {

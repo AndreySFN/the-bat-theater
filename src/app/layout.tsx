@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 
-import './globals.css';
-import { Footer } from './Footer';
+import '../globals.css';
+import { Footer } from '../atoms/Footer';
 
 import { Playfair_Display } from 'next/font/google';
 import React from 'react';
-import { LUNA_ART_STUDIO_TITLE } from './consts';
+import { LUNA_ART_STUDIO_TITLE } from '../consts';
 
 const playfairDisplay = Playfair_Display({
   subsets: ['latin', 'cyrillic'], // Укажите нужные subsets
@@ -15,12 +15,12 @@ const playfairDisplay = Playfair_Display({
 });
 
 const geistSans = localFont({
-  src: './fonts/GeistVF.woff',
+  src: '../fonts/GeistVF.woff',
   variable: '--font-geist-sans',
   weight: '100 900',
 });
 const geistMono = localFont({
-  src: './fonts/GeistMonoVF.woff',
+  src: '../fonts/GeistMonoVF.woff',
   variable: '--font-geist-mono',
   weight: '100 900',
 });
