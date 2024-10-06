@@ -1,0 +1,111 @@
+{
+  "klin_26_10_24": {
+    "title": "Премьера в Клину:",
+    "elements": {
+      "enchanted_hut": {
+        "title": "Заколдованная избушка",
+        "subtitle": "26.10 | 15:00 17:00",
+        "shortDesc": "Увлекательная сказка для всей семьи",
+        "desc": "Живет себе поживает в дремучем лесу в избушке Баба Яга. И вдруг пожаловал к ней в гости сам Кощей, царь лесной. Да не просто так, а захотелось ему старому жениться. Что же выйдет из его затеи?.. Веселая и динамичная история по мотивам русских народных сказок порадует не только детей, но и взрослых.",
+        "mapKey": "main",
+        "coverUrl": "/posters/enchanted_hut_2.png",
+        "miniCoverUrl": "/miniposters/enchanted_hut_2.png",
+        "previews": [
+          { "url": "/carousel/enchanted_hut/1.jpg" },
+          { "url": "/carousel/enchanted_hut/2.jpg" },
+          { "url": "/carousel/enchanted_hut/3.jpg" },
+          { "url": "/carousel/enchanted_hut/4.jpg" },
+          { "url": "/carousel/enchanted_hut/5.jpg" },
+          { "url": "/carousel/enchanted_hut/6.jpg" },
+          { "url": "/carousel/enchanted_hut/7.jpg" },
+          { "url": "/carousel/enchanted_hut/8.jpg" }
+        ],
+        "ym": 98558034,
+        "options": [
+          {
+            "nethouseLinks": {
+              "yandexDirect": "",
+              "lmVk": "",
+              "other": "https://events.nethouse.ru/form/110681/tickets/204749/"
+            },
+            "place": "Арт-студия \"Луна\", г. Клин, улица Захватаева, 4",
+            "dateTime": "2024-10-26T15:00:00",
+            "price": "350 рублей"
+          },
+          {
+            "nethouseLinks": {
+              "yandexDirect": "",
+              "lmVk": "",
+              "other": "https://events.nethouse.ru/buy_tickets/110681/204749/"
+            },
+            "place": "Арт-студия \"Луна\", г. Клин, улица Захватаева, 4",
+            "dateTime": "2024-10-26T17:00:00",
+            "price": "350 рублей"
+          }
+        ]
+      }
+    }
+  },
+  "ruza_19_10_24": {
+    "title": "Гастроли Руза",
+    "elements": {
+      "sweet_box": {
+        "title": "Коробка конфет",
+        "subtitle": "19.10 | 17:00",
+        "shortDesc": "или ошибка Эркюля Пуаро",
+        "desc": "Знаменитый сыщик Эркюль Пуаро, герой многих произведений Агаты Кристи, всегда на высоте, ничто и никто не укроется от его взгляда. Но в этот раз он делится со своим другом и напарником Артуром Гастингсом одной давней историей, которую ему так и не удалось распутать. Признается в своей единственной ошибке. Случай, действительно, не простой. Возможно, кому-то из зрителей удастся переиграть мэтра британского сыска.",
+        "mapKey": "ruza",
+        "coverUrl": "/posters/sweet_box.png",
+        "miniCoverUrl": "/miniposters/sweet_box.png",
+        "previews": [
+          { "url": "/carousel/sweet_box/1.jpg" },
+          { "url": "/carousel/sweet_box/2.jpg" },
+          { "url": "/carousel/sweet_box/3.jpg" },
+          { "url": "/carousel/sweet_box/4.jpg" },
+          { "url": "/carousel/sweet_box/5.jpg" }
+        ],
+        "ym": 98455715,
+        "options": [
+          {
+            "dateTime": "2024-10-19T17:00:00",
+            "nethouseLinks": {
+              "other": "https://events.nethouse.ru/buy_tickets/109823/"
+            },
+            "place": "ЦКиИ г. Руза, Волоколамское ш., 2",
+            "price": "400 рублей"
+          }
+        ]
+      },
+      "enchanted_hut": {
+        "title": "Заколдованная избушка",
+        "subtitle": "19.10 | 15:00",
+        "shortDesc": "Увлекательная сказка для всей семьи",
+        "desc": "Живет себе поживает в дремучем лесу в избушке Баба Яга. И вдруг пожаловал к ней в гости сам Кощей, царь лесной. Да не просто так, а захотелось ему старому жениться. Что же выйдет из его затеи?.. Веселая и динамичная история по мотивам русских народных сказок порадует не только детей, но и взрослых.",
+        "mapKey": "ruza",
+        "coverUrl": "/posters/enchanted_hut.png",
+        "miniCoverUrl": "/miniposters/enchanted_hut.png",
+        "previews": [
+          { "url": "/carousel/enchanted_hut/1.jpg" },
+          { "url": "/carousel/enchanted_hut/2.jpg" },
+          { "url": "/carousel/enchanted_hut/3.jpg" },
+          { "url": "/carousel/enchanted_hut/4.jpg" },
+          { "url": "/carousel/enchanted_hut/5.jpg" },
+          { "url": "/carousel/enchanted_hut/6.jpg" },
+          { "url": "/carousel/enchanted_hut/7.jpg" },
+          { "url": "/carousel/enchanted_hut/8.jpg" }
+        ],
+        "ym": 98455774,
+        "options": [
+          {
+            "dateTime": "2024-10-19T15:00:00",
+            "nethouseLinks": {
+              "other": "https://events.nethouse.ru/buy_tickets/109826/"
+            },
+            "place": "ЦКиИ г. Руза, Волоколамское ш., 2",
+            "price": "300 рублей"
+          }
+        ]
+      }
+    }
+  }
+}

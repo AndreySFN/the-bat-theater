@@ -1,0 +1,65 @@
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model EventGroup {
+  id       Int       @id @default(autoincrement())
+  code     String    @unique
+  title    String
+  elements Element[]
+}
+
+model Element {
+  id            Int         @id @default(autoincrement())
+  eventGroup    EventGroup  @relation(fields: [eventGroupId], references: [id])
+  eventGroupId  Int
+  code          String
+  title         String
+  subtitle      String?
+  shortDesc     String?
+  desc          String?
+  mapKey        String?
+  coverUrl      String?
+  miniCoverUrl  String?
+  ym            Int?
+  previews      Preview[]
+  options       Option[]
+}
+
+model Preview {
+  id         Int      @id @default(autoincrement())
+  url        String
+  element    Element  @relation(fields: [elementId], references: [id])
+  elementId  Int
+}
+
+model Option {
+  id            Int           @id @default(autoincrement())
+  element       Element        @relation(fields: [elementId], references: [id])
+  elementId     Int
+  place         String?
+  dateTime      DateTime?
+  price         String?
+  nethouseLink  NethouseLink?
+}
+
+model NethouseLink {
+  id           Int     @id @default(autoincrement())
+  option       Option  @relation(fields: [optionId], references: [id])
+  optionId     Int     @unique
+  yandexDirect String?
+  lmVk         String?
+  other        String?
+}
+
+model CarouselItem {
+  id       Int     @id @default(autoincrement())
+  url      String
+  title    String
+  subtitle String?
+}
