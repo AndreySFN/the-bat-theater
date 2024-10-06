@@ -1,6 +1,13 @@
-export interface Options {
-  dateTime: Date;
-  nethouseLink: string;
+// types.ts
+
+export interface NethouseLinks {
+  other: string;
+  [key: string]: string;
+}
+
+export interface Option {
+  nethouseLinks: NethouseLinks;
+  dateTime: Date; // Обновлено с string | Date на Date
   place: string;
   price?: string;
 }
@@ -11,15 +18,25 @@ export interface IPreviews {
   subtitle?: string;
 }
 
-export interface DataTransferObject {
+export interface RecordObjectElement {
   title: string;
+  subtitle?: string;
   shortDesc: string;
   desc: string;
   mapKey?: string;
-  options: Array<Options>;
+  coverUrl?: string;
+  miniCoverUrl?: string;
+  gallery?: string[];
   ym: number;
-  coverUrl: string;
-  miniCoverUrl: string;
-  galleryUrl: string;
-  previews: Array<IPreviews>;
+  options: Option[];
+  previews?: IPreviews[];
 }
+
+export interface RootObject {
+  title: string;
+  elements: {
+    [key: string]: RecordObjectElement;
+  };
+}
+
+export type TDataObject = Record<string, RootObject>;

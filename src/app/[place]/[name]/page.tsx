@@ -1,3 +1,5 @@
+// EventPage.tsx
+
 import { Button } from 'antd';
 import { isEmpty, omit } from 'lodash';
 import { Metadata } from 'next';
@@ -7,26 +9,31 @@ import { notFound } from 'next/navigation';
 import React from 'react';
 
 import styles from './EventPage.module.scss';
-import { ShowtimeCard } from '../molecules/ShowtimeCard';
-import { AddressSection } from '../sections/AddressSection';
-import { AnnounceSection } from '../sections/AnnounceSection';
-import { EventAboutSection } from '../sections/EventAboutSection';
-import { Schedule } from '../sections/Schedule';
-import { DataTransferObject } from '../types';
-import { getAllData, getData } from '../utils';
+import { ShowtimeCard } from '../../molecules/ShowtimeCard';
+import { AddressSection } from '../../sections/AddressSection';
+import { AnnounceSection } from '../../sections/AnnounceSection';
+import { EventAboutSection } from '../../sections/EventAboutSection';
+import { Schedule } from '../../sections/Schedule';
+import { RecordObjectElement } from '../../types';
+import { getRootObjectElementList, getTicketKey } from '../../utils'; // Импортируем getUserSource
 import { LUNA_ART_STUDIO_TITLE, MAX_WIDTH } from '@/app/consts';
 import { CustomCarousel } from '@/app/atoms/CustomCarousel';
 import { Section } from '@/layouts/Section';
 import { OurProjects } from '@/features/OurProjects';
-import { YandexMetrika } from '../YandexMetrika';
+import { YandexMetrika } from '../../YandexMetrika';
+import { v4 as generateUUID } from 'uuid';
+
 interface Props {
-  params: { name: string };
+  params: { name: string; place: string };
+  searchParams: { [key: string]: string | string[] | undefined }; // Добавлено
 }
 
 export async function generateMetadata({
-  params: { name },
+  params: { place, name },
 }: Props): Promise<Metadata> {
-  const data: DataTransferObject | null = await getData(name);
+  const rootObjectElementList = await getRootObjectElementList(place);
+  const data: RecordObjectElement | Record<string, string> =
+    rootObjectElementList?.[name] || {};
 
   if (!data) {
     notFound();
@@ -60,23 +67,33 @@ export async function generateMetadata({
   };
 }
 
-export default async function EventPage({ params }: Props) {
-  const { name } = params;
-  const data: DataTransferObject | null = await getData(name);
-  const advertisment = omit(await getAllData(), name);
+export default async function EventPage({ params, searchParams }: Props) {
+  // Обновлено
+  const { place, name } = params;
+  const rootObjectElementList = await getRootObjectElementList(place);
+  if (!rootObjectElementList) {
+    notFound();
+  }
+  const advertisment = omit(rootObjectElementList, name);
+  const data: RecordObjectElement = rootObjectElementList[name];
 
   if (!data) {
     notFound();
   }
 
-  const { desc, options, shortDesc, title, mapKey, ym, previews } = data;
-  console.log(ym);
+  const { desc, options, shortDesc, title, mapKey, ym, previews, coverUrl } =
+    data;
+  console.log(coverUrl);
+  const ticketKey = getTicketKey(searchParams) || ''; // Получаем источник пользователя
+
+  // Можно использовать userSource для передачи в YandexMetrika или других целей
   return (
     <>
       <YandexMetrika id={String(ym)} />
+      {/* Передаем источник */}
       <header className={styles.header}>
         <Image
-          src={`/posters/${name}.png`}
+          src={coverUrl!}
           alt="Афиша"
           width={2000}
           height={300}
@@ -98,15 +115,19 @@ export default async function EventPage({ params }: Props) {
       </header>
       <div className={styles.container}>
         <Schedule>
-          {options.map(({ dateTime, nethouseLink, place }) => (
-            <ShowtimeCard
-              key={nethouseLink}
-              link={nethouseLink}
-              dateTime={dateTime}
-              place={place}
-              price={options[0].price}
-            />
-          ))}
+          {options.map(
+            (
+              { dateTime, nethouseLinks, place, price } // Добавлено price
+            ) => (
+              <ShowtimeCard
+                key={generateUUID()} // Уникальный ключ
+                link={nethouseLinks?.[ticketKey] || nethouseLinks.other} // Предполагаем, что ссылка берется из 'other'
+                dateTime={dateTime} // Теперь это Date
+                place={place}
+                price={price} // Передаем цену
+              />
+            )
+          )}
         </Schedule>
         {/* <h2 style={{ fontWeight: 100, textAlign: 'center' }}>
           <Link href={PHONE_NUMBER_LINK}>☎️ {PHONE_NUMBER} ☎️</Link>
@@ -114,7 +135,7 @@ export default async function EventPage({ params }: Props) {
         {!isEmpty(previews) && (
           <Section>
             <CustomCarousel
-              imagesList={previews}
+              imagesList={previews!}
               width={MAX_WIDTH}
               height={MAX_WIDTH / 1.5}
             />
@@ -123,7 +144,13 @@ export default async function EventPage({ params }: Props) {
         <EventAboutSection description={desc} />
         {isEmpty(previews) && <OurProjects />}
         <AddressSection mapKey={mapKey} />
-        <AnnounceSection title="Другие мероприятия" eventsData={advertisment} />
+        {!isEmpty(advertisment) && (
+          <AnnounceSection
+            title="Другие мероприятия"
+            eventsData={advertisment}
+            place={place}
+          />
+        )}
       </div>
     </>
   );

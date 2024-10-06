@@ -50,8 +50,16 @@ export default async function MainPage() {
         </div>
       </header>
       <div className={styles.container}>
-        <AnnounceSection title="Руза 19.10:" eventsData={data} />
-        <AnnounceSection title="Гастроли Руза 19.10:" eventsData={data} />
+        {Object.entries(data).map(([key, { title, elements }]) => {
+          return (
+            <AnnounceSection
+              key={key}
+              title={title}
+              eventsData={elements}
+              place={key}
+            />
+          );
+        })}
         <OurProjects />
         <AboutSection content={aboutContent} />
         <AddressSection mapKey="main" />

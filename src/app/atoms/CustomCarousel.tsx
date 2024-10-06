@@ -29,21 +29,24 @@ export const CustomCarousel = ({
       }
       rootClassName={styles.root}
     >
-      {imagesList.map(({ url, title, subtitle }: IPreviews) => (
-        <div
-          key={url}
-          style={{ display: 'flex', flexDirection: 'column', width: 'auto' }}
-          className={'pupa'}
-        >
-          <AlbumPreview
-            width={width}
-            height={height}
-            imageUrl={url}
-            title={title}
-            subtitle={subtitle}
-          />
-        </div>
-      ))}
+      {imagesList.map((props: IPreviews) => {
+        const { url, title, subtitle } = props;
+        console.log(props);
+        return (
+          <div
+            key={url}
+            style={{ display: 'flex', flexDirection: 'column', width: 'auto' }}
+          >
+            <AlbumPreview
+              width={width}
+              height={height}
+              imageUrl={url}
+              title={title}
+              subtitle={subtitle}
+            />
+          </div>
+        );
+      })}
     </Carousel>
   );
 };

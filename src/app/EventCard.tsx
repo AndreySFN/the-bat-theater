@@ -1,6 +1,5 @@
 import { Button, Card } from 'antd';
 import Image from 'next/image';
-import { formatDate } from './utils';
 import Link from 'next/link';
 import { CMeta } from './CMeta';
 import React from 'react';
@@ -9,7 +8,7 @@ export interface EventCardProps {
   imageUrl: string;
   title: string;
   desc: string;
-  date: Date;
+  subtitle?: string;
   href: string;
 }
 
@@ -17,12 +16,12 @@ export const EventCard: React.FC<EventCardProps> = ({
   title,
   desc,
   imageUrl,
-  date,
+  subtitle,
   href,
 }: EventCardProps) => {
   const metaTitle = (
     <>
-      <h5>{formatDate(date)}</h5>
+      {subtitle && <h5>{subtitle}</h5>}
       <h4 style={{ textWrap: 'balance' }}>{title}</h4>
     </>
   );
@@ -54,7 +53,7 @@ export const EventCard: React.FC<EventCardProps> = ({
           }}
         >
           <CMeta title={metaTitle} description={desc} />
-          <Button style={{ marginTop: '1.5rem' }}>подробности</Button>
+          <Button style={{ marginTop: '1.5rem' }}>подробности и билеты</Button>
         </div>
       </Card>
     </Link>

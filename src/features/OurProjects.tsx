@@ -3,8 +3,8 @@ import { Section } from '@/layouts/Section';
 import { getMainCarousel } from '@/app/utils';
 import { CustomCarousel } from '@/app/atoms/CustomCarousel';
 import { MAX_WIDTH } from '@/app/consts';
-const generateMainCarousel = () => {
-  const imageList = getMainCarousel();
+const generateMainCarousel = async () => {
+  const imageList = await getMainCarousel();
   return (
     <CustomCarousel
       imagesList={imageList}
