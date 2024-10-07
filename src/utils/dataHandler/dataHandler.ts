@@ -6,6 +6,7 @@ import {
   RootObject,
   RecordObjectElement,
   TDataObject,
+  EUrlSearchKeyList,
 } from '@/utils/dataHandler/types';
 
 /**
@@ -75,16 +76,18 @@ export const getMainCarousel = async (): Promise<IPreviews[]> => {
 /**
  * Извлекает источник пользователя из searchParams.
  * @param searchParams Объект с параметрами поиска.
+ * @param key
  * @returns Источник пользователя или undefined.
  */
-export const getTicketKey = (searchParams: {
-  [key: string]: string | string[] | undefined;
-}): string | undefined => {
-  if (searchParams.source) {
-    if (Array.isArray(searchParams.source)) {
-      return searchParams.source[0];
+export const getSearchValue = (
+  searchParams: Record<EUrlSearchKeyList, string>,
+  key: EUrlSearchKeyList
+): string | undefined => {
+  if (searchParams[key]) {
+    if (Array.isArray(searchParams[key])) {
+      return searchParams?.[key]?.[0];
     }
-    return searchParams.source;
+    return searchParams[key];
   }
   return undefined;
 };

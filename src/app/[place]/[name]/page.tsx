@@ -14,10 +14,10 @@ import { AddressSection } from '@/sections/AddressSection';
 import { AnnounceSection } from '@/sections/AnnounceSection';
 import { EventAboutSection } from '@/sections/EventAboutSection';
 import { Schedule } from '@/sections/Schedule';
-import { RecordObjectElement } from '@/utils/dataHandler/types';
+import { EUrlSearchKeyList, RecordObjectElement } from '@/utils/dataHandler/types';
 import {
   getRootObjectElementList,
-  getTicketKey,
+  getSearchValue,
 } from '../../../utils/dataHandler/dataHandler'; // Импортируем getUserSource
 import { LUNA_ART_STUDIO_TITLE, MAX_WIDTH } from '@/consts';
 import { CustomCarousel } from '@/atoms/CustomCarousel';
@@ -28,7 +28,7 @@ import { v4 as generateUUID } from 'uuid';
 
 interface Props {
   params: { name: string; place: string };
-  searchParams: { [key: string]: string | string[] | undefined }; // Добавлено
+  searchParams: Record<EUrlSearchKeyList, string>; // Добавлено
 }
 
 export async function generateMetadata({
@@ -87,7 +87,7 @@ export default async function EventPage({ params, searchParams }: Props) {
   const { desc, options, shortDesc, title, mapKey, ym, previews, coverUrl } =
     data;
   console.log(coverUrl);
-  const ticketKey = getTicketKey(searchParams) || ''; // Получаем источник пользователя
+  const ticketKey = getSearchValue(searchParams, EUrlSearchKeyList.SOURCE) || ''; // Получаем источник пользователя
 
   // Можно использовать userSource для передачи в YandexMetrika или других целей
   return (
@@ -123,6 +123,7 @@ export default async function EventPage({ params, searchParams }: Props) {
               { dateTime, nethouseLinks, place, price } // Добавлено price
             ) => (
               <ShowtimeCard
+                id="pupa"
                 key={generateUUID()} // Уникальный ключ
                 link={nethouseLinks?.[ticketKey] || nethouseLinks.other} // Предполагаем, что ссылка берется из 'other'
                 dateTime={dateTime} // Теперь это Date
@@ -146,6 +147,7 @@ export default async function EventPage({ params, searchParams }: Props) {
         )}
         <EventAboutSection description={desc} />
         {isEmpty(previews) && <OurProjects />}
+        <Button id="popa"/>
         <AddressSection mapKey={mapKey} />
         {!isEmpty(advertisment) && (
           <AnnounceSection

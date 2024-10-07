@@ -40,3 +40,7 @@ export interface RootObject {
 }
 
 export type TDataObject = Record<string, RootObject>;
+
+export enum EUrlSearchKeyList {
+  SOURCE = 'source',
+}
