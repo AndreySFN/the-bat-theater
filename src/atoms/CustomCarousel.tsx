@@ -31,7 +31,6 @@ export const CustomCarousel = ({
     >
       {imagesList.map((props: IPreviews) => {
         const { url, title, subtitle } = props;
-        console.log(props);
         return (
           <div
             key={url}

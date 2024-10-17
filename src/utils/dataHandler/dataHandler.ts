@@ -1,3 +1,5 @@
+// dataHandler.ts
+
 import fs from 'fs/promises';
 import path from 'path';
 
@@ -7,6 +9,7 @@ import {
   RecordObjectElement,
   TDataObject,
   EUrlSearchKeyList,
+  Option,
 } from '@/utils/dataHandler/types';
 
 /**
@@ -27,16 +30,20 @@ const loadJsonFile = async <T>(filename: string): Promise<T> => {
 
 /**
  * Загружает все данные из records.json и преобразует dateTime в объекты Date.
- * @returns Массив объектов RootObject.
+ * Также извлекает ticketsTotalCount и nethouseId из nethouseLinks, если они присутствуют.
+ * @returns Объект с данными типа TDataObject.
  */
 export const getAllData = async (): Promise<TDataObject> => {
   const data = await loadJsonFile<TDataObject>('records.json');
 
-  // Преобразуем строки dateTime в объекты Date
+  // Преобразуем строки dateTime в объекты Date и извлекаем дополнительные поля
   Object.values(data).forEach((rootObject) => {
     Object.values(rootObject.elements).forEach((element) => {
       element.options.forEach((option) => {
-        option.dateTime = new Date(option.dateTime);
+        // Преобразование dateTime
+        if (typeof option.dateTime === 'string') {
+          option.dateTime = new Date(option.dateTime);
+        }
       });
     });
   });
@@ -47,15 +54,20 @@ export const getAllData = async (): Promise<TDataObject> => {
 /**
  * Получает данные по имени записи (name).
  * @param place Имя записи (например, ключ элемента).
- * @returns Объект RecordElement или null, если не найден.
+ * @returns Объект RootObject или null, если не найден.
  */
 export const getRootObject = async (
   place: string
 ): Promise<RootObject | null> => {
   const data = await getAllData();
-  return data[place];
+  return data[place] || null;
 };
 
+/**
+ * Получает список элементов (RecordObjectElement) по имени записи.
+ * @param place Имя записи.
+ * @returns Объект с элементами или null, если не найдено.
+ */
 export const getRootObjectElementList = async (
   place: string
 ): Promise<Record<string, RecordObjectElement> | null> => {
@@ -71,23 +83,47 @@ export const getMainCarousel = async (): Promise<IPreviews[]> => {
   return await loadJsonFile<IPreviews[]>('main_carousel.json');
 };
 
-// dataHandler.ts
-
 /**
- * Извлекает источник пользователя из searchParams.
+ * Извлекает значение из searchParams по заданному ключу.
  * @param searchParams Объект с параметрами поиска.
- * @param key
- * @returns Источник пользователя или undefined.
+ * @param key Ключ для поиска.
+ * @returns Значение или undefined.
  */
 export const getSearchValue = (
   searchParams: Record<EUrlSearchKeyList, string>,
   key: EUrlSearchKeyList
 ): string | undefined => {
-  if (searchParams[key]) {
-    if (Array.isArray(searchParams[key])) {
-      return searchParams?.[key]?.[0];
+  const value = searchParams[key];
+  if (value) {
+    // Если значение массив, вернуть первый элемент
+    if (Array.isArray(value)) {
+      return value[0];
     }
-    return searchParams[key];
+    return value;
   }
   return undefined;
+};
+
+/**
+ * Дополнительная функция для получения опций с доступными билетами.
+ * @param place Имя записи.
+ * @returns Массив опций или null.
+ */
+export const getOptionsWithTickets = async (
+  place: string
+): Promise<Option[] | null> => {
+  const elements = await getRootObjectElementList(place);
+  if (!elements) return null;
+
+  const optionsWithTickets: Option[] = [];
+
+  Object.values(elements).forEach((element) => {
+    element.options.forEach((option) => {
+      if (option.ticketsTotalCount && option.ticketsTotalCount > 0) {
+        optionsWithTickets.push(option);
+      }
+    });
+  });
+
+  return optionsWithTickets;
 };

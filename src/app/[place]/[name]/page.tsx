@@ -14,17 +14,27 @@ import { AddressSection } from '@/sections/AddressSection';
 import { AnnounceSection } from '@/sections/AnnounceSection';
 import { EventAboutSection } from '@/sections/EventAboutSection';
 import { Schedule } from '@/sections/Schedule';
-import { EUrlSearchKeyList, RecordObjectElement } from '@/utils/dataHandler/types';
+import {
+  EUrlSearchKeyList,
+  Option,
+  RecordObjectElement,
+} from '@/utils/dataHandler/types';
 import {
   getRootObjectElementList,
   getSearchValue,
 } from '../../../utils/dataHandler/dataHandler'; // Импортируем getUserSource
-import { LUNA_ART_STUDIO_TITLE, MAX_WIDTH } from '@/consts';
+import {
+  LUNA_ART_STUDIO_TITLE,
+  MAX_WIDTH,
+  PHONE_NUMBER,
+  PHONE_NUMBER_LINK,
+} from '@/consts';
 import { CustomCarousel } from '@/atoms/CustomCarousel';
 import { Section } from '@/layouts/Section';
 import { OurProjects } from '@/features/OurProjects';
 import { YandexMetrika } from '../../../atoms/YandexMetrika';
 import { v4 as generateUUID } from 'uuid';
+import { apiClientInstance } from '@/api/NethouseApi';
 
 interface Props {
   params: { name: string; place: string };
@@ -84,11 +94,31 @@ export default async function EventPage({ params, searchParams }: Props) {
     notFound();
   }
 
-  const { desc, options, shortDesc, title, mapKey, ym, previews, coverUrl } =
-    data;
-  console.log(coverUrl);
-  const ticketKey = getSearchValue(searchParams, EUrlSearchKeyList.SOURCE) || ''; // Получаем источник пользователя
-
+  const {
+    desc,
+    options: dataOptions,
+    shortDesc,
+    title,
+    mapKey,
+    ym,
+    previews,
+    coverUrl,
+  } = data;
+  const options: Array<Option> = [];
+  for (const option of dataOptions) {
+    if (option.ticketsTotalCount) {
+      const unsoldTicketsCount = await apiClientInstance.getUnsoldTicketsCount(
+        option.nethouseId,
+        option.ticketsTotalCount
+      );
+      option.unsoldTicketsCount = Number(
+        Number(unsoldTicketsCount) <= 30 && unsoldTicketsCount
+      );
+    }
+    options.push(option);
+  }
+  const ticketKey =
+    getSearchValue(searchParams, EUrlSearchKeyList.SOURCE) || ''; // Получаем источник пользователя
   // Можно использовать userSource для передачи в YandexMetrika или других целей
   return (
     <>
@@ -120,22 +150,24 @@ export default async function EventPage({ params, searchParams }: Props) {
         <Schedule>
           {options.map(
             (
-              { dateTime, nethouseLinks, place, price } // Добавлено price
-            ) => (
-              <ShowtimeCard
-                id="pupa"
-                key={generateUUID()} // Уникальный ключ
-                link={nethouseLinks?.[ticketKey] || nethouseLinks.other} // Предполагаем, что ссылка берется из 'other'
-                dateTime={dateTime} // Теперь это Date
-                place={place}
-                price={price} // Передаем цену
-              />
-            )
+              { dateTime, nethouseLinks, place, price, unsoldTicketsCount } // Добавлено price
+            ) => {
+              return (
+                <ShowtimeCard
+                  key={generateUUID()} // Уникальный ключ
+                  link={nethouseLinks?.[ticketKey] || nethouseLinks.other} // Предполагаем, что ссылка берется из 'other'
+                  dateTime={dateTime} // Теперь это Date
+                  place={place}
+                  price={price} // Передаем цену
+                  unsoldTotalCount={unsoldTicketsCount}
+                />
+              );
+            }
           )}
         </Schedule>
-        {/* <h2 style={{ fontWeight: 100, textAlign: 'center' }}>
+        <h2 style={{ fontWeight: 100, textAlign: 'center' }}>
           <Link href={PHONE_NUMBER_LINK}>☎️ {PHONE_NUMBER} ☎️</Link>
-        </h2> */}
+        </h2>
         {!isEmpty(previews) && (
           <Section>
             <CustomCarousel
@@ -147,7 +179,7 @@ export default async function EventPage({ params, searchParams }: Props) {
         )}
         <EventAboutSection description={desc} />
         {isEmpty(previews) && <OurProjects />}
-        <Button id="popa"/>
+        <Button id="popa" />
         <AddressSection mapKey={mapKey} />
         {!isEmpty(advertisment) && (
           <AnnounceSection

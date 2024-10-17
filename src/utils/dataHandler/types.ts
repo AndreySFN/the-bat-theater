@@ -6,10 +6,13 @@ export interface NethouseLinks {
 }
 
 export interface Option {
+  nethouseId: string;
+  ticketsTotalCount?: number;
   nethouseLinks: NethouseLinks;
   dateTime: Date; // Обновлено с string | Date на Date
   place: string;
   price?: string;
+  unsoldTicketsCount?: number | null;
 }
 
 export interface IPreviews {
