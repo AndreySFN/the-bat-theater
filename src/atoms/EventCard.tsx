@@ -36,11 +36,13 @@ export const EventCard: React.FC<EventCardProps> = ({
           flexDirection: 'column',
         }}
         cover={<Image alt="АФИША" src={imageUrl} width={280} height={300} />}
-        bodyStyle={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          flexGrow: 1,
+        styles={{
+          body: {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            flexGrow: 1,
+          },
         }}
       >
         <div

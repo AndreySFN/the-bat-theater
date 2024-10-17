@@ -35,6 +35,7 @@ import { OurProjects } from '@/features/OurProjects';
 import { YandexMetrika } from '../../../atoms/YandexMetrika';
 import { v4 as generateUUID } from 'uuid';
 import { apiClientInstance } from '@/api/NethouseApi';
+import ScrollButton from '@/atoms/ScrollButton';
 
 interface Props {
   params: { name: string; place: string };
@@ -147,7 +148,7 @@ export default async function EventPage({ params, searchParams }: Props) {
         </div>
       </header>
       <div className={styles.container}>
-        <Schedule>
+        <Schedule id="schedule">
           {options.map(
             (
               { dateTime, nethouseLinks, place, price, unsoldTicketsCount } // Добавлено price
@@ -179,7 +180,9 @@ export default async function EventPage({ params, searchParams }: Props) {
         )}
         <EventAboutSection description={desc} />
         {isEmpty(previews) && <OurProjects />}
-        <Button id="popa" />
+        <ScrollButton type="primary" className={styles.toScheduleBtn}>
+          <h2>🎭К расписанию показов🎭</h2>
+        </ScrollButton>
         <AddressSection mapKey={mapKey} />
         {!isEmpty(advertisment) && (
           <AnnounceSection

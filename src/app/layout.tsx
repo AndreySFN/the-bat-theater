@@ -63,6 +63,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <head>
+        <script src="https://events.nethouse.ru/assets/js/popup-form.js"></script>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       </head>
       <body

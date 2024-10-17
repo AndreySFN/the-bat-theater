@@ -256,18 +256,12 @@ interface ConstantsResponse {
  */
 class ApiClient {
   private client: AxiosInstance;
-  private accessToken: string;
-  private refreshToken: string;
-
   /**
    * Приватный конструктор для предотвращения создания экземпляров извне.
    * @param accessToken - Токен доступа к API.
    * @param refreshToken - Токен для обновления основного токена доступа.
    */
-  constructor(accessToken: string, refreshToken: string) {
-    this.accessToken = accessToken;
-    this.refreshToken = refreshToken;
-
+  constructor(private accessToken: string, private refreshToken: string) {
     this.client = axios.create({
       baseURL: 'https://events.nethouse.ru/api/public/v1/',
       headers: {
