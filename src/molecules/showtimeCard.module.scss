@@ -28,7 +28,7 @@
 
 .button {
     width: 16rem;
-    height: 5rem;
+    min-height: 5rem;
     display: block;
     @media (max-width: 70rem) {
         width: 32rem;

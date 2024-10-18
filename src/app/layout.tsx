@@ -8,6 +8,7 @@ import { Playfair_Display } from 'next/font/google';
 import React from 'react';
 import { LUNA_ART_STUDIO_TITLE } from '../consts';
 
+import { AntdRegistry } from '@ant-design/nextjs-registry';
 const playfairDisplay = Playfair_Display({
   subsets: ['latin', 'cyrillic'], // Укажите нужные subsets
   // Если используете CSS-переменную:
@@ -69,7 +70,7 @@ export default async function RootLayout({
       <body
         className={`${playfairDisplay.className} ${geistSans.variable} ${geistMono.variable}`}
       >
-        {children}
+        <AntdRegistry>{children}</AntdRegistry>
         <Footer />
       </body>
     </html>
