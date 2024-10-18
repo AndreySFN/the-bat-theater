@@ -11,7 +11,9 @@ import { getAllData } from '../utils/dataHandler/dataHandler';
 
 import Image from 'next/image';
 import {
-  LUNA_ART_STUDIO_TITLE, MAIN_COVERAGE_BLUR_URL, MAIN_COVERAGE_URL,
+  LUNA_ART_STUDIO_TITLE,
+  MAIN_COVERAGE_BLUR_URL,
+  MAIN_COVERAGE_URL,
   MAIN_YANDEX_METRICA_ID,
   PHONE_NUMBER,
   PHONE_NUMBER_LINK,

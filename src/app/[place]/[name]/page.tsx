@@ -22,7 +22,7 @@ import {
 import {
   getRootObjectElementList,
   getSearchValue,
-} from '../../../utils/dataHandler/dataHandler'; // Импортируем getUserSource
+} from '@/utils/dataHandler/dataHandler'; // Импортируем getUserSource
 import {
   LUNA_ART_STUDIO_TITLE,
   MAX_WIDTH,
@@ -30,9 +30,8 @@ import {
   PHONE_NUMBER_LINK,
 } from '@/consts';
 import { CustomCarousel } from '@/atoms/CustomCarousel';
-import { Section } from '@/layouts/Section';
 import { OurProjects } from '@/features/OurProjects';
-import { YandexMetrika } from '../../../atoms/YandexMetrika';
+import { YandexMetrika } from '@/atoms/YandexMetrika';
 import { v4 as generateUUID } from 'uuid';
 import { apiClientInstance } from '@/api/NethouseApi';
 import ScrollButton from '@/atoms/ScrollButton';
@@ -123,7 +122,7 @@ export default async function EventPage({ params, searchParams }: Props) {
   const ticketKey =
     getSearchValue(searchParams, EUrlSearchKeyList.SOURCE) || ''; // Получаем источник пользователя
   // Можно использовать userSource для передачи в YandexMetrika или других целей
-  console.log(blurCoverUrl)
+  console.log(blurCoverUrl);
   return (
     <>
       <YandexMetrika id={String(ym)} />
@@ -186,7 +185,7 @@ export default async function EventPage({ params, searchParams }: Props) {
           description={desc}
           footer={
             <div style={{ display: 'flex', justifyContent: 'center' }}>
-              <ScrollButton type="secondary" className={styles.toScheduleBtn}>
+              <ScrollButton className={styles.toScheduleBtn}>
                 <h2>📅 Расписание показов 🕑</h2>
               </ScrollButton>
             </div>

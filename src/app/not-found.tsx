@@ -2,6 +2,7 @@ import { Button } from 'antd';
 import Image from 'next/image';
 import Link from 'next/link';
 import { FC } from 'react';
+import React from 'react';
 
 const Custom404: FC = () => {
   return (

@@ -8,7 +8,8 @@ interface EventAboutSectionProps {
 }
 
 export const EventAboutSection: React.FC<EventAboutSectionProps> = ({
-  description, footer
+  description,
+  footer,
 }) => (
   <section className={styles.about}>
     <h2>О событии</h2>

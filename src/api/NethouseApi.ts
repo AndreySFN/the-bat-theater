@@ -261,7 +261,10 @@ class ApiClient {
    * @param accessToken - Токен доступа к API.
    * @param refreshToken - Токен для обновления основного токена доступа.
    */
-  constructor(private accessToken: string, private refreshToken: string) {
+  constructor(
+    private accessToken: string,
+    private refreshToken: string
+  ) {
     this.client = axios.create({
       baseURL: 'https://events.nethouse.ru/api/public/v1/',
       headers: {

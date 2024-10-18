@@ -10,7 +10,13 @@ interface ScrollButtonProps extends ButtonProps {
   className?: string;
 }
 
-const ScrollButton: React.FC<ScrollButtonProps> = ({ targetId = 'schedule', children = 'К расписанию', id, className, ...buttonProps }) => {
+const ScrollButton: React.FC<ScrollButtonProps> = ({
+  targetId = 'schedule',
+  children = 'К расписанию',
+  id,
+  className,
+  ...buttonProps
+}) => {
   const handleClick = () => {
     const scheduleElement = document.querySelector(`#${targetId}`);
     if (scheduleElement) {
@@ -19,7 +25,12 @@ const ScrollButton: React.FC<ScrollButtonProps> = ({ targetId = 'schedule', chil
   };
 
   return (
-    <Button id={id} className={className} onClick={handleClick} {...buttonProps}>
+    <Button
+      id={id}
+      className={className}
+      onClick={handleClick}
+      {...buttonProps}
+    >
       {children}
     </Button>
   );
