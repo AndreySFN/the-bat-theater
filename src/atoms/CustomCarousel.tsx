@@ -30,7 +30,7 @@ export const CustomCarousel = ({
       rootClassName={styles.root}
     >
       {imagesList.map((props: IPreviews) => {
-        const { url, title, subtitle } = props;
+        const { url, title, subtitle, blurDataUrl } = props;
         return (
           <div
             key={url}
@@ -40,6 +40,7 @@ export const CustomCarousel = ({
               width={width}
               height={height}
               imageUrl={url}
+              blurDataUrl={blurDataUrl}
               title={title}
               subtitle={subtitle}
             />

@@ -17,6 +17,7 @@ export interface Option {
 
 export interface IPreviews {
   url: string;
+  blurDataUrl?: string;
   title?: string;
   subtitle?: string;
 }
@@ -28,7 +29,9 @@ export interface RecordObjectElement {
   desc: string;
   mapKey?: string;
   coverUrl?: string;
+  blurCoverUrl?: string;
   miniCoverUrl?: string;
+  blurMiniCoverUrl?: string;
   gallery?: string[];
   ym: number;
   options: Option[];

@@ -11,6 +11,7 @@ export interface IAlbumPreviewProps {
   href?: string;
   height?: number;
   width?: number;
+  blurDataUrl?: string;
 }
 
 export const AlbumPreview = ({
@@ -20,6 +21,7 @@ export const AlbumPreview = ({
   href,
   height = 200,
   width = 300,
+  blurDataUrl,
 }: IAlbumPreviewProps) => {
   const Content = (
     <div
@@ -37,6 +39,8 @@ export const AlbumPreview = ({
         width={width}
         height={height}
         src={imageUrl}
+        placeholder={blurDataUrl ? 'blur' : 'empty'}
+        blurDataURL={blurDataUrl}
         style={{
           maxWidth: width,
           width: '100%',

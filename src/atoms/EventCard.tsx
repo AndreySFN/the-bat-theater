@@ -6,6 +6,7 @@ import Meta from 'antd/es/card/Meta';
 
 export interface EventCardProps {
   imageUrl: string;
+  blurDataURL?: string;
   title: string;
   desc: string;
   subtitle?: string;
@@ -18,6 +19,7 @@ export const EventCard: React.FC<EventCardProps> = ({
   imageUrl,
   subtitle,
   href,
+  blurDataURL,
 }: EventCardProps) => {
   const metaTitle = (
     <>
@@ -35,7 +37,17 @@ export const EventCard: React.FC<EventCardProps> = ({
           display: 'flex',
           flexDirection: 'column',
         }}
-        cover={<Image alt="АФИША" src={imageUrl} width={280} height={300} />}
+        cover={
+          <Image
+            priority
+            alt="АФИША"
+            placeholder={blurDataURL ? 'blur' : 'empty'}
+            blurDataURL={blurDataURL}
+            src={imageUrl}
+            width={280}
+            height={300}
+          />
+        }
         styles={{
           body: {
             display: 'flex',

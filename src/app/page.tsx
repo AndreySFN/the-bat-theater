@@ -11,7 +11,7 @@ import { getAllData } from '../utils/dataHandler/dataHandler';
 
 import Image from 'next/image';
 import {
-  LUNA_ART_STUDIO_TITLE,
+  LUNA_ART_STUDIO_TITLE, MAIN_COVERAGE_BLUR_URL, MAIN_COVERAGE_URL,
   MAIN_YANDEX_METRICA_ID,
   PHONE_NUMBER,
   PHONE_NUMBER_LINK,
@@ -34,7 +34,10 @@ export default async function MainPage() {
       <YandexMetrika id={String(MAIN_YANDEX_METRICA_ID)} />
       <header className={styles.header}>
         <Image
-          src="/main_poster.png"
+          src={MAIN_COVERAGE_URL}
+          priority
+          placeholder="blur"
+          blurDataURL={MAIN_COVERAGE_BLUR_URL}
           alt="Афиша"
           width={2000}
           height={300}

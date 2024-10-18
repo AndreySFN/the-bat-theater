@@ -25,16 +25,22 @@ export const AnnounceSection: React.FC<AnnounceSectionProps> = ({
               a[1].options[0].dateTime.getTime() -
               b[1].options[0].dateTime.getTime()
           )
-          .map(([key, { shortDesc, title, subtitle, miniCoverUrl }]) => (
-            <EventCard
-              key={key}
-              href={`/${place}/${key}`}
-              imageUrl={miniCoverUrl!}
-              subtitle={subtitle}
-              desc={shortDesc}
-              title={title}
-            />
-          ))}
+          .map(
+            ([
+              key,
+              { shortDesc, blurMiniCoverUrl, title, subtitle, miniCoverUrl },
+            ]) => (
+              <EventCard
+                key={key}
+                href={`/${place}/${key}`}
+                imageUrl={miniCoverUrl!}
+                blurDataURL={blurMiniCoverUrl}
+                subtitle={subtitle}
+                desc={shortDesc}
+                title={title}
+              />
+            )
+          )}
       </span>
     </section>
   );

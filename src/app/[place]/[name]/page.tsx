@@ -104,8 +104,10 @@ export default async function EventPage({ params, searchParams }: Props) {
     ym,
     previews,
     coverUrl,
+    blurCoverUrl,
   } = data;
   const options: Array<Option> = [];
+
   for (const option of dataOptions) {
     if (option.ticketsTotalCount) {
       const unsoldTicketsCount = await apiClientInstance.getUnsoldTicketsCount(
@@ -121,6 +123,7 @@ export default async function EventPage({ params, searchParams }: Props) {
   const ticketKey =
     getSearchValue(searchParams, EUrlSearchKeyList.SOURCE) || ''; // Получаем источник пользователя
   // Можно использовать userSource для передачи в YandexMetrika или других целей
+  console.log(blurCoverUrl)
   return (
     <>
       <YandexMetrika id={String(ym)} />
@@ -132,6 +135,9 @@ export default async function EventPage({ params, searchParams }: Props) {
           width={2000}
           height={300}
           className={styles.backgroundImage}
+          // priority
+          placeholder="blur"
+          blurDataURL={blurCoverUrl}
         />
         <div className={styles.headerContainer}>
           <div>
@@ -170,19 +176,24 @@ export default async function EventPage({ params, searchParams }: Props) {
           <Link href={PHONE_NUMBER_LINK}>☎️ {PHONE_NUMBER} ☎️</Link>
         </h2>
         {!isEmpty(previews) && (
-          <Section>
-            <CustomCarousel
-              imagesList={previews!}
-              width={MAX_WIDTH}
-              height={MAX_WIDTH / 1.5}
-            />
-          </Section>
+          <CustomCarousel
+            imagesList={previews!}
+            width={MAX_WIDTH}
+            height={MAX_WIDTH / 1.5}
+          />
         )}
-        <EventAboutSection description={desc} />
+        <EventAboutSection
+          description={desc}
+          footer={
+            <div style={{ display: 'flex', justifyContent: 'center' }}>
+              <ScrollButton type="secondary" className={styles.toScheduleBtn}>
+                <h2>📅 Расписание показов 🕑</h2>
+              </ScrollButton>
+            </div>
+          }
+        />
         {isEmpty(previews) && <OurProjects />}
-        <ScrollButton type="primary" className={styles.toScheduleBtn}>
-          <h2>🎭К расписанию показов🎭</h2>
-        </ScrollButton>
+
         <AddressSection mapKey={mapKey} />
         {!isEmpty(advertisment) && (
           <AnnounceSection
