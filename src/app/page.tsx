@@ -37,7 +37,6 @@ export default async function MainPage() {
       <header className={styles.header}>
         <Image
           src={MAIN_COVERAGE_URL}
-          priority
           placeholder="blur"
           blurDataURL={MAIN_COVERAGE_BLUR_URL}
           alt="Афиша"
@@ -55,10 +54,11 @@ export default async function MainPage() {
         </div>
       </header>
       <div className={styles.container}>
-        {Object.entries(data).map(([key, { title, elements }]) => {
+        {Object.entries(data).map(([key, { title, label, elements }]) => {
           return (
             <AnnounceSection
               key={key}
+              label={label}
               title={title}
               eventsData={elements}
               place={key}
@@ -67,7 +67,10 @@ export default async function MainPage() {
         })}
         <OurProjects />
         <AboutSection content={aboutContent} />
-        <AddressSection mapKey="main" />
+        <AddressSection
+          title='Домашняя площадка - Арт-студия "Луна" г. Клин'
+          mapKey="main"
+        />
       </div>
     </>
   );

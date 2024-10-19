@@ -1,17 +1,41 @@
 .announce {
-    text-align: center;
-    margin-top: 30px;
-  
-    h2 {
-      font-size: 2rem;
-      padding-bottom: 10px;
+  text-align: center;
+  margin-top: 30px;
+  .title {
+    margin: 1rem 0;
+    color: white;
+    font-size: 2rem;
+    width: 100%;
+    background-color: #550215;
+    &__left::before, &__right::after {
+      height: 0.5rem;
+      width: 100vw;
+      content: "";
+      display: block;
+      background-color: #550215;
+    }
+    &__left::before {
+      border-bottom: 1px dashed white;
+      position: relative;
+      left: 20rem;
+    }
+    &__right::after {
+      border-top: 1px dashed white;
+      position: relative;
+      right: 0;
     }
   }
-  
-  .announceContent {
+}
+
+.announceContent {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  gap: 20px;
+  > * {
+    flex: 1;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
+    flex-direction: column;
   }
-  
+}

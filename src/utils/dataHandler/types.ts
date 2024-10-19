@@ -24,7 +24,7 @@ export interface IPreviews {
 
 export interface RecordObjectElement {
   title: string;
-  subtitle?: string;
+  schedule?: Array<string>;
   shortDesc: string;
   desc: string;
   mapKey?: string;
@@ -40,6 +40,7 @@ export interface RecordObjectElement {
 
 export interface RootObject {
   title: string;
+  label: string;
   elements: {
     [key: string]: RecordObjectElement;
   };

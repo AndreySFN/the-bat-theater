@@ -6,11 +6,13 @@ import { MapsDictionary, TMapKeys } from '@/atoms/maps/MapsDictionary';
 export interface IAddressSectionProps {
   address?: string;
   mapKey?: TMapKeys;
+  title?: string;
 }
 
 export const AddressSection: React.FC<IAddressSectionProps> = ({
   address,
   mapKey,
+  title = 'Адрес:',
 }: IAddressSectionProps) => {
   if (!mapKey) {
     return null;
@@ -20,7 +22,7 @@ export const AddressSection: React.FC<IAddressSectionProps> = ({
 
   return (
     <section className={styles.address}>
-      <h2>Адрес:</h2>
+      <h2>{title}</h2>
       <h3>{address}</h3>
       <Мap />
     </section>

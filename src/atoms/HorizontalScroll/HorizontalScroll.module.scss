@@ -1,0 +1,40 @@
+.scrollWrapper {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.scrollContainer {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 10px;
+  flex: 1;
+}
+
+.scrollContainer::-webkit-scrollbar {
+  display: none; // скрываем стандартный скроллбар для более чистого вида
+}
+
+.arrowLeft,
+.arrowRight {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #000;
+  padding: 10px;
+  user-select: none;
+}
+
+.arrowLeft {
+  position: absolute;
+  left: 0;
+}
+
+.arrowRight {
+  position: absolute;
+  right: 0;
+}

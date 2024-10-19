@@ -1,16 +1,17 @@
 {
     "klin_26_10_24": {
         "title": "Выступления в Клину:",
+        "label": "клин",
         "elements": {
             "enchanted_hut": {
                 "title": "Заколдованная избушка",
-                "subtitle": "20.10 17:00 | 26.10 17:00",
+                "schedule": ["20.10 | 17:00", "26.10 | 17:00"],
                 "shortDesc": "Увлекательная сказка для всей семьи",
                 "desc": "Живет себе поживает в дремучем лесу в избушке Баба Яга. И вдруг пожаловал к ней в гости сам Кощей, царь лесной. Да не просто так, а захотелось ему старому жениться. Что же выйдет из его затеи?.. Веселая и динамичная история по мотивам русских народных сказок порадует не только детей, но и взрослых.",
                 "mapKey": "main",
                 "coverUrl": "/posters/enchanted_hut_2.png",
                 "blurCoverUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAICAYAAAAm06XyAAAAAXNSR0IArs4c6QAAAYlJREFUKFMlyz1uE0EYBuD3m7/dmZ0d2xFKBFfICVL4AGkQFFT8SHR0VDRIoUSAhBDiFGmTI7jICXIDqqAkztqeXe/OzIcQT//Qm+9fz3rbHpe5d9pKMlJAUcE/kTUiK6QM5DGBxwFeFQ5GxJLpmp7/+HnOlT5Rvm5bJ8gagtQKk5DoikIs/3MZ9tBxiwPuOUhsBpZXdPrtywVJvXSuDotKkqsJ8BWmusYGBj1L5MRQ2x3auxsc9rdsiLu1dCs6/fD+ko1fehdCAIg0kBYNysyDGwtpFPLE0HcPOPrzG4/HWxZCdDfar+jl29eX2c2WsmkDmGkUQPYWdBDgDmdofIU8ZYj1FkebWzwpHVeKu3tZrejjqxcXo3XLsXVhR4UGZuTKQCw87KMZmqaCyBl62GPBCfPSsxlj141pRZ/fPT0npU/YmXYyTHtmFCEBqwGjoIxAoxmtBqySUGniKcbNejtc0a9Pz84aiOPaKicMUc4FGcAkgft+wMAJvi2YBwmlJFJijsMYd/vp+i8HFrNcFzY0aAAAAABJRU5ErkJggg==",
-                "miniCoverUrl": "/miniposters/enchanted_hut_2.png",
+                "miniCoverUrl": "/miniposters/enchanted_hut.png",
                 "blurMiniCoverUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAX1JREFUKFMVzL9u00AcB/Dv73y2z3bshjQtKJEQEmx9gg5+CVAHxMATgFQQYyXEwh8JFniJrs3G6qGCvSsoqLQkDnFztpPL2edDfB7gQ7MiP7GdPTCqDlXxl/RqgXazAQ9ihHfG1o/7a8flF/T12/dTAh2ydhujzsnOf0LnC1ixAz5+YJ3d2yXj7jm9/PTljIA0YF2yz0saqEu0f+aQjYdlNLaqtyeZEBk9en486Rw3jblJ7vuSxliiWRaYrzpMzY69CYaSwiCjJ69eTLYiSnukk7vqivrVDPWNRK4I196+LQcjSf/Hpx/eTHTYS8NOJ4PZD6LfU9RliXUQQw7vWTUcSQbK6Ojz24n1o1R0bcKvL6me/sJWK7i3+uj2RpZELIXSGR29Oz4zbpwGzElYJalYrNAajcBjcLhvPcPkru4yevb68WnLk8PI82JhG8prjapZw2sqmE1jeeOUQ8bP6eP7hycuRQehy0OXGbpSWxSNhGlLbCpt25qvheNf/ANHVbe+DK64GAAAAABJRU5ErkJggg==",
                 "previews": [
                     {
@@ -88,7 +89,7 @@
             },
             "sweet_box": {
                 "title": "Коробка конфет",
-                "subtitle": "04.11 17:00 | 09.11 17:00",
+                "schedule": ["04.11 | 17:00", "09.11 | 17:00"],
                 "shortDesc": "Захватывающий детектив с участием широкоизвестных персонажей",
                 "desc": "Знаменитый сыщик Эркюль Пуаро, герой многих произведений Агаты Кристи, всегда на высоте, ничто и никто не укроется от его взгляда. Но в этот раз он делится со своим другом и напарником Артуром Гастингсом одной давней историей, которую ему так и не удалось распутать. Признается в своей единственной ошибке. Случай, действительно, не простой. Возможно, кому-то из зрителей удастся переиграть мэтра британского сыска.",
                 "mapKey": "main",
@@ -146,16 +147,17 @@
     },
     "ruza_19_10_24": {
         "title": "Гастроли Руза",
+        "label": "Руза",
         "elements": {
             "sweet_box": {
                 "title": "Коробка конфет",
-                "subtitle": "19.10 | 17:00",
+                "schedule": ["19.10 | 17:00"],
                 "shortDesc": "Захватывающий детектив с участием широкоизвестных персонажей",
                 "desc": "Знаменитый сыщик Эркюль Пуаро, герой многих произведений Агаты Кристи, всегда на высоте, ничто и никто не укроется от его взгляда. Но в этот раз он делится со своим другом и напарником Артуром Гастингсом одной давней историей, которую ему так и не удалось распутать. Признается в своей единственной ошибке. Случай, действительно, не простой. Возможно, кому-то из зрителей удастся переиграть мэтра британского сыска.",
                 "mapKey": "ruza",
                 "coverUrl": "/posters/sweet_box.png",
                 "blurCoverUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA8AAAAICAYAAAAm06XyAAAAAXNSR0IArs4c6QAAAORJREFUKFONkT1OQ0EQg+3Z0CCRi3ACivSkDiVwEw5EC0eIBCfIBSiQIFKktxtW72ffGO1DVIkgbkefbXl4f7N8gHAp4BwAcURGIoQwXVXlnl3a8HZ1/WjiFcgLQQewEQjBYBZQxhFDKZKQILzwbrV8IrgAMZcOYZI4mwUUOXYxIedWZozBbF3hZwALAPNjtc1+Kue+w9vHJ5qYFMg4OwWuydXgq+vwvt2iaaLcPRKYkv+sXferBn0paPYJMe3V9n0cRl//O9g0PgGXMAwFbdtVOA1eXnnKq36/5+5wd5XR8yjffAMYx4za0g7EJAAAAABJRU5ErkJggg==",
-                "miniCoverUrl": "/miniposters/sweet_box_2.png",
+                "miniCoverUrl": "/miniposters/sweet_box.png",
                 "blurMiniCoverUrl": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAAXNSR0IArs4c6QAAAXBJREFUKFMVz71O21AYBuD3sx3n4NgH3PhPODIFlapqhs4MnmBBlSpWLoYLYiWX4IErYKq6dGgDimz3HMd2/Hcqnjt4aG2bD2BsbbqexeNzYssQtRTQxR+cjbnyuqreD8ML3ZwuHplzfMWi2JlHHwncR1kUsNotLueFOqpzWcrDM91/WT4tAy9dnCa8Mk9o18+wy3NwrcKF06pJ5uJ1JzO6++xvVnGY2r7Ptw3RrzeJQghwk+DZpMamEkVZZXR9EW2SOEzdwOdvVUM/f2+xF3u4zITrGErTOlHXTUbXn+JNuHTTKPzARwz093UHWVQ4MXQEx4ZithLdOGR0cxlvLF1PfX7EA4+TyXTsZY2pPcCeQ1kLCE2jjG6/Jk9a36fs/Rt6lJxFWDAd46FB29ZqGHoxKZXRj2/Jo6VNV303OcpgFMQBzlce5rqC/CdUWQpZtd0zfV/HD749W2OCVTYT6Y6DZBWCWwZm00F1bV2XZfXyH4H7pwHz/T0kAAAAAElFTkSuQmCC",
                 "previews": [
                     {
@@ -195,7 +197,7 @@
             },
             "enchanted_hut": {
                 "title": "Заколдованная избушка",
-                "subtitle": "19.10 | 15:00",
+                "schedule": ["19.10 | 15:00"],
                 "shortDesc": "Увлекательная сказка для всей семьи",
                 "desc": "Живет себе поживает в дремучем лесу в избушке Баба Яга. И вдруг пожаловал к ней в гости сам Кощей, царь лесной. Да не просто так, а захотелось ему старому жениться. Что же выйдет из его затеи?.. Веселая и динамичная история по мотивам русских народных сказок порадует не только детей, но и взрослых.",
                 "mapKey": "ruza",

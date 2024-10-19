@@ -134,7 +134,6 @@ export default async function EventPage({ params, searchParams }: Props) {
           width={2000}
           height={300}
           className={styles.backgroundImage}
-          // priority
           placeholder="blur"
           blurDataURL={blurCoverUrl}
         />

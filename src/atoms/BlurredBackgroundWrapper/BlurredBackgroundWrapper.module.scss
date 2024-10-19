@@ -1,0 +1,25 @@
+.centeredContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+
+.blurredBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  filter: blur(15px);
+  z-index: -1;
+  pointer-events: none;
+  object-fit: cover;
+}
+
+.contentContainer {
+  position: relative;
+  z-index: 0;
+}
