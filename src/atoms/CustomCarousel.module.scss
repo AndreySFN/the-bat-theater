@@ -1,3 +1,29 @@
-.root {
-  max-width: 100%;
+.carouselContainer {
+  position: relative;
+}
+
+.leftArrow,
+.rightArrow {
+  color: white;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 5rem;
+  z-index: 1;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.leftArrow {
+  left: 1rem;
+}
+
+.rightArrow {
+  right: 1rem;
+}
+
+.carouselContainer:hover .leftArrow,
+.carouselContainer:hover .rightArrow {
+  opacity: 0.8;
 }
