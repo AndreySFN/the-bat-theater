@@ -21,11 +21,13 @@ export const CustomCarousel = ({
   width = 750,
   height = 500,
 }: ICustomCarouselProps) => {
-  const carouselRef = React.useRef<any>(null);
+  const carouselRef = React.useRef<{ prev: VoidFunction; next: VoidFunction }>(
+    null
+  );
 
   const handlePrev = () => {
     if (carouselRef.current) {
-      carouselRef.current.prev();
+      carouselRef.current.prev!();
     }
   };
 
@@ -43,6 +45,8 @@ export const CustomCarousel = ({
         onClick={handlePrev}
       />
       <Carousel
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
         ref={carouselRef}
         autoplay
         speed={speed}

@@ -26,7 +26,6 @@ export const EventCard: React.FC<EventCardProps> = ({
   title,
   desc,
   imageUrl,
-  // schedule,
   href,
   blurDataURL,
   columnDirection = EEventCardColumDirection.RIGHT,
@@ -36,6 +35,7 @@ export const EventCard: React.FC<EventCardProps> = ({
     [styles.layout__left]: columnDirection === EEventCardColumDirection.LEFT,
     [styles.layout__right]: columnDirection === EEventCardColumDirection.RIGHT,
   });
+
   return (
     <Link href={href} className={styles.Root}>
       <div className={styles.Card}>
@@ -47,40 +47,23 @@ export const EventCard: React.FC<EventCardProps> = ({
             src={imageUrl}
             height={1000}
             width={1000}
-            style={{
-              maxWidth: '100%',
-              height: 'auto',
-              width: 'auto',
-              aspectRatio: '1 / 1', // Поддерживает соотношение 1:1, чтобы сделать изображение квадратным
-              objectFit: 'cover', // Заполняет контейнер, обрезая изображение по границам
-              borderRadius: '15px', // Если вам нужно сделать изображение с округлыми углами
-              overflow: 'hidden',
-              position: 'relative',
-              transition: 'transform 0.1s ease-in-out', // Добавление плавного эффекта при наведении
-            }}
-            className={styles.imageHover} // Добавление класса для дополнительного стиля
+            className={styles.imageHover}
           />
         </BlurredBackgroundComponent>
-      </div>
-      <div className={layoutClass}>
-        {label && (
-          <div className={styles.column}>
-            <h3>{label.toUpperCase()}</h3>
-          </div>
-        )}
-        <div className={styles.bottomRow}>
-          <h2>{title}</h2>
-          <h3>{desc}</h3>
-          {/*<Meta title={metaTitle} description={desc} />*/}
-          <div className={styles.schedule}>
-            {/*{schedule?.map((record) => (*/}
-            {/*  <Button key={record} style={{ marginTop: '1.5rem' }}>*/}
-            {/*    <h3>{record}</h3>*/}
-            {/*  </Button>*/}
-            {/*))}*/}
-            <Button type="primary">
-              <h3>расписание и билеты</h3>
-            </Button>
+        <div className={layoutClass}>
+          {label && (
+            <div className={styles.column}>
+              <h2>{label.toUpperCase()}</h2>
+            </div>
+          )}
+          <div className={styles.bottomRow}>
+            <h2>{title}</h2>
+            <h3>{desc}</h3>
+            <div className={styles.schedule}>
+              <Button type="primary">
+                <h3>расписание и билеты</h3>
+              </Button>
+            </div>
           </div>
         </div>
       </div>

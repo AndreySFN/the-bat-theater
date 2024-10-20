@@ -4,10 +4,10 @@ import React from 'react';
 
 // import Image from 'next/image';
 import styles from './MainPage.module.scss';
-import { AboutSection } from '../sections/AboutSection';
-import { AddressSection } from '../sections/AddressSection';
-import { AnnounceSection } from '../sections/AnnounceSection';
-import { getAllData } from '../utils/dataHandler/dataHandler';
+import { AboutSection } from '@/sections/AboutSection';
+import { AddressSection } from '@/sections/AddressSection';
+import { AnnounceSection } from '@/sections/AnnounceSection';
+import { getAllData } from '@/utils/dataHandler';
 
 import Image from 'next/image';
 import {
@@ -19,7 +19,7 @@ import {
   PHONE_NUMBER_LINK,
 } from '@/consts';
 import { OurProjects } from '@/features/OurProjects';
-import { YandexMetrika } from '../atoms/YandexMetrika';
+import { YandexMetrika } from '@/atoms/YandexMetrika';
 
 export default async function MainPage() {
   const data = await getAllData();
@@ -27,9 +27,6 @@ export default async function MainPage() {
   if (!data) {
     notFound();
   }
-
-  const aboutContent =
-    '"Арт-студия "Луна" объединяет художников, музыкантов, писателей, дизайнеров и всех, кто стремится раскрыть свой творческий потенциал. Под светом луны наши идеи оживают, а вдохновение не знает границ. Здесь вы найдете поддержку единомышленников, возможность обмениваться опытом и участвовать в уникальных проектах."';
 
   return (
     <>
@@ -66,7 +63,7 @@ export default async function MainPage() {
           );
         })}
         <OurProjects />
-        <AboutSection content={aboutContent} />
+        <AboutSection />
         <AddressSection
           title='Домашняя площадка - Арт-студия "Луна" г. Клин'
           mapKey="main"

@@ -1,7 +1,5 @@
 .Root {
-  //min-width: 500px;
   display: block;
-  //max-width: 550px;
   max-height: 1000px;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
@@ -9,11 +7,6 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   text-align: left;
   position: relative;
-  //@media(max-width: 1200px) {
-  //  min-width: 320px;
-  //  max-width: 500px;
-  //  max-height: 700px;
-  //}
   @media(max-width: 1000px) {
     min-width: 100%;
     //max-width: 320px;
@@ -22,68 +15,99 @@
 }
 
 .Card {
-  flex-grow: 1;
-  display: flex;
-  justify-content: space-between;
+  position: relative;
+  min-height: 350px;
   width: 100%;
+  overflow: hidden;
+  &:hover .imageHover {
+    transform: scale(1.1);
+  }
 }
 
-
+.imageHover {
+  transition: transform 0.5s ease-in-out;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 15px;
+  position: relative;
+  z-index: 1;
+}
 
 .layout {
   height: 100%;
   width: 100%;
   position: absolute;
-  top:0;
-  flex: 1;
+  top: 0;
   display: flex;
   flex-direction: column;
+  pointer-events: none;
+  z-index: 2;
   &.layout__left {
     align-items: flex-start;
   }
 
   &.layout__right {
     align-items: flex-end;
-    z-index: 100;
   }
 }
 
 .column {
-  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
   width: min-content;
   position: relative;
-  //height: 100%;
-  border: 1px solid black;
-  h3 {
-    display: inline-block; // Отображаем h1 как блочный элемент внутри строки
-    white-space: break-spaces; // Позволяет учитывать переносы строки как часть содержимого
-    writing-mode: vertical-lr; // Устанавливаем вертикальное направление текста
-    text-orientation: upright; // Каждая буква отображается вертикально
-    //font-size: 2rem; // Размер шрифта
-    line-height: 1.2; // Межстрочный интервал
-    margin: 0; // Сброс отступов
-    padding: 10px; // Добавляем немного отступов
+  padding-bottom: 20px;
+  margin: 0 0.5rem;
+  &::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 25px 25px 0 0;
+    border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent;
+  }
+  &::before {
+    content: "";
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 25px 0 0 25px;
+    border-color: rgba(0, 0, 0, 0.8) transparent transparent transparent;
+  }
+
+  h2 {
+    display: inline-block;
+    white-space: break-spaces;
+    writing-mode: vertical-lr;
+    text-orientation: upright;
+    line-height: 1.2;
+    margin: 0;
+    padding: 10px;
+    @media screen {
+      
+    }
   }
 }
-
 
 .bottomRow {
   margin-top: auto;
   padding: 0.5rem;
   width: 100%;
   bottom: 0;
-  z-index: 1;
-  h3{
+  z-index: 3;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
 
-  }
   h4 {
     font-size: 1rem;
   }
-}
-
-.bottomRow, .column {
-  background-color: rgb(0,0,0,0.7);
-  color: white;
 }
 
 .schedule {
@@ -92,11 +116,4 @@
   display: flex;
   justify-content: center;
   gap: 0.5rem;
-  //margin-top: 0.5rem ;
-}
-
-.imageHover {
-  &:hover {
-    transform: scale(1.1); // Увеличение изображения при наведении
-  }
 }
