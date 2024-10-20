@@ -25,8 +25,11 @@ const Custom404: FC = () => {
         style={{ maxWidth: '100%', height: 'auto', borderRadius: '16px' }}
       />
       <h1 style={{ margin: '10px 0' }}>К сожалению, такой страницы нет</h1>
+      <h2 style={{ margin: '0 0 10px 0' }}>
+        Возможно мероприятие уже прошло и онлайн-афиша снята с публикации
+      </h2>
       <h2 style={{ margin: '10px 0' }}>
-        Но вы всегда можете посмотреть нашу афишу
+        Но вы всегда можете посмотреть нашу актуальную афишу
       </h2>
       <Link href="/" passHref>
         <Button type="primary" style={{ padding: '10px 20px' }}>
