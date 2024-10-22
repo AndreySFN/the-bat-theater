@@ -64,10 +64,7 @@ export default async function MainPage() {
         })}
         <OurProjects />
         <AboutSection />
-        <AddressSection
-          title='Контакты'
-          mapKey="main"
-        />
+        <AddressSection title="Контакты" mapKey="main" />
       </div>
     </>
   );

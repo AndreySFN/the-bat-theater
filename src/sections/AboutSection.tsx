@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import Image from 'next/image';
-import cn from 'classnames'
+import cn from 'classnames';
 
 import styles from './AboutSection.module.scss';
 

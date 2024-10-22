@@ -22,13 +22,20 @@ export const AddressSection: React.FC<IAddressSectionProps> = ({
   return (
     <>
       <section className={styles.address}>
-        <div style={{ position: 'relative', height: '100%', width: '100%', overflow: 'hidden' }}>
+        <div
+          style={{
+            position: 'relative',
+            height: '100%',
+            width: '100%',
+            overflow: 'hidden',
+          }}
+        >
           <div className={styles.content}>
             <h2 style={{ fontSize: '2rem' }}>{title}</h2>
             <ul className={styles.contactBlock}>
               <li>
-                <strong>📍 Адрес:</strong> г. Клин, ул Захватаева 4. Вход слева с
-                торца
+                <strong>📍 Адрес:</strong> г. Клин, ул Захватаева 4. Вход слева
+                с торца
               </li>
               <li>
                 <h4>🎟️ Заказ билетов:</h4>
@@ -48,7 +55,8 @@ export const AddressSection: React.FC<IAddressSectionProps> = ({
                 <h4>💼 По вопросам сотрудничества</h4>
                 <ul className={styles.nestedList}>
                   <li>
-                    📞 Телефон: <a href="tel:+79067370208">+7 (906) 737 02-08</a>
+                    📞 Телефон:{' '}
+                    <a href="tel:+79067370208">+7 (906) 737 02-08</a>
                   </li>
                   <li>
                     ✉️ Email:{' '}
@@ -60,9 +68,9 @@ export const AddressSection: React.FC<IAddressSectionProps> = ({
               </li>
             </ul>
           </div>
-          <Map className={styles.mapContainer}/>
+          <Map className={styles.mapContainer} />
         </div>
       </section>
     </>
-);
+  );
 };
