@@ -1,4 +1,7 @@
 .about {
+  color: white;
+  padding-left: 3rem;
+  background: radial-gradient(circle, #b22222, #8b0000);
     margin-top: 20px;
     display: flex;
     flex-direction: column;
@@ -25,7 +28,6 @@
 .theaterDirector {
 
   min-width: 400px;
-  border: 1rem solid #610b00;
   max-width: 375px;
   height: auto;
   max-height: 500px;
@@ -40,4 +42,70 @@
   min-width: 350px;
   text-align: center;
   flex-grow: 1;
+}
+
+/* Основные стили рамки для фотографии (строгий стиль для режиссера) */
+.photoFrame {
+  width: 100%;
+  height: auto;
+  padding: 20px;
+  border: 15px solid #000000; /* Черный цвет для строгого вида */
+  border-radius: 5px;
+  background: #f0f0f0; /* Светлый нейтральный фон */
+  position: relative;
+}
+
+/* Стили для изображения внутри рамки */
+.photoFrame img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 5px;
+}
+
+/* Декоративные акценты */
+.photoFrame .goldenDetail {
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50%;
+  height: 4px;
+  background: linear-gradient(to right, #333333, #000000); /* Строгий темный акцент */
+  border-radius: 5px;
+}
+
+/* Основные стили рамки для таблички (золотистый стиль с более яркими акцентами) */
+.plaqueFrame {
+  position: relative;
+  bottom: 35px;
+  display: inline-block;
+  padding: 5px 15px;
+  max-width: 300px;
+  width: 100%;
+  background: #f8f3e6;
+  border-radius: 15px;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.plaqueFrame h2, .plaqueFrame h3 {
+  font-family: 'Georgia', serif;
+  color: #8B4513; /* Темно-коричневый цвет текста для эффекта гравировки */
+  text-shadow: 1px 1px 0 #fff;
+  margin: 5px 0;
+}
+
+.plaqueFrame h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 0;
+  margin: 0;
+}
+
+.plaqueFrame h3 {
+  font-size: 1.5rem;
+  font-weight: normal;
+  padding: 0;
+  margin: 0;
 }

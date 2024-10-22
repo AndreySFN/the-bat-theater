@@ -1,0 +1,79 @@
+.actorCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem 0;
+}
+/* Основные стили рамки */
+.photoFrame {
+  padding: 20px;
+  border: 15px solid #8B4513; /* Цвет дерева */
+  border-radius: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  background: linear-gradient(to bottom, #f8f3e6, #e0cda8); /* Фон - цвет театрального занавеса */
+  position: relative;
+}
+
+/* Декоративные элементы в виде занавеса */
+.photoFrame::before,
+.photoFrame::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  background: radial-gradient(circle, #b22222, #8b0000); /* Имитация бархатного занавеса */
+  border-radius: 50% 50% 0 0;
+  z-index: -1;
+}
+
+.photoFrame::before {
+  left: 0;
+  transform: translateX(-20%);
+}
+
+.photoFrame::after {
+  right: 0;
+  transform: translateX(20%);
+}
+
+/* Стили для изображения внутри рамки */
+.photoFrame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Декоративные золотые акценты */
+.photoFrame .goldenDetail {
+  padding: 0 0.5rem;
+  text-align: center;
+  position: absolute;
+  bottom: -5%;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 90%;
+  background: #f8f3e6;
+  border-radius: 10px;
+  color: #8B4513;
+
+  h2, h3 {
+    text-wrap: nowrap;
+    padding: 0;
+    font-family: 'Georgia', serif;
+    color: #8B4513; /* Темно-коричневый цвет текста для эффекта гравировки */
+    text-shadow: 1px 1px 0 #fff;
+  }
+  h2 {
+    font-size: 2rem;
+    font-weight: bolder;
+  }
+  h3 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: black;
+    font-family: pacifico, serif;
+  }
+}

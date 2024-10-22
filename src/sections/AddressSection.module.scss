@@ -1,8 +1,62 @@
 .address {
+  width: 100vw;
+  position: relative;
+  left: 0;
+  display: flex;
+  align-self: center;
   margin-top: 20px;
+  text-align: center;
+  flex-basis: 50%;
 
-  h2 {
-    font-size: 2rem;
-    padding-bottom: 10px;
+  .content {
+    position: relative;
+    z-index: 1;
+    max-width: 50%;
+    padding: 2rem;
+    background-color: rgba(255, 255, 255, 0.7);
+  }
+
+  ul {
+    padding: 0;
+  }
+
+  .mapContainer {
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.nestedList {
+  list-style-type: none; /* Убираем точки */
+  margin-left: 20px; /* Добавляем сдвиг для вложенности */
+  padding-left: 0;
+}
+
+.contactBlock {
+  font-size: 1.3rem;
+  text-align: left;
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+  list-style-type: none; /* Убираем точки у всех элементов списка */
+  li {
+    margin-bottom: 1rem;
+  }
+
+  h3, h4 {
+    color: #333;
+    margin-bottom: 0.5rem;
+  }
+
+  a {
+    color: #0066cc;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 }

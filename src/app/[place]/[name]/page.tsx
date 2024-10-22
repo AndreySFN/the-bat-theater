@@ -35,6 +35,7 @@ import { YandexMetrika } from '@/atoms/YandexMetrika';
 import { v4 as generateUUID } from 'uuid';
 import { apiClientInstance } from '@/api/NethouseApi';
 import ScrollButton from '@/atoms/ScrollButton';
+import { ActorCard } from '@/atoms/ActorCard/ActorCard';
 
 interface Props {
   params: { name: string; place: string };
@@ -104,6 +105,7 @@ export default async function EventPage({ params, searchParams }: Props) {
     previews,
     coverUrl,
     blurCoverUrl,
+    troupe,
   } = data;
   const options: Array<Option> = [];
 
@@ -170,7 +172,7 @@ export default async function EventPage({ params, searchParams }: Props) {
             }
           )}
         </Schedule>
-        <h2 style={{ fontWeight: 100, textAlign: 'center' }}>
+        <h2 style={{ fontWeight: 100, padding: '3rem', textAlign: 'center' }}>
           <Link href={PHONE_NUMBER_LINK}>☎️ {PHONE_NUMBER} ☎️</Link>
         </h2>
         {!isEmpty(previews) && (
@@ -191,7 +193,26 @@ export default async function EventPage({ params, searchParams }: Props) {
           }
         />
         {isEmpty(previews) && <OurProjects />}
-
+        <h2 style={{ textAlign: 'center', backgroundColor: '#610b00', color: 'white', margin: '1rem 0' }}>
+          Актёрский состав:
+        </h2>
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'space-evenly',
+          }}
+        >
+          {troupe?.map(({ src, actorName, role, blurDataUrl }) => (
+            <ActorCard
+              key={src}
+              src={src}
+              actorName={actorName}
+              role={role}
+              blurDataUrl={blurDataUrl}
+            />
+          ))}
+        </div>
         <AddressSection mapKey={mapKey} />
         {!isEmpty(advertisment) && (
           <AnnounceSection

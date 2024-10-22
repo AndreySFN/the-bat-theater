@@ -4,28 +4,12 @@ import localFont from 'next/font/local';
 import '../globals.css';
 import { Footer } from '../atoms/Footer';
 
-import { Playfair_Display } from 'next/font/google';
+import { Playfair_Display, Pacifico } from 'next/font/google';
 import React from 'react';
 import { LUNA_ART_STUDIO_TITLE } from '../consts';
 
 import { AntdRegistry } from '@ant-design/nextjs-registry';
-const playfairDisplay = Playfair_Display({
-  subsets: ['latin', 'cyrillic'], // Укажите нужные subsets
-  // Если используете CSS-переменную:
-  variable: '--font-playfair-display',
-});
-
-const geistSans = localFont({
-  src: '../fonts/GeistVF.woff',
-  variable: '--font-geist-sans',
-  weight: '100 900',
-});
-const geistMono = localFont({
-  src: '../fonts/GeistMonoVF.woff',
-  variable: '--font-geist-mono',
-  weight: '100 900',
-});
-
+import { pacifico, geistSans, geistMono, playfairDisplay } from './fonts';
 export const metadata: Metadata = {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
@@ -64,11 +48,10 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <head>
-        <script src="https://events.nethouse.ru/assets/js/popup-form.js"></script>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       </head>
       <body
-        className={`${playfairDisplay.className} ${geistSans.variable} ${geistMono.variable}`}
+        className={`${playfairDisplay.className} ${geistSans.variable} ${geistMono.variable} ${pacifico.className}`}
       >
         <AntdRegistry>{children}</AntdRegistry>
         <Footer />

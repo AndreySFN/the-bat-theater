@@ -22,6 +22,13 @@ export interface IPreviews {
   subtitle?: string;
 }
 
+export interface IActor {
+  role?: string;
+  actorName: string;
+  src?: string;
+  blurDataUrl?: string;
+}
+
 export interface RecordObjectElement {
   title: string;
   schedule?: Array<string>;
@@ -32,6 +39,7 @@ export interface RecordObjectElement {
   blurCoverUrl?: string;
   miniCoverUrl?: string;
   blurMiniCoverUrl?: string;
+  troupe?: Array<IActor>;
   gallery?: string[];
   ym: number;
   options: Option[];
@@ -51,3 +59,4 @@ export type TDataObject = Record<string, RootObject>;
 export enum EUrlSearchKeyList {
   SOURCE = 'source',
 }
+

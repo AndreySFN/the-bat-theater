@@ -2,8 +2,8 @@ import React from 'react';
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 
-export const MainMap = () => (
-  <div style={{ position: 'relative', overflow: 'hidden' }}>
+export const MainMap = ({ className }: { className?: string }) => (
+  <div className={className}>
     <a
       href="https://yandex.com/maps/10733/klin/?utm_medium=mapframe&utm_source=maps"
       style={{

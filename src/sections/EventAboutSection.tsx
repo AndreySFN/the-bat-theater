@@ -12,7 +12,7 @@ export const EventAboutSection: React.FC<EventAboutSectionProps> = ({
   footer,
 }) => (
   <section className={styles.about}>
-    <h2>О событии</h2>
+    {/*<h2>О событии</h2>*/}
     <p>{description}</p>
     {footer || null}
   </section>

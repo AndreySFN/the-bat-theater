@@ -65,7 +65,7 @@ export default async function MainPage() {
         <OurProjects />
         <AboutSection />
         <AddressSection
-          title='Домашняя площадка - Арт-студия "Луна" г. Клин'
+          title='Контакты'
           mapKey="main"
         />
       </div>

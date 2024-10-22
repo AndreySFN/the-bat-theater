@@ -8,10 +8,12 @@ export const Footer: React.FC = () => {
         display: 'flex',
         justifyContent: 'center',
         textAlign: 'center',
-        margin: '40px 0 20px 0',
+        margin: '40px 0 0 0',
+        padding: '1rem 0',
+        background: '#610b00',
       }}
     >
-      <p style={{ fontSize: '1rem', color: 'gray', fontStyle: 'italic' }}>
+      <p style={{ fontSize: '1rem', color: 'white', fontStyle: 'italic' }}>
         ИП Петров Андрей Валентинович ОГРНИП: 324508100044321 | ИНН:
         500715842418
         <br />

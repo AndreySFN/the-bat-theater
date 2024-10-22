@@ -1,6 +1,8 @@
 .about {
-    margin-top: 20px;
-  
+    //margin-top: 20px;
+  background: radial-gradient(circle, #b22222, #8b0000);
+  padding: 1rem;
+    color: white;
     h2 {
       font-size: 2rem;
       padding-bottom: 10px;
@@ -8,6 +10,9 @@
   
     p {
       font-size: 1.3rem;
+    }
+    &::before{
+
     }
   }
   

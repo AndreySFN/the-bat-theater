@@ -18,8 +18,8 @@ export interface ICustomCarouselProps {
 export const CustomCarousel = ({
   imagesList,
   speed = 500,
-  width = 750,
-  height = 500,
+  width = 100,
+  height = 350,
 }: ICustomCarouselProps) => {
   const carouselRef = React.useRef<{ prev: VoidFunction; next: VoidFunction }>(
     null
@@ -62,6 +62,7 @@ export const CustomCarousel = ({
                 display: 'flex',
                 flexDirection: 'column',
                 width: 'auto',
+                maxHeight: '80vh',
               }}
             >
               <AlbumPreview

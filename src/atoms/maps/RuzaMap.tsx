@@ -1,7 +1,7 @@
 import React from 'react';
 
-export const RuzaMap: React.FC = () => (
-  <div style={{ position: 'relative', overflow: 'hidden' }}>
+export const RuzaMap: React.FC = ({ className }: { className?: string }) => (
+  <div className={className}>
     <a
       href="https://yandex.com/maps/org/tsentr_kultury_i_iskusstv_g_ruza/1101603133/?utm_medium=mapframe&utm_source=maps"
       style={{
