@@ -4,8 +4,7 @@ on:
   push:
     branches:
       - main
-
-    workflow_dispatch: # Добавляет возможность ручного запуска
+  workflow_dispatch:  # Добавляем возможность ручного запуска
 
 jobs:
   build:
@@ -18,7 +17,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 20  # Обновлено на Node.js 20, чтобы соответствовать новым требованиям GitHub Actions
+          node-version: 20  # Обновлено на Node.js 20
 
       - name: Install dependencies
         run: yarn install
