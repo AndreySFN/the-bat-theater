@@ -52,12 +52,11 @@ jobs:
 
       - name: Deploy to server using login/password
         run: |
-          sshpass -p ${{ env.SSH_PASSWORD }} scp -o StrictHostKeyChecking=no -r .next public yarn.lock package.json records.json main-carousel.json $SSH_USER@$SERVER_IP:/opt/luna-art/
-          sshpass -p ${{ env.SSH_PASSWORD }} ssh -o StrictHostKeyChecking=no $SSH_USER@$SERVER_IP "cd /opt/luna-art && yarn deploy"
+          sshpass -p ${{ env.SSH_PASSWORD }} scp -o StrictHostKeyChecking=no -r * $SSH_USER@$SERVER_IP:/opt/luna-art/
+          sshpass -p ${{ env.SSH_PASSWORD }} ssh -o StrictHostKeyChecking=no $SSH_USER@$SERVER_IP "cd /opt/luna-art && yarn install && yarn build && pm2 restart all"
         env:
           SSH_USER: ${{ env.SSH_USER }}
           SERVER_IP: ${{ env.SERVER_IP }}
-          ACCESS_TOKEN: ${{ env.ACCESS_TOKEN }}
-          REFRESH_TOKEN: ${{ env.REFRESH_TOKEN }}
-          SSH_PASSWORD: ${{ env.SSH_PASSWORD }}  # Добавляем пароль
+          SSH_PASSWORD: ${{ env.SSH_PASSWORD }}
+
 
