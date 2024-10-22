@@ -8,6 +8,8 @@ import { LUNA_ART_STUDIO_TITLE } from '../consts';
 
 import { AntdRegistry } from '@ant-design/nextjs-registry';
 import { pacifico, geistSans, geistMono, playfairDisplay } from './fonts';
+import path from 'path';
+import fs from 'fs';
 export const metadata: Metadata = {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
@@ -43,17 +45,25 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const privacyPolicy = fs.readFileSync(
+    path.join(process.cwd(), 'PrivacyPolicy.md'),
+    'utf-8'
+  );
+  const userAgreement = fs.readFileSync(
+    path.join(process.cwd(), 'UserAgreement.md'),
+    'utf-8'
+  );
   return (
     <html lang="en">
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
       </head>
       <body
-        style={pacifico.style}
-        className={`${playfairDisplay.className} ${geistSans.variable} ${geistMono.variable}`}
+        style={playfairDisplay.style}
+        className={`${pacifico.className} ${geistSans.style} ${geistMono.variable}`}
       >
         <AntdRegistry>{children}</AntdRegistry>
-        <Footer />
+        <Footer userAgreement={userAgreement} privatePolicy={privacyPolicy} />
       </body>
     </html>
   );

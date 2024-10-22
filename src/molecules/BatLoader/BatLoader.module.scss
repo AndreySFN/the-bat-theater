@@ -1,0 +1,61 @@
+.loaderContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 9999;
+}
+
+.bat {
+  position: relative;
+  width: 100px;
+  height: 50px;
+  animation: flap 1s infinite ease-in-out;
+}
+
+.wingLeft,
+.wingRight {
+  position: absolute;
+  top: 0;
+  width: 50px;
+  height: 50px;
+  background: black;
+  transform-origin: 0 50%;
+}
+
+.wingLeft {
+  left: 0;
+  border-radius: 50% 0 0 50%;
+  transform: rotate(-45deg);
+}
+
+.wingRight {
+  right: 0;
+  border-radius: 0 50% 50% 0;
+  transform: rotate(45deg);
+}
+
+.body {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 20px;
+  height: 50px;
+  background: black;
+  transform: translateX(-50%);
+  border-radius: 10px;
+}
+
+@keyframes flap {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
