@@ -50,23 +50,14 @@ jobs:
       - name: Install sshpass
         run: sudo apt-get update && sudo apt-get install -y sshpass
 
-      - name: Deploy to server
+      - name: Deploy to server using login/password
         run: |
-          scp -o StrictHostKeyChecking=no -r .next public yarn.lock package.json records.json main-carousel.json $SSH_USER@$SERVER_IP:/opt/luna-art/
-          ssh -o StrictHostKeyChecking=no $SSH_USER@$SERVER_IP "cd /opt/luna-art && yarn deploy"
+          sshpass -p ${{ env.SSH_PASSWORD }} scp -o StrictHostKeyChecking=no -r .next public yarn.lock package.json records.json main-carousel.json $SSH_USER@$SERVER_IP:/opt/luna-art/
+          sshpass -p ${{ env.SSH_PASSWORD }} ssh -o StrictHostKeyChecking=no $SSH_USER@$SERVER_IP "cd /opt/luna-art && yarn deploy"
         env:
-          SSH_USER: ${{ secrets.SSH_USER }}
-          SERVER_IP: ${{ secrets.SERVER_IP }}
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
-      - name: Setup SSH key
-        uses: webfactory/ssh-agent@v0.5.3
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-      - name: Test SSH connection
-        run: ssh -o StrictHostKeyChecking=no $SSH_USER@$SERVER_IP "echo Connected successfully"
-        env:
-          SSH_USER: ${{ secrets.SSH_USER }}
-          SERVER_IP: ${{ secrets.SERVER_IP }}
+          SSH_USER: ${{ env.SSH_USER }}
+          SERVER_IP: ${{ env.SERVER_IP }}
+          ACCESS_TOKEN: ${{ env.ACCESS_TOKEN }}
+          REFRESH_TOKEN: ${{ env.REFRESH_TOKEN }}
+          SSH_PASSWORD: ${{ env.SSH_PASSWORD }}  # Добавляем пароль
 
