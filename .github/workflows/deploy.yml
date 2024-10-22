@@ -57,6 +57,8 @@ jobs:
         env:
           SSH_USER: ${{ secrets.SSH_USER }}
           SERVER_IP: ${{ secrets.SERVER_IP }}
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          REFRESH_TOKEN: ${{ secrets.REFRESH_TOKEN }}
       - name: Setup SSH key
         uses: webfactory/ssh-agent@v0.5.3
         with:
