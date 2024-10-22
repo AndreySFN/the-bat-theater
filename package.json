@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next lint --fix && next build",
     "start": "next start",
-    "lint": "next lint --fix"
+    "lint": "next lint --fix",
+    "build:prod": "next build && next export",
+    "deploy": "yarn install && yarn build:prod && sudo systemctl restart luna-art"
   },
   "dependencies": {
     "@ant-design/icons": "^5.5.1",
