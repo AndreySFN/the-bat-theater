@@ -7,7 +7,7 @@
     "build": "next lint --fix && next build",
     "start": "next start",
     "lint": "next lint --fix",
-    "build:prod": "next build && next export",
+    "build:prod": "next build",
     "deploy": "yarn install && yarn build:prod && sudo systemctl restart luna-art"
   },
   "dependencies": {
