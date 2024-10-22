@@ -439,9 +439,7 @@ const accessToken = process.env.ACCESS_TOKEN || '';
 const refreshToken = process.env.REFRESH_TOKEN || '';
 
 if (!accessToken || !refreshToken) {
-  console.log(new Error(
-    'ACCESS_TOKEN и REFRESH_TOKEN должны быть установлены в переменных окружения.'
-  ));
+  console.log('ACCESS_TOKEN и REFRESH_TOKEN должны быть установлены в переменных окружения.');
 }
 
 export const apiClientInstance = new ApiClient(accessToken, refreshToken);
