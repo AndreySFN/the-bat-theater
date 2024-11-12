@@ -193,7 +193,7 @@ export default async function EventPage({ params, searchParams }: Props) {
           }
         />
         {isEmpty(previews) && <OurProjects />}
-        <h2
+        {!isEmpty(troupe) && <><h2
           style={{
             textAlign: 'center',
             backgroundColor: '#610b00',
@@ -219,7 +219,7 @@ export default async function EventPage({ params, searchParams }: Props) {
               blurDataUrl={blurDataUrl}
             />
           ))}
-        </div>
+        </div></>}
         <AddressSection mapKey={mapKey} />
         {!isEmpty(advertisment) && (
           <AnnounceSection
