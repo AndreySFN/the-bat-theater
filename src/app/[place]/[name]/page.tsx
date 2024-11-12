@@ -193,33 +193,37 @@ export default async function EventPage({ params, searchParams }: Props) {
           }
         />
         {isEmpty(previews) && <OurProjects />}
-        {!isEmpty(troupe) && <><h2
-          style={{
-            textAlign: 'center',
-            backgroundColor: '#610b00',
-            color: 'white',
-            margin: '1rem 0',
-          }}
-        >
-          Актёрский состав:
-        </h2>
-        <div
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'space-evenly',
-          }}
-        >
-          {troupe?.map(({ src, actorName, role, blurDataUrl }) => (
-            <ActorCard
-              key={src}
-              src={src}
-              actorName={actorName}
-              role={role}
-              blurDataUrl={blurDataUrl}
-            />
-          ))}
-        </div></>}
+        {!isEmpty(troupe) && (
+          <>
+            <h2
+              style={{
+                textAlign: 'center',
+                backgroundColor: '#610b00',
+                color: 'white',
+                margin: '1rem 0',
+              }}
+            >
+              Актёрский состав:
+            </h2>
+            <div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                justifyContent: 'space-evenly',
+              }}
+            >
+              {troupe?.map(({ src, actorName, role, blurDataUrl }) => (
+                <ActorCard
+                  key={src}
+                  src={src}
+                  actorName={actorName}
+                  role={role}
+                  blurDataUrl={blurDataUrl}
+                />
+              ))}
+            </div>
+          </>
+        )}
         <AddressSection mapKey={mapKey} />
         {!isEmpty(advertisment) && (
           <AnnounceSection
