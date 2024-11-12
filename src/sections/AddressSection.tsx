@@ -50,12 +50,12 @@ export const AddressSection: React.FC<IAddressSectionProps> = ({
                 <li>
                   📞 Телефон: <a href={`tel:${PHONE_NUMBER}`}>{PHONE_NUMBER}</a>
                 </li>
-                <li>
+                {/* <li>
                   ✉️ Email:{' '}
                   <a href="mailto:art-director@luna-art-studio.ru">
                     art-director@luna-art-studio.ru
                   </a>
-                </li>
+                </li> */}
               </ul>
             </li>
           </ul>
