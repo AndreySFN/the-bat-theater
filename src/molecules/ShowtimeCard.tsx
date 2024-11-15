@@ -1,4 +1,4 @@
-import { BuyTicketButton } from '@/atoms/BuyTicketButtonProps';
+import { BuyTicketButton } from '@/atoms/BuyTicketButton';
 import { Card } from 'antd';
 import React from 'react';
 import { formatDate } from '@/utils/dateUtils';
