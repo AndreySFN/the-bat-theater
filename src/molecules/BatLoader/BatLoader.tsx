@@ -2,8 +2,7 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
-import styles from './BatLoader.module.scss';
-import { Spin } from 'antd';
+import { Loader } from '@/atoms/Loader';
 
 export const RouteLoader = () => {
   const [loading, setLoading] = useState(false);
@@ -59,11 +58,5 @@ export const RouteLoader = () => {
     setLoading(false);
   }, [pathname]);
 
-  return (
-    loading && (
-      <div className={styles.loaderContainer}>
-        <Spin tip="Loading" size="large"></Spin>
-      </div>
-    )
-  );
+  return loading && <Loader />;
 };
