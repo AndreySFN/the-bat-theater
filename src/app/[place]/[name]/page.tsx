@@ -3,7 +3,6 @@
 import { Button } from 'antd';
 import { isEmpty, omit } from 'lodash';
 import { Metadata } from 'next';
-import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import React from 'react';
@@ -129,7 +128,10 @@ export default async function EventPage({ params, searchParams }: Props) {
     <>
       <YandexMetrika id={String(ym)} />
       {/* Передаем источник */}
-      <header className={styles.header} style={{backgroundImage: `url('${coverUrl}')`}}>
+      <header
+        className={styles.header}
+        style={{ backgroundImage: `url('${coverUrl}')` }}
+      >
         {/*<Image*/}
         {/*  src={coverUrl!}*/}
         {/*  alt="Афиша"*/}
