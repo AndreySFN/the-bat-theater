@@ -1,6 +1,6 @@
 .about {
   color: white;
-  padding-left: 3rem;
+  padding-left: 1rem;
   background: radial-gradient(circle, #b22222, #8b0000);
     margin-top: 20px;
     display: flex;
@@ -21,6 +21,7 @@
 .content {
   display: flex;
   min-width: 300px;
+  width: 100%;
   @media(max-width: 1000px) {
     flex-direction: column;
   }
