@@ -129,16 +129,16 @@ export default async function EventPage({ params, searchParams }: Props) {
     <>
       <YandexMetrika id={String(ym)} />
       {/* Передаем источник */}
-      <header className={styles.header}>
-        <Image
-          src={coverUrl!}
-          alt="Афиша"
-          width={2000}
-          height={300}
-          className={styles.backgroundImage}
-          placeholder="blur"
-          blurDataURL={blurCoverUrl}
-        />
+      <header className={styles.header} style={{backgroundImage: `url('${coverUrl}')`}}>
+        {/*<Image*/}
+        {/*  src={coverUrl!}*/}
+        {/*  alt="Афиша"*/}
+        {/*  width={2000}*/}
+        {/*  height={300}*/}
+        {/*  className={styles.backgroundImage}*/}
+        {/*  placeholder="blur"*/}
+        {/*  blurDataURL={blurCoverUrl}*/}
+        {/*/>*/}
         <div className={styles.headerContainer}>
           <div>
             <h3 style={{ fontStyle: 'italic', fontWeight: 100 }}>
@@ -148,7 +148,7 @@ export default async function EventPage({ params, searchParams }: Props) {
             <h1>{title}</h1>
             <p>{shortDesc}</p>
           </div>
-          <Link href="/">
+          <Link href="/" className={styles.allEventsBtn}>
             <Button style={{ fontWeight: 200 }}>📅 ВСЕ МЕРОПРИЯТИЯ 📅</Button>
           </Link>
         </div>
