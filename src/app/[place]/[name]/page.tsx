@@ -16,8 +16,8 @@ import { EventAboutSection } from '@/sections/EventAboutSection';
 import { Schedule } from '@/sections/Schedule';
 import {
   EUrlSearchKeyList,
-  Option,
-  RecordObjectElement,
+  IOption,
+  IRecordObjectElement,
 } from '@/utils/dataHandler/types';
 import {
   getRootObjectElementList,
@@ -46,7 +46,7 @@ export async function generateMetadata({
   params: { place, name },
 }: Props): Promise<Metadata> {
   const rootObjectElementList = await getRootObjectElementList(place);
-  const data: RecordObjectElement | Record<string, string> =
+  const data: IRecordObjectElement | Record<string, string> =
     rootObjectElementList?.[name] || {};
 
   if (!data) {
@@ -89,7 +89,7 @@ export default async function EventPage({ params, searchParams }: Props) {
     notFound();
   }
   const advertisment = omit(rootObjectElementList, name);
-  const data: RecordObjectElement = rootObjectElementList[name];
+  const data: IRecordObjectElement = rootObjectElementList[name];
 
   if (!data) {
     notFound();
@@ -107,7 +107,7 @@ export default async function EventPage({ params, searchParams }: Props) {
     blurCoverUrl,
     troupe,
   } = data;
-  const options: Array<Option> = [];
+  const options: Array<IOption> = [];
 
   for (const option of dataOptions) {
     if (option.ticketsTotalCount) {
@@ -157,12 +157,12 @@ export default async function EventPage({ params, searchParams }: Props) {
         <Schedule id="schedule">
           {options.map(
             (
-              { dateTime, nethouseLinks, place, price, unsoldTicketsCount } // Добавлено price
+              { dateTime, ticketUrls, place, price, unsoldTicketsCount } // Добавлено price
             ) => {
               return (
                 <ShowtimeCard
                   key={generateUUID()} // Уникальный ключ
-                  link={nethouseLinks?.[ticketKey] || nethouseLinks.other} // Предполагаем, что ссылка берется из 'other'
+                  link={ticketUrls?.[ticketKey] || ticketUrls.other} // Предполагаем, что ссылка берется из 'other'
                   dateTime={dateTime} // Теперь это Date
                   place={place}
                   price={price} // Передаем цену
