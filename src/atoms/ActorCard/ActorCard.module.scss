@@ -3,6 +3,8 @@
   flex-direction: column;
   align-items: center;
   margin: 2rem 0;
+  min-width: 326px;
+  min-height: 411px;
 }
 /* Основные стили рамки */
 .photoFrame {
@@ -67,11 +69,11 @@
     text-shadow: 1px 1px 0 #fff;
   }
   h2 {
-    font-size: 2rem;
+    font-size: 1.5rem;
     font-weight: bolder;
   }
   h3 {
-    font-size: 1.5rem;
+    font-size: 1rem;
     font-weight: bold;
     color: black;
     font-family: Pacifico, serif;

@@ -5,7 +5,7 @@ import {
   EventCard,
 } from '../atoms/EventCard/EventCard';
 import styles from './AnnounceSection.module.scss';
-import { RecordObjectElement } from '@/utils/dataHandler/types';
+import { IRecordObjectElement } from '@/lib/types';
 import cn from 'classnames';
 
 export enum EAnnounceSectionTitleDirections {
@@ -17,7 +17,7 @@ interface AnnounceSectionProps {
   title?: string;
   label?: string;
   place: string;
-  eventsData: Record<string, RecordObjectElement>;
+  eventsData: Array<IRecordObjectElement>;
   direction?: EAnnounceSectionTitleDirections;
 }
 
@@ -39,29 +39,32 @@ export const AnnounceSection: React.FC<AnnounceSectionProps> = ({
         <h2>{title}</h2>
       </div>
       <span className={styles.announceContent}>
-        {Object.entries(eventsData)
+        {eventsData
           .sort(
-            (a, b) =>
-              a[1].options[0].dateTime.getTime() -
-              b[1].options[0].dateTime.getTime()
+            (a: IRecordObjectElement, b: IRecordObjectElement) =>
+              a.options[0].dateTime.getTime() - b.options[0].dateTime.getTime()
           )
           .map(
             (
-              [
-                key,
-                { shortDesc, blurMiniCoverUrl, title, schedule, miniCoverUrl },
-              ],
+              {
+                url,
+                shortDesc,
+                blurMiniCoverUrl,
+                title,
+                schedule,
+                miniCoverUrl,
+              },
               index
             ) => (
               <EventCard
                 label={label}
-                key={key}
+                key={title}
                 columnDirection={
                   index % 2 === 1
                     ? EEventCardColumDirection.LEFT
                     : EEventCardColumDirection.RIGHT
                 }
-                href={`/${place}/${key}`}
+                href={`/${place}/${url}`}
                 imageUrl={miniCoverUrl!}
                 blurDataURL={blurMiniCoverUrl}
                 schedule={schedule}

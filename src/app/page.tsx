@@ -7,7 +7,6 @@ import styles from './MainPage.module.scss';
 import { AboutSection } from '@/sections/AboutSection';
 import { AddressSection } from '@/sections/AddressSection';
 import { AnnounceSection } from '@/sections/AnnounceSection';
-import { getAllData } from '@/utils/dataHandler';
 
 import Image from 'next/image';
 import {
@@ -20,10 +19,22 @@ import {
 } from '@/consts';
 import { OurProjects } from '@/features/OurProjects';
 import { YandexMetrika } from '@/atoms/YandexMetrika';
+import { ActorCard } from '@/atoms/ActorCard/ActorCard';
+import { dbClientPromise } from '@/lib/mongodb';
+import { IRootObject, ITroupeElement } from '@/lib/types';
+
+export const dynamic = 'force-dynamic';
 
 export default async function MainPage() {
-  const data = await getAllData();
-
+  const client = await dbClientPromise;
+  const data = await client
+    .collection('events')
+    .find<IRootObject>({})
+    .toArray();
+  const troupe = await client
+    .collection('troupe')
+    .find<ITroupeElement>({})
+    .toArray();
   if (!data) {
     notFound();
   }
@@ -51,19 +62,36 @@ export default async function MainPage() {
         </div>
       </header>
       <div className={styles.container}>
-        {Object.entries(data).map(([key, { title, label, elements }]) => {
+        {data.map(({ url, title, label, elements }) => {
           return (
             <AnnounceSection
-              key={key}
+              key={url}
               label={label}
               title={title}
               eventsData={elements}
-              place={key}
+              place={url}
             />
           );
         })}
         <OurProjects />
         <AboutSection />
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'space-evenly',
+          }}
+        >
+          {troupe?.map(({ src, actorName, role, blurDataUrl }) => (
+            <ActorCard
+              key={src}
+              src={src}
+              actorName={actorName}
+              role={role}
+              blurDataUrl={blurDataUrl}
+            />
+          ))}
+        </div>
         <AddressSection title="Контакты" mapKey="main" />
       </div>
     </>

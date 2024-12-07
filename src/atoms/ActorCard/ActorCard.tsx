@@ -18,8 +18,8 @@ export const ActorCard = ({
   role,
   blurDataUrl,
   isRoleFirst = false,
-  width = 350,
-  height = 450,
+  width = 250,
+  height = 250,
 }: IActorCardProps) => {
   return (
     <div className={cn(styles.actorCard, styles.photoFrame)}>
@@ -29,7 +29,7 @@ export const ActorCard = ({
           width={width}
           height={height}
           alt={`${actorName} в роли ${role}`}
-          placeholder={blurDataUrl ? 'blur' : 'empty'}
+          placeholder={'blur'}
           blurDataURL={blurDataUrl}
         />
       )}

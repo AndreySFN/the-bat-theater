@@ -1,13 +1,18 @@
 import React from 'react';
 import { Section } from '@/layouts/Section';
-import { getMainCarousel } from '@/utils/dataHandler/dataHandler';
 import { CustomCarousel } from '@/atoms/CustomCarousel';
 import { MAX_WIDTH } from '@/consts';
+import { dbClientPromise } from '@/lib/mongodb';
+import { IPreviews } from '@/lib/types';
 const generateMainCarousel = async () => {
-  const imageList = await getMainCarousel();
+  const client = await dbClientPromise;
+  const carousel = await client
+    .collection('main_carousel')
+    .find<IPreviews>({})
+    .toArray();
   return (
     <CustomCarousel
-      imagesList={imageList}
+      imagesList={carousel}
       width={MAX_WIDTH}
       height={MAX_WIDTH / 1.5}
     />
