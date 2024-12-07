@@ -21,7 +21,6 @@ export const ActorCard = ({
   width = 250,
   height = 250,
 }: IActorCardProps) => {
-  console.log(blurDataUrl)
   return (
     <div className={cn(styles.actorCard, styles.photoFrame)}>
       {src && (

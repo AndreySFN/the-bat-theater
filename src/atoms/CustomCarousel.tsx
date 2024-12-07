@@ -2,7 +2,7 @@
 import React from 'react';
 
 import { Carousel } from 'antd';
-import { IPreviews } from '@/utils/dataHandler/types';
+import { IPreviews } from '@/lib/types';
 import { AlbumPreview } from '@/atoms/AlbumPreview';
 import { LeftCircleOutlined, RightCircleOutlined } from '@ant-design/icons';
 import styles from './CustomCarousel.module.scss';

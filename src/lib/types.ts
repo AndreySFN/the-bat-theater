@@ -1,18 +1,23 @@
 // types.ts
 
-export interface NethouseLinks {
+export interface ITicketUrls {
   other: string;
   [key: string]: string;
 }
 
-export interface Option {
-  nethouseId: string;
+export interface ITroupeElement {
+  src: string;
+  actorName: string;
+  role: string;
+  blurDataUrl?: string;
+}
+
+export interface IOption {
   ticketsTotalCount?: number;
-  nethouseLinks: NethouseLinks;
+  ticketUrls: ITicketUrls;
   dateTime: Date; // Обновлено с string | Date на Date
   place: string;
   price?: string;
-  unsoldTicketsCount?: number | null;
 }
 
 export interface IPreviews {
@@ -29,7 +34,8 @@ export interface IActor {
   blurDataUrl?: string;
 }
 
-export interface RecordObjectElement {
+export interface IRecordObjectElement {
+  url: string;
   title: string;
   schedule?: Array<string>;
   shortDesc: string;
@@ -42,19 +48,18 @@ export interface RecordObjectElement {
   troupe?: Array<IActor>;
   gallery?: string[];
   ym: number;
-  options: Option[];
+  options: IOption[];
   previews?: IPreviews[];
 }
 
-export interface RootObject {
+export interface IRootObject {
+  url: string;
   title: string;
   label: string;
-  elements: {
-    [key: string]: RecordObjectElement;
-  };
+  elements: Array<IRecordObjectElement>;
 }
 
-export type TDataObject = Record<string, RootObject>;
+export type TDataObject = Record<string, IRootObject>;
 
 export enum EUrlSearchKeyList {
   SOURCE = 'source',

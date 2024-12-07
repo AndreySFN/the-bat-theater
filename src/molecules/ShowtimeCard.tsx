@@ -37,7 +37,10 @@ export const ShowtimeCard = async ({
 
   return (
     <div className={styles.showtimeCard}>
-      <Card title={<h3>{formatDate(dateTime)}</h3>} style={{ width: '100%' }}>
+      <Card
+        title={<h3>{formatDate(new Date(dateTime))}</h3>}
+        style={{ width: '100%' }}
+      >
         <div className={styles.content}>
           <h3 style={{ fontWeight: 100 }}>{place}</h3>
           <div className={styles.footer}>
