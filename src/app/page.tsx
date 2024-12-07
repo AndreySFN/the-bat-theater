@@ -7,7 +7,7 @@ import styles from './MainPage.module.scss';
 import { AboutSection } from '@/sections/AboutSection';
 import { AddressSection } from '@/sections/AddressSection';
 import { AnnounceSection } from '@/sections/AnnounceSection';
-import { getAllData } from '@/utils/dataHandler';
+import { getAllData, getTroupe } from '@/utils/dataHandler';
 
 import Image from 'next/image';
 import {
@@ -20,10 +20,11 @@ import {
 } from '@/consts';
 import { OurProjects } from '@/features/OurProjects';
 import { YandexMetrika } from '@/atoms/YandexMetrika';
+import { ActorCard } from '@/atoms/ActorCard/ActorCard';
 
 export default async function MainPage() {
   const data = await getAllData();
-
+  const troupe = await getTroupe();
   if (!data) {
     notFound();
   }
@@ -64,6 +65,23 @@ export default async function MainPage() {
         })}
         <OurProjects />
         <AboutSection />
+        <div
+          style={{
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'space-evenly',
+          }}
+        >
+          {troupe?.map(({ src, actorName, role, blurDataUrl }) => (
+            <ActorCard
+              key={src}
+              src={src}
+              actorName={actorName}
+              role={role}
+              blurDataUrl={blurDataUrl}
+            />
+          ))}
+        </div>
         <AddressSection title="Контакты" mapKey="main" />
       </div>
     </>

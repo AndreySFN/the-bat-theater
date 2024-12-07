@@ -9,7 +9,7 @@ import styles from './EventPage.module.scss';
 import { Schedule } from '@/sections/Schedule';
 import {
   EUrlSearchKeyList,
-  RecordObjectElement,
+  IRecordObjectElement,
 } from '@/utils/dataHandler/types';
 import { getRootObjectElementList } from '@/utils/dataHandler/dataHandler'; // Импортируем getUserSource
 import {
@@ -28,7 +28,7 @@ export async function generateMetadata({
   params: { place, name },
 }: Props): Promise<Metadata> {
   const rootObjectElementList = await getRootObjectElementList(place);
-  const data: RecordObjectElement | Record<string, string> =
+  const data: IRecordObjectElement | Record<string, string> =
     rootObjectElementList?.[name] || {};
 
   if (!data) {

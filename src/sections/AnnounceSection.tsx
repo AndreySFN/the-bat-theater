@@ -5,7 +5,7 @@ import {
   EventCard,
 } from '../atoms/EventCard/EventCard';
 import styles from './AnnounceSection.module.scss';
-import { RecordObjectElement } from '@/utils/dataHandler/types';
+import { IRecordObjectElement } from '@/utils/dataHandler/types';
 import cn from 'classnames';
 
 export enum EAnnounceSectionTitleDirections {
@@ -17,7 +17,7 @@ interface AnnounceSectionProps {
   title?: string;
   label?: string;
   place: string;
-  eventsData: Record<string, RecordObjectElement>;
+  eventsData: Record<string, IRecordObjectElement>;
   direction?: EAnnounceSectionTitleDirections;
 }
 

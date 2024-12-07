@@ -5,11 +5,11 @@ import path from 'path';
 
 import {
   IPreviews,
-  RootObject,
-  RecordObjectElement,
+  IRootObject,
+  IRecordObjectElement,
   TDataObject,
   EUrlSearchKeyList,
-  Option,
+  IOption, ITroupeElement,
 } from '@/utils/dataHandler/types';
 
 /**
@@ -58,7 +58,7 @@ export const getAllData = async (): Promise<TDataObject> => {
  */
 export const getRootObject = async (
   place: string
-): Promise<RootObject | null> => {
+): Promise<IRootObject | null> => {
   const data = await getAllData();
   return data[place] || null;
 };
@@ -70,7 +70,7 @@ export const getRootObject = async (
  */
 export const getRootObjectElementList = async (
   place: string
-): Promise<Record<string, RecordObjectElement> | null> => {
+): Promise<Record<string, IRecordObjectElement> | null> => {
   const rootObject = await getRootObject(place);
   return rootObject?.elements || null;
 };
@@ -111,11 +111,11 @@ export const getSearchValue = (
  */
 export const getOptionsWithTickets = async (
   place: string
-): Promise<Option[] | null> => {
+): Promise<IOption[] | null> => {
   const elements = await getRootObjectElementList(place);
   if (!elements) return null;
 
-  const optionsWithTickets: Option[] = [];
+  const optionsWithTickets: IOption[] = [];
 
   Object.values(elements).forEach((element) => {
     element.options.forEach((option) => {
@@ -126,4 +126,13 @@ export const getOptionsWithTickets = async (
   });
 
   return optionsWithTickets;
+};
+
+/**
+ * Загружает все данные из records.json и преобразует dateTime в объекты Date.
+ * Также извлекает ticketsTotalCount и nethouseId из nethouseLinks, если они присутствуют.
+ * @returns Объект с данными типа TDataObject.
+ */
+export const getTroupe = async (): Promise<Array<ITroupeElement>> => {
+  return await loadJsonFile<Array<ITroupeElement>>('troupe.json');
 };
