@@ -23,6 +23,7 @@ export const AlbumPreview = ({
   width = 300,
   blurDataUrl,
 }: IAlbumPreviewProps) => {
+    console.log(blurDataUrl)
   const Content = (
     <div
       className={cn(styles.content, { ['--clickable']: Boolean(href) })}

@@ -17,28 +17,33 @@ import {
   PHONE_NUMBER,
   PHONE_NUMBER_LINK,
 } from '@/consts';
-import { OurProjects } from '@/features/OurProjects';
 import { YandexMetrika } from '@/atoms/YandexMetrika';
-import { ActorCard } from '@/atoms/ActorCard/ActorCard';
-import { dbClientPromise } from '@/lib/mongodb';
-import { IRootObject, ITroupeElement } from '@/lib/types';
+import dbConnect from "@/lib/dbconnect";
+import {Model} from "@/model/models";
+import {VenueModel} from "@/model/venues.model";
+import {ActorModel, IActor} from "@/model/actors.model";
+import {ActorCard} from "@/atoms/ActorCard/ActorCard";
+import {MainCarouselModel} from "@/model/mainCarousel.model";
+import {isEmpty} from "lodash";
+import {OurProjects} from "@/features/OurProjects";
+import {ObjectId} from "bson";
 
 export const dynamic = 'force-dynamic';
 
 export default async function MainPage() {
-  const client = await dbClientPromise;
-  const data = await client
-    .collection('events')
-    .find<IRootObject>({})
-    .toArray();
-  const troupe = await client
-    .collection('troupe')
-    .find<ITroupeElement>({})
-    .toArray();
-  if (!data) {
+  await dbConnect();
+  // const a = EventModel;
+  const venues = await VenueModel.find({}).populate({
+    path: 'events', // Populate each event
+    populate: {
+      path: 'posterImg' // Populate images inside events
+    }
+  });
+  const actors = await ActorModel.find<IActor>({}).populate('image')
+  const carousel = await MainCarouselModel.find({}).populate('image').lean()
+  if (!venues) {
     notFound();
   }
-
   return (
     <>
       <YandexMetrika id={String(MAIN_YANDEX_METRICA_ID)} />
@@ -62,18 +67,21 @@ export default async function MainPage() {
         </div>
       </header>
       <div className={styles.container}>
-        {data.map(({ url, title, label, elements }) => {
+        {venues.map(({ id, title, label, events  }) => {
           return (
             <AnnounceSection
-              key={url}
+              key={id}
+              venueId={id}
               label={label}
               title={title}
-              eventsData={elements}
-              place={url}
+              events={events}
             />
           );
         })}
-        <OurProjects />
+        {
+          // @ts-ignore TDOO: Убрать
+          !isEmpty(carousel) && <OurProjects carousel={carousel}/>
+        }
         <AboutSection />
         <div
           style={{
@@ -82,13 +90,13 @@ export default async function MainPage() {
             justifyContent: 'space-evenly',
           }}
         >
-          {troupe?.map(({ src, actorName, role, blurDataUrl }) => (
+          {actors?.map(({ id, image, name, description }) => (
             <ActorCard
-              key={src}
-              src={src}
-              actorName={actorName}
-              role={role}
-              blurDataUrl={blurDataUrl}
+              key={id}
+              src={image.src}
+              title={name}
+              subtitle={description}
+              blurDataUrl={image.blurDataUrl}
             />
           ))}
         </div>

@@ -2,25 +2,28 @@
 import React from 'react';
 
 import { Carousel } from 'antd';
-import { IPreviews } from '@/lib/types';
 import { AlbumPreview } from '@/atoms/AlbumPreview';
 import { LeftCircleOutlined, RightCircleOutlined } from '@ant-design/icons';
 import styles from './CustomCarousel.module.scss';
 import { gray } from '@ant-design/colors';
+import {IMainCarouselElement} from "@/model/mainCarousel.model";
 
 export interface ICustomCarouselProps {
-  imagesList: Array<IPreviews>;
+  imagesList?: Array<IMainCarouselElement>;
   speed?: number;
   width?: number;
   height?: number;
 }
 
-export const CustomCarousel = ({
-  imagesList,
+export const CustomCarousel = (
+    {
+  imagesList = [],
   speed = 500,
   width = 100,
   height = 350,
-}: ICustomCarouselProps) => {
+}: ICustomCarouselProps
+) => {
+  const showButtons = !(imagesList?.length === 1)
   const carouselRef = React.useRef<{ prev: VoidFunction; next: VoidFunction }>(
     null
   );
@@ -38,12 +41,14 @@ export const CustomCarousel = ({
   };
 
   return (
-    <div className={styles.carouselContainer}>
-      <LeftCircleOutlined
-        style={{ color: gray[1] }}
-        className={styles.leftArrow}
-        onClick={handlePrev}
-      />
+    <div
+        className={styles.carouselContainer}
+    >
+      {showButtons && <LeftCircleOutlined
+          style={{color: gray[1]}}
+          className={styles.leftArrow}
+          onClick={handlePrev}
+      />}
       <Carousel
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
@@ -53,11 +58,11 @@ export const CustomCarousel = ({
         style={{ maxWidth: '100%' }}
         rootClassName={styles.root}
       >
-        {imagesList.map((props: IPreviews) => {
-          const { url, title, subtitle, blurDataUrl } = props;
+        {imagesList?.map((props) => {
+          const { id, title, subtitle, image: { blurDataUrl, src} } = props;
           return (
             <div
-              key={url}
+              key={id}
               style={{
                 display: 'flex',
                 flexDirection: 'column',
@@ -68,7 +73,7 @@ export const CustomCarousel = ({
               <AlbumPreview
                 width={width}
                 height={height}
-                imageUrl={url}
+                imageUrl={src}
                 blurDataUrl={blurDataUrl}
                 title={title}
                 subtitle={subtitle}
@@ -77,11 +82,11 @@ export const CustomCarousel = ({
           );
         })}
       </Carousel>
-      <RightCircleOutlined
-        style={{ color: gray[1] }}
-        className={styles.rightArrow}
-        onClick={handleNext}
-      />
+      {showButtons && <RightCircleOutlined
+          style={{color: gray[1]}}
+          className={styles.rightArrow}
+          onClick={handleNext}
+      />}
     </div>
   );
 };

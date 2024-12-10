@@ -15,7 +15,7 @@ export interface EventCardProps {
   imageUrl: string;
   blurDataURL?: string;
   title: string;
-  desc: string;
+  subtitle?: string;
   schedule?: Array<string>;
   href: string;
   columnDirection?: EEventCardColumDirection;
@@ -24,7 +24,7 @@ export interface EventCardProps {
 
 export const EventCard: React.FC<EventCardProps> = ({
   title,
-  desc,
+  subtitle,
   imageUrl,
   href,
   blurDataURL,
@@ -58,7 +58,7 @@ export const EventCard: React.FC<EventCardProps> = ({
           )}
           <div className={styles.bottomRow}>
             <h2>{title}</h2>
-            <h3>{desc}</h3>
+            <h3>{subtitle}</h3>
             <div className={styles.schedule}>
               <Button type="primary">
                 <h3>расписание и билеты</h3>
