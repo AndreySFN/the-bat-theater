@@ -8,6 +8,7 @@ import {EventModel} from "@/model/events.model";
 import {ImageModel} from "@/model/image.model";
 import {MainCarouselModel} from "@/model/mainCarousel.model";
 import {ScheduleModel} from "@/model/shedules.model";
+import '@/model'
 
 declare global {
     var mongoose: any; // This must be a `var` and not a `let / const`

@@ -12,7 +12,7 @@ export interface ShowtimeCardProps {
 }
 
 // Добавьте 'async' перед компонентом
-export const ShowtimeCard = async ({
+export const ShowtimeCard = ({
   dateTime,
   place,
   link,
@@ -20,20 +20,6 @@ export const ShowtimeCard = async ({
   unsoldTotalCount,
 }: ShowtimeCardProps) => {
   // Выполняем запрос на сервере
-  const SUCCESS_STATUS_CODES = [200, 302];
-  let isSoldOut = false;
-
-  try {
-    const response = await fetch(link, { method: 'GET', cache: 'no-cache' });
-    console.log(`Status for ${link}: ${response.status}`);
-
-    if (!SUCCESS_STATUS_CODES.includes(response.status)) {
-      isSoldOut = true;
-    }
-  } catch {
-    console.error(`Error fetching ${link}:`);
-    isSoldOut = true; // Если произошла ошибка, считаем, что билеты распроданы
-  }
 
   return (
     <div className={styles.showtimeCard}>
@@ -48,12 +34,7 @@ export const ShowtimeCard = async ({
               className={styles.button}
               price={price}
               url={link}
-              isSoldOut={isSoldOut}
             />
-            {Boolean(unsoldTotalCount) && !isSoldOut && (
-              <h4>осталось билетов: {unsoldTotalCount}</h4>
-            )}
-            {isSoldOut && <h4>Все билеты проданы</h4>}
           </div>
         </div>
       </Card>

@@ -13,4 +13,4 @@ const MainCarouselSchema = new Schema<IMainCarouselElement>({
     image: { type: Schema.Types.ObjectId, ref: 'images' }, // Используем ссылку на схему изображений
 });
 
-export const MainCarouselModel = mongoose.models.main_carousel || mongoose.model<IMainCarouselElement>('main_carousel', MainCarouselSchema, 'main_carousel');
+export const MainCarouselModel = mongoose.models.main_gallery || mongoose.model<IMainCarouselElement>('main_gallery', MainCarouselSchema, 'main_gallery');

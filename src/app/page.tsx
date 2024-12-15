@@ -19,7 +19,6 @@ import {
 } from '@/consts';
 import { YandexMetrika } from '@/atoms/YandexMetrika';
 import dbConnect from "@/lib/dbconnect";
-import {Model} from "@/model/models";
 import {VenueModel} from "@/model/venues.model";
 import {ActorModel, IActor} from "@/model/actors.model";
 import {ActorCard} from "@/atoms/ActorCard/ActorCard";
@@ -40,7 +39,8 @@ export default async function MainPage() {
     }
   });
   const actors = await ActorModel.find<IActor>({}).populate('image')
-  const carousel = await MainCarouselModel.find({}).populate('image').lean()
+  const carousel = await MainCarouselModel.find({})
+      .populate('image').lean()
   if (!venues) {
     notFound();
   }

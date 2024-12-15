@@ -5,11 +5,13 @@ export interface IVenue extends Document {
     title: string;
     label: string;
     events: IEvent[];
+    mapUrl?: string;
 }
 
 const VenueSchema = new Schema<IVenue>({
     title: { type: String, required: true },
     label: { type: String, required: true },
+    mapUrl: {type: String, required: false},
     events: [{type: Schema.Types.ObjectId, ref: 'events'}]
 });
 
