@@ -103,7 +103,7 @@ export default async function EventPage({ params, searchParams }: Props) {
     ym,
     previews,
     coverUrl,
-    blurCoverUrl,
+    // blurCoverUrl,
     troupe,
   } = data;
   const options: Array<IOption> = [];
@@ -123,7 +123,6 @@ export default async function EventPage({ params, searchParams }: Props) {
   const ticketKey =
     getSearchValue(searchParams, EUrlSearchKeyList.SOURCE) || ''; // Получаем источник пользователя
   // Можно использовать userSource для передачи в YandexMetrika или других целей
-  console.log(blurCoverUrl);
   return (
     <>
       <YandexMetrika id={String(ym)} />

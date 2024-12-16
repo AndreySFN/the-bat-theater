@@ -37,7 +37,8 @@ export const BuyTicketButton = ({
       </Button>
       <Modal
         title="Покупка билета"
-        visible={visible}
+        open={visible}
+        width={'80vw'}
         className={s.modal}
         onClose={() => setVisible(false)}
         onCancel={() => setVisible(false)}

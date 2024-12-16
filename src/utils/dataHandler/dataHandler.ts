@@ -9,7 +9,8 @@ import {
   IRecordObjectElement,
   TDataObject,
   EUrlSearchKeyList,
-  IOption, ITroupeElement,
+  IOption,
+  ITroupeElement,
 } from '@/utils/dataHandler/types';
 
 /**

@@ -21,6 +21,7 @@ import {
 import { OurProjects } from '@/features/OurProjects';
 import { YandexMetrika } from '@/atoms/YandexMetrika';
 import { ActorCard } from '@/atoms/ActorCard/ActorCard';
+import { Section } from '@/layouts/Section';
 
 export default async function MainPage() {
   const data = await getAllData();
@@ -65,24 +66,26 @@ export default async function MainPage() {
         })}
         <OurProjects />
         <AboutSection />
-        <div
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'space-evenly',
-          }}
-        >
-          {troupe?.map(({ src, actorName, role, blurDataUrl }) => (
-            <ActorCard
-              key={src}
-              src={src}
-              actorName={actorName}
-              role={role}
-              blurDataUrl={blurDataUrl}
-            />
-          ))}
-        </div>
         <AddressSection title="Контакты" mapKey="main" />
+        <Section title="Коллектив:">
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              justifyContent: 'space-evenly',
+            }}
+          >
+            {troupe?.map(({ src, actorName, role, blurDataUrl }) => (
+              <ActorCard
+                key={src}
+                src={src}
+                actorName={actorName}
+                role={role}
+                blurDataUrl={blurDataUrl}
+              />
+            ))}
+          </div>
+        </Section>
       </div>
     </>
   );

@@ -5,10 +5,10 @@ export interface NethouseLinks {
   [key: string]: string;
 }
 
-export interface Option {
+export interface IOption {
   nethouseId: string;
   ticketsTotalCount?: number;
-  nethouseLinks: NethouseLinks;
+  ticketUrls: NethouseLinks;
   dateTime: Date; // Обновлено с string | Date на Date
   place: string;
   price?: string;
@@ -29,7 +29,7 @@ export interface IActor {
   blurDataUrl?: string;
 }
 
-export interface RecordObjectElement {
+export interface IRecordObjectElement {
   title: string;
   schedule?: Array<string>;
   shortDesc: string;
@@ -42,20 +42,27 @@ export interface RecordObjectElement {
   troupe?: Array<IActor>;
   gallery?: string[];
   ym: number;
-  options: Option[];
+  options: IOption[];
   previews?: IPreviews[];
 }
 
-export interface RootObject {
+export interface IRootObject {
   title: string;
   label: string;
   elements: {
-    [key: string]: RecordObjectElement;
+    [key: string]: IRecordObjectElement;
   };
 }
 
-export type TDataObject = Record<string, RootObject>;
+export type TDataObject = Record<string, IRootObject>;
 
 export enum EUrlSearchKeyList {
   SOURCE = 'source',
+}
+
+export interface ITroupeElement {
+  src: string;
+  actorName: string;
+  role: string;
+  blurDataUrl: string;
 }
