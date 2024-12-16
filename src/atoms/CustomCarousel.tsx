@@ -6,7 +6,7 @@ import { AlbumPreview } from '@/atoms/AlbumPreview';
 import { LeftCircleOutlined, RightCircleOutlined } from '@ant-design/icons';
 import styles from './CustomCarousel.module.scss';
 import { gray } from '@ant-design/colors';
-import {IMainCarouselElement} from "@/model/mainCarousel.model";
+import { IMainCarouselElement } from '@/model/mainCarousel.model';
 
 export interface ICustomCarouselProps {
   imagesList?: Array<IMainCarouselElement>;
@@ -15,15 +15,13 @@ export interface ICustomCarouselProps {
   height?: number;
 }
 
-export const CustomCarousel = (
-    {
+export const CustomCarousel = ({
   imagesList = [],
   speed = 500,
   width = 100,
   height = 350,
-}: ICustomCarouselProps
-) => {
-  const showButtons = !(imagesList?.length === 1)
+}: ICustomCarouselProps) => {
+  const showButtons = !(imagesList?.length === 1);
   const carouselRef = React.useRef<{ prev: VoidFunction; next: VoidFunction }>(
     null
   );
@@ -41,14 +39,14 @@ export const CustomCarousel = (
   };
 
   return (
-    <div
-        className={styles.carouselContainer}
-    >
-      {showButtons && <LeftCircleOutlined
-          style={{color: gray[1]}}
+    <div className={styles.carouselContainer}>
+      {showButtons && (
+        <LeftCircleOutlined
+          style={{ color: gray[1] }}
           className={styles.leftArrow}
           onClick={handlePrev}
-      />}
+        />
+      )}
       <Carousel
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
@@ -59,7 +57,12 @@ export const CustomCarousel = (
         rootClassName={styles.root}
       >
         {imagesList?.map((props) => {
-          const { id, title, subtitle, image: { blurDataUrl, src} } = props;
+          const {
+            id,
+            title,
+            subtitle,
+            image: { blurDataUrl, src },
+          } = props;
           return (
             <div
               key={id}
@@ -82,11 +85,13 @@ export const CustomCarousel = (
           );
         })}
       </Carousel>
-      {showButtons && <RightCircleOutlined
-          style={{color: gray[1]}}
+      {showButtons && (
+        <RightCircleOutlined
+          style={{ color: gray[1] }}
           className={styles.rightArrow}
           onClick={handleNext}
-      />}
+        />
+      )}
     </div>
   );
 };

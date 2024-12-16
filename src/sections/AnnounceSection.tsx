@@ -33,28 +33,35 @@ export const AnnounceSection: React.FC<AnnounceSectionProps> = ({
     [styles.announce__right]:
       direction === EAnnounceSectionTitleDirections.RIGHT,
   });
+
   return (
     <section className={styles.announce}>
       <div className={titleClass}>
         <h2>{title}</h2>
       </div>
       <span className={styles.announceContent}>
-        {events.map(({ title, subtitle, posterImg, id }, index) => (
-          <EventCard
-            label={label}
-            key={title}
-            columnDirection={
-              index % 2 === 1
-                ? EEventCardColumDirection.LEFT
-                : EEventCardColumDirection.RIGHT
-            }
-            href={`/${venueId}/${id}`}
-            imageUrl={posterImg?.src!}
-            blurDataURL={posterImg?.blurDataUrl}
-            title={title}
-            subtitle={subtitle}
-          />
-        ))}
+        {events.map(({ title, subtitle, posterImg, id }, index) => {
+          // Проверка наличия posterImg и posterImg.src
+          const imageUrl = posterImg?.src;
+          const blurDataURL = posterImg?.blurDataUrl;
+
+          return (
+            <EventCard
+              label={label}
+              key={title}
+              columnDirection={
+                index % 2 === 1
+                  ? EEventCardColumDirection.LEFT
+                  : EEventCardColumDirection.RIGHT
+              }
+              href={`/${venueId}/${id}`}
+              imageUrl={imageUrl || ''} // Использование пустой строки, если значение отсутствует
+              blurDataURL={blurDataURL}
+              title={title}
+              subtitle={subtitle}
+            />
+          );
+        })}
       </span>
     </section>
   );

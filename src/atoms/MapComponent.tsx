@@ -14,7 +14,7 @@ export const MapComponent: React.FC<IMapComponentProps> = ({
       <iframe
         src={mapUrl}
         width="100%"
-        height="400"
+        height="100%"
         allowFullScreen
         style={{ position: 'relative' }}
       ></iframe>

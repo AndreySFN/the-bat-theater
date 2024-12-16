@@ -24,8 +24,9 @@ import { ActorCard } from '@/atoms/ActorCard/ActorCard';
 import { EventModel, IEvent } from '@/model/events.model';
 import { IVenue, VenueModel } from '@/model/venues.model';
 import dbConnect from '@/lib/dbconnect';
-import {MapComponent} from "@/atoms/MapComponent";
-import {IMainCarouselElement, MainCarouselModel} from "@/model";
+import { MapComponent } from '@/atoms/MapComponent';
+import { IImage, IMainCarouselElement, MainCarouselModel } from '@/model';
+import { AddressSection } from '@/sections/AddressSection';
 
 export const dynamic = 'force-dynamic';
 interface Props {
@@ -33,20 +34,26 @@ interface Props {
   searchParams: Record<EUrlSearchKeyList, string>; // Добавлено
 }
 
+const imageItemToMainCarouselElementMaper = (a: IImage) =>
+  ({ image: a }) as IMainCarouselElement;
+
 // TODO: Вернуть генерацию метаданных
 
 export default async function EventPage({ params }: Props) {
-  // await dbConnect();
+  await dbConnect();
   const { venueId, eventId } = params;
-  const venue = (await VenueModel.findById<IVenue>(venueId).populate('events').populate({ path: 'events', populate: 'posterImg'}).lean<IVenue>());
-  // if (!venue) {
-  //   notFound();
-  // }
-  const event = (await EventModel.findById<IEvent>(eventId)
+  const venue = await VenueModel.findById<IVenue>(venueId)
+    .populate({ path: 'events', populate: 'posterImg' })
+    .lean<IVenue>();
+  if (!venue) {
+    notFound();
+  }
+  const event = await EventModel.findById(eventId)
     .populate('posterImg') // Заполняем постер
     .populate({
       path: 'eventDetails', // Заполняем eventDetails
       populate: [
+        { path: 'previews' },
         {
           path: 'schedule', // Расписание
         },
@@ -55,42 +62,38 @@ export default async function EventPage({ params }: Props) {
         },
         {
           path: 'roles', // Роли
-          populate: 'image'
-        },
-        {
-          path: 'previews', // Превью
-          populate: {
-            path: 'image', // Изображение внутри превью
-          },
+          populate: 'image',
         },
       ],
-    }));
+    })
+    .lean<IEvent>();
 
-  // if (!event) {
-  //   notFound();
-  // }
+  if (!event) {
+    notFound();
+  }
 
-  // const { title, subtitle, posterImg, eventDetails } = event;
+  const { title, subtitle, posterImg, eventDetails } = event;
   // const carousel = await MainCarouselModel.find({}).populate('image').lean()
-  const carousel =
-      // isEmpty(eventDetails?.previews) ?
-      (await MainCarouselModel.find()
-          .populate('image')
-          .lean<IMainCarouselElement>())
-  //
-  // const advertisment = venue.events.filter(({id}) =>
-  //     id !== eventId
-  // );
+  const carousel = isEmpty(eventDetails?.previews)
+    ? await MainCarouselModel.find()
+        .populate('image')
+        .lean<Array<IMainCarouselElement>>()
+    : null;
+  console.log(carousel);
+  const advertisment = venue.events.filter(
+    // @ts-ignore
+    ({ _id }) => _id.toHexString() !== eventId
+  );
   // console.log('venue mapUrl: ', venue.mapUrl )
-
-// : null;
+  //
+  // : null;
 
   return (
     <>
       {/*<YandexMetrika id={String(ym)} />*/}
       <header
         className={styles.header}
-        // style={{ backgroundImage: `url('${eventDetails?.coverImg?.src}')` }}
+        style={{ backgroundImage: `url('${eventDetails?.coverImg?.src}')` }}
       >
         <div className={styles.headerContainer}>
           <div>
@@ -98,92 +101,98 @@ export default async function EventPage({ params }: Props) {
               {/* eslint-disable-next-line react/no-unescaped-entities */}
               {LUNA_ART_STUDIO_TITLE}
             </h3>
-            {/*<h1>{title}</h1>*/}
-            {/*<p>{subtitle}</p>*/}
+            <h1>{title}</h1>
+            <p>{subtitle}</p>
           </div>
           <Link href="/" className={styles.allEventsBtn}>
             <Button style={{ fontWeight: 200 }}>📅 ВСЕ МЕРОПРИЯТИЯ 📅</Button>
           </Link>
         </div>
       </header>
-      {/*<div className={styles.container}>*/}
-      {/*  <Schedule id="schedule">*/}
-      {/*    {eventDetails?.schedule?.map(*/}
-      {/*      (*/}
-      {/*        { id, ticketUrl, dateTime, place, price } // Добавлено price*/}
-      {/*      ) => {*/}
-      {/*        return (*/}
-      {/*          <ShowtimeCard*/}
-      {/*            key={id} // Уникальный ключ*/}
-      {/*            link={ticketUrl} // Предполагаем, что ссылка берется из 'other'*/}
-      {/*            dateTime={dateTime} // Теперь это Date*/}
-      {/*            place={place}*/}
-      {/*            price={price} // Передаем цену*/}
-      {/*          />*/}
-      {/*        );*/}
-      {/*      }*/}
-      {/*    )}*/}
-      {/*  </Schedule>*/}
-      {/*  <h2 style={{ fontWeight: 100, padding: '3rem', textAlign: 'center' }}>*/}
-      {/*    <Link href={PHONE_NUMBER_LINK}>☎️ {PHONE_NUMBER} ☎️</Link>*/}
-      {/*  </h2>*/}
-      {/*  {eventDetails && !isEmpty(eventDetails?.previews) && (*/}
-      {/*    <CustomCarousel*/}
-      {/*      imagesList={eventDetails.previews!}*/}
-      {/*      width={MAX_WIDTH}*/}
-      {/*      height={MAX_WIDTH / 1.5}*/}
-      {/*    />*/}
-      {/*  )}*/}
-      {/*  {eventDetails?.description && (*/}
-      {/*    <EventAboutSection*/}
-      {/*      description={eventDetails?.description}*/}
-      {/*      footer={*/}
-      {/*        <div style={{ display: 'flex', justifyContent: 'center' }}>*/}
-      {/*          <ScrollButton className={styles.toScheduleBtn}>*/}
-      {/*            <h2>📅 Расписание показов 🕑</h2>*/}
-      {/*          </ScrollButton>*/}
-      {/*        </div>*/}
-      {/*      }*/}
-      {/*    />*/}
-      {/*  )}*/}
-      {/*  /!*{carousel && <OurProjects carousel={carousel} />}*!/*/}
-      {/*  {!isEmpty(eventDetails?.roles) && (*/}
-      {/*    <>*/}
-      {/*      <h2*/}
-      {/*        style={{*/}
-      {/*          textAlign: 'center',*/}
-      {/*          backgroundColor: '#610b00',*/}
-      {/*          color: 'white',*/}
-      {/*          margin: '1rem 0',*/}
-      {/*        }}*/}
-      {/*      >*/}
-      {/*        Актёрский состав:*/}
-      {/*      </h2>*/}
-      {/*      <div*/}
-      {/*        style={{*/}
-      {/*          display: 'flex',*/}
-      {/*          flexWrap: 'wrap',*/}
-      {/*          justifyContent: 'space-evenly',*/}
-      {/*        }}*/}
-      {/*      >*/}
-      {/*        {eventDetails?.roles?.map(({ id, image, actorName, role }) => (*/}
-      {/*          <ActorCard*/}
-      {/*            key={id}*/}
-      {/*            src={image?.src || ''}*/}
-      {/*            title={actorName}*/}
-      {/*            subtitle={role}*/}
-      {/*            blurDataUrl={image?.blurDataUrl || ''}*/}
-      {/*          />*/}
-      {/*        ))}*/}
-      {/*      </div>*/}
-      {/*    </>*/}
-      {/*  )}*/}
-      {/*  {venue?.mapUrl && <MapComponent mapUrl={venue.mapUrl}/>}*/}
-      {/*  /!*<AddressSection mapKey={mapKey} />*!/*/}
-      {/*  {!isEmpty(advertisment) && (*/}
-      {/*    <AnnounceSection title="Другие мероприятия" events={advertisment} />*/}
-      {/*  )}*/}
-      {/*</div>*/}
+      <div className={styles.container}>
+        <Schedule id="schedule">
+          {eventDetails?.schedule?.map(
+            (
+              { id, ticketUrl, dateTime, place, price } // Добавлено price
+            ) => {
+              return (
+                <ShowtimeCard
+                  key={id} // Уникальный ключ
+                  link={ticketUrl} // Предполагаем, что ссылка берется из 'other'
+                  dateTime={dateTime} // Теперь это Date
+                  place={place}
+                  price={price} // Передаем цену
+                />
+              );
+            }
+          )}
+        </Schedule>
+        <h2 style={{ fontWeight: 100, padding: '3rem', textAlign: 'center' }}>
+          <Link href={PHONE_NUMBER_LINK}>☎️ {PHONE_NUMBER} ☎️</Link>
+        </h2>
+        {eventDetails && !isEmpty(eventDetails?.previews) && (
+          <CustomCarousel
+            imagesList={eventDetails.previews?.map(
+              imageItemToMainCarouselElementMaper
+            )} // TODO: Убрать костыль
+            width={MAX_WIDTH}
+            height={MAX_WIDTH / 1.5}
+          />
+        )}
+        {eventDetails?.description && (
+          <EventAboutSection
+            description={eventDetails?.description}
+            footer={
+              <div style={{ display: 'flex', justifyContent: 'center' }}>
+                <ScrollButton className={styles.toScheduleBtn}>
+                  <h2>📅 Расписание показов 🕑</h2>
+                </ScrollButton>
+              </div>
+            }
+          />
+        )}
+        {isEmpty(eventDetails?.previews) && carousel && (
+          <OurProjects carousel={carousel} />
+        )}
+        {!isEmpty(eventDetails?.roles) && (
+          <>
+            <h2
+              style={{
+                textAlign: 'center',
+                backgroundColor: '#610b00',
+                color: 'white',
+                margin: '1rem 0',
+              }}
+            >
+              Актёрский состав:
+            </h2>
+            <div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                justifyContent: 'space-evenly',
+              }}
+            >
+              {eventDetails?.roles?.map(({ id, image, actorName, role }) => (
+                <ActorCard
+                  key={id}
+                  src={image?.src || ''}
+                  title={actorName}
+                  subtitle={role}
+                  blurDataUrl={image?.blurDataUrl || ''}
+                />
+              ))}
+            </div>
+          </>
+        )}
+        {/*{venue?.mapUrl && <MapComponent mapUrl={venue.mapUrl} />}*/}
+        {venue.mapUrl && (
+          <AddressSection mapUri={venue.mapUrl} address={venue.address} />
+        )}
+        {!isEmpty(advertisment) && (
+          <AnnounceSection title="Другие мероприятия" events={advertisment} />
+        )}
+      </div>
     </>
   );
 }

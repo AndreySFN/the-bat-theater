@@ -18,14 +18,14 @@ import {
   PHONE_NUMBER_LINK,
 } from '@/consts';
 import { YandexMetrika } from '@/atoms/YandexMetrika';
-import dbConnect from "@/lib/dbconnect";
-import {VenueModel} from "@/model/venues.model";
-import {ActorModel, IActor} from "@/model/actors.model";
-import {ActorCard} from "@/atoms/ActorCard/ActorCard";
-import {MainCarouselModel} from "@/model/mainCarousel.model";
-import {isEmpty} from "lodash";
-import {OurProjects} from "@/features/OurProjects";
-import {ObjectId} from "bson";
+import dbConnect from '@/lib/dbconnect';
+import { VenueModel } from '@/model/venues.model';
+import { ActorModel, IActor } from '@/model/actors.model';
+import { ActorCard } from '@/atoms/ActorCard/ActorCard';
+import { MainCarouselModel } from '@/model/mainCarousel.model';
+import { isEmpty } from 'lodash';
+import { OurProjects } from '@/features/OurProjects';
+import { ObjectId } from 'bson';
 
 export const dynamic = 'force-dynamic';
 
@@ -35,12 +35,11 @@ export default async function MainPage() {
   const venues = await VenueModel.find({}).populate({
     path: 'events', // Populate each event
     populate: {
-      path: 'posterImg' // Populate images inside events
-    }
+      path: 'posterImg', // Populate images inside events
+    },
   });
-  const actors = await ActorModel.find<IActor>({}).populate('image')
-  const carousel = await MainCarouselModel.find({})
-      .populate('image').lean()
+  const actors = await ActorModel.find<IActor>({}).populate('image');
+  const carousel = await MainCarouselModel.find({}).populate('image').lean();
   if (!venues) {
     notFound();
   }
@@ -67,7 +66,7 @@ export default async function MainPage() {
         </div>
       </header>
       <div className={styles.container}>
-        {venues.map(({ id, title, label, events  }) => {
+        {venues.map(({ id, title, label, events }) => {
           return (
             <AnnounceSection
               key={id}
@@ -80,7 +79,7 @@ export default async function MainPage() {
         })}
         {
           // @ts-ignore TDOO: Убрать
-          !isEmpty(carousel) && <OurProjects carousel={carousel}/>
+          !isEmpty(carousel) && <OurProjects carousel={carousel} />
         }
         <AboutSection />
         <div
@@ -100,7 +99,10 @@ export default async function MainPage() {
             />
           ))}
         </div>
-        <AddressSection title="Контакты" mapKey="main" />
+        <AddressSection
+          title="Контакты"
+          mapUri="https://yandex.ru/map-widget/v1/org/letuchaya_mysh/91074484875/?ll=36.729552%2C56.329304&z=18"
+        />
       </div>
     </>
   );

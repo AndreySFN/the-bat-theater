@@ -4,7 +4,7 @@
     "es2021": true,
     "node": true
   },
-  "parser": "@typescript-eslint/parser",
+"parser": "@typescript-eslint/parser",
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
@@ -20,7 +20,12 @@
   },
   "plugins": ["react", "@typescript-eslint", "prettier"],
   "rules": {
-    "prettier/prettier": "warn"
+    "@typescript-eslint/no-unused-vars": ["warn", { "varsIgnorePattern": "^TMapKeys$", "argsIgnorePattern": "^_" }],
+    "prettier/prettier": "warn",     "@typescript-eslint/ban-ts-comment": ["warn", { "ts-ignore": true }],
+    "react/prop-types": "warn",
+    "react/react-in-jsx-scope": "off", // Отключено, если React 17+
+    "no-var": "warn",
+    "@typescript-eslint/no-explicit-any": "warn"
   },
   "settings": {
     "react": {
