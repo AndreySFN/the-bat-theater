@@ -6,10 +6,10 @@ import { ActorModel } from '@/model/actors.model';
 import { EventDetailsModel } from '@/model/eventDetailes.model';
 import { EventModel } from '@/model/events.model';
 import { ImageModel } from '@/model/image.model';
-import { MainCarouselModel } from '@/model/mainCarousel.model';
+import { AlbumElementModel } from '@/model/albumElement.model';
 import { ScheduleModel } from '@/model/shedules.model';
 import '@/model';
-import {MetadataModel} from "@/model";
+import {AlbumModel, MetadataModel} from "@/model";
 
 declare global {
   var mongoose: any; // This must be a `var` and not a `let / const`
@@ -28,9 +28,10 @@ async function dbConnect() {
     EventDetailsModel, // что вызывает ошибку  Schema hasn't been registered for model "model_name"
     EventModel,
     ImageModel,
-    MainCarouselModel,
+    AlbumElementModel,
     ScheduleModel,
-    MetadataModel
+    MetadataModel,
+    AlbumModel
   ];
 
   const MONGODB_URI = process.env.MONGODB_URI!;

@@ -1,10 +1,10 @@
 import { Section } from '@/layouts/Section';
 import { CustomCarousel } from '@/atoms/CustomCarousel';
 import { MAX_WIDTH } from '@/consts';
-import { IMainCarouselElement } from '@/model/mainCarousel.model';
+import { IAlbumElement } from '@/model/albumElement.model';
 
 export interface IOurProjectsProps {
-  carousel: Array<IMainCarouselElement>;
+  carousel: Array<IAlbumElement>;
 }
 
 export const OurProjects = ({ carousel }: IOurProjectsProps) => {

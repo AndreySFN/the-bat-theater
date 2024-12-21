@@ -2,7 +2,7 @@ import { IImage } from '@/model/image.model';
 import mongoose, { Schema, Document } from 'mongoose';
 import { ISchedule } from '@/model/shedules.model';
 import { IRole } from '@/model/roles.model';
-import { IMainCarouselElement } from '@/model/mainCarousel.model';
+import { IAlbumElement } from '@/model/albumElement.model';
 import {IMetadata} from "@/model/metadata.model";
 
 export interface IEventDetails extends Document {
@@ -10,7 +10,7 @@ export interface IEventDetails extends Document {
   schedule: Array<ISchedule>;
   description?: string;
   roles?: Array<IRole>;
-  previews?: Array<IImage>;
+  previews?: string;
   ym?: string;
   metadata: IMetadata;
 }
@@ -21,7 +21,7 @@ const EventDetailsSchema = new Schema<IEventDetails>({
   description: { type: String, required: false },
   schedule: [{ type: Schema.Types.ObjectId, ref: 'schedules' }],
   roles: [{ type: Schema.Types.ObjectId, ref: 'roles' }],
-  previews: [{ type: Schema.Types.ObjectId, ref: 'images' }],
+  previews: [{ type: Schema.Types.ObjectId, ref: 'albums' }],
   metadata: {type: Schema.Types.ObjectId, ref: 'metadata'}
 });
 
