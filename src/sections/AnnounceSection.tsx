@@ -5,8 +5,8 @@ import {
   EventCard,
 } from '../atoms/EventCard/EventCard';
 import styles from './AnnounceSection.module.scss';
-import { IRecordObjectElement } from '@/lib/types';
 import cn from 'classnames';
+import { IEvent } from '@/model/events.model';
 
 export enum EAnnounceSectionTitleDirections {
   LEFT,
@@ -14,18 +14,18 @@ export enum EAnnounceSectionTitleDirections {
 }
 
 interface AnnounceSectionProps {
+  venueId?: string;
   title?: string;
   label?: string;
-  place: string;
-  eventsData: Array<IRecordObjectElement>;
+  events: Array<IEvent>;
   direction?: EAnnounceSectionTitleDirections;
 }
 
 export const AnnounceSection: React.FC<AnnounceSectionProps> = ({
   title = 'АФИША:',
-  place,
-  eventsData,
+  events,
   label,
+  venueId,
   direction = EAnnounceSectionTitleDirections.RIGHT,
 }) => {
   const titleClass = cn(styles.title, {
@@ -33,46 +33,35 @@ export const AnnounceSection: React.FC<AnnounceSectionProps> = ({
     [styles.announce__right]:
       direction === EAnnounceSectionTitleDirections.RIGHT,
   });
+
   return (
     <section className={styles.announce}>
       <div className={titleClass}>
         <h2>{title}</h2>
       </div>
       <span className={styles.announceContent}>
-        {eventsData
-          .sort(
-            (a: IRecordObjectElement, b: IRecordObjectElement) =>
-              a.options[0].dateTime.getTime() - b.options[0].dateTime.getTime()
-          )
-          .map(
-            (
-              {
-                url,
-                shortDesc,
-                blurMiniCoverUrl,
-                title,
-                schedule,
-                miniCoverUrl,
-              },
-              index
-            ) => (
-              <EventCard
-                label={label}
-                key={title}
-                columnDirection={
-                  index % 2 === 1
-                    ? EEventCardColumDirection.LEFT
-                    : EEventCardColumDirection.RIGHT
-                }
-                href={`/${place}/${url}`}
-                imageUrl={miniCoverUrl!}
-                blurDataURL={blurMiniCoverUrl}
-                schedule={schedule}
-                desc={shortDesc}
-                title={title}
-              />
-            )
-          )}
+        {events.map(({ title, subtitle, posterImg, id }, index) => {
+          // Проверка наличия posterImg и posterImg.src
+          const imageUrl = posterImg?.src;
+          const blurDataURL = posterImg?.blurDataUrl;
+
+          return (
+            <EventCard
+              label={label}
+              key={title}
+              columnDirection={
+                index % 2 === 1
+                  ? EEventCardColumDirection.LEFT
+                  : EEventCardColumDirection.RIGHT
+              }
+              href={`/${venueId}/${id}`}
+              imageUrl={imageUrl || ''} // Использование пустой строки, если значение отсутствует
+              blurDataURL={blurDataURL}
+              title={title}
+              subtitle={subtitle}
+            />
+          );
+        })}
       </span>
     </section>
   );

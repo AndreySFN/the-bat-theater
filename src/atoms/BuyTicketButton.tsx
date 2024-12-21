@@ -4,8 +4,8 @@ import React, { useState } from 'react';
 interface BuyTicketButtonProps {
   url: string;
   price?: string;
-  isSoldOut: boolean;
   className?: string;
+  disabled?: boolean;
 }
 
 import s from './BuyTicketButton.module.scss';
@@ -14,8 +14,8 @@ import { Loader } from '@/atoms/Loader';
 export const BuyTicketButton = ({
   url,
   price,
-  isSoldOut,
   className = '',
+  disabled,
 }: BuyTicketButtonProps) => {
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -25,19 +25,23 @@ export const BuyTicketButton = ({
   return (
     <>
       <Button
-        disabled={isSoldOut}
         type="primary"
         className={className}
+        disabled={disabled}
         onClick={() => setVisible(true)}
       >
         <div>
-          <h3>{isSoldOut ? 'ПРОДАЖИ ЗАКРЫТЫ' : 'КУПИТЬ БИЛЕТ'}</h3>
-          <div>{price && !isSoldOut && <h4>{price}</h4>}</div>
+          <h3>{disabled ? 'ПРОДАЖИ ЗАКРЫТЫ' : 'КУПИТЬ БИЛЕТ'}</h3>
+          <div>
+            {price && <h4>{disabled ? 'все билеты проданы' : price}</h4>}
+          </div>
         </div>
       </Button>
       <Modal
         title="Покупка билета"
-        visible={visible}
+        width="80vw"
+        centered
+        open={visible}
         className={s.modal}
         onClose={() => setVisible(false)}
         onCancel={() => setVisible(false)}

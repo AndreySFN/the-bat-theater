@@ -3,22 +3,24 @@ import React from 'react';
 import styles from './AddressSection.module.scss';
 import { MapsDictionary, TMapKeys } from '@/atoms/maps/MapsDictionary';
 import { PHONE_NUMBER } from '@/consts';
+import { MapComponent } from '@/atoms/MapComponent';
 
 export interface IAddressSectionProps {
   address?: string;
-  mapKey?: TMapKeys;
+  mapUri?: string;
   title?: string;
 }
 
 export const AddressSection: React.FC<IAddressSectionProps> = ({
-  mapKey,
+  mapUri,
   title = 'Адрес:',
+  address,
 }: IAddressSectionProps) => {
-  if (!mapKey) {
+  if (!mapUri) {
     return null;
   }
 
-  const Map = MapsDictionary[mapKey];
+  const Map = MapsDictionary[mapUri];
 
   return (
     <>
@@ -27,8 +29,7 @@ export const AddressSection: React.FC<IAddressSectionProps> = ({
           <h2 style={{ fontSize: '2rem' }}>{title}</h2>
           <ul className={styles.contactBlock}>
             <li>
-              <strong>📍 Адрес:</strong> г. Клин, ул Захватаева 4. Вход слева с
-              торца
+              <strong>📍 Адрес:</strong> {address}
             </li>
             <li>
               <h4>🎟️ Заказ билетов:</h4>
@@ -60,7 +61,7 @@ export const AddressSection: React.FC<IAddressSectionProps> = ({
             </li>
           </ul>
         </div>
-        <Map className={styles.mapContainer} />
+        <MapComponent className={styles.mapContainer} mapUrl={mapUri} />
       </section>
     </>
   );

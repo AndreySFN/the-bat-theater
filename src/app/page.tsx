@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import React from 'react';
 
-// import Image from 'next/image';
 import styles from './MainPage.module.scss';
 import { AboutSection } from '@/sections/AboutSection';
 import { AddressSection } from '@/sections/AddressSection';
@@ -17,28 +16,67 @@ import {
   PHONE_NUMBER,
   PHONE_NUMBER_LINK,
 } from '@/consts';
-import { OurProjects } from '@/features/OurProjects';
 import { YandexMetrika } from '@/atoms/YandexMetrika';
+import dbConnect from '@/lib/dbconnect';
+import { VenueModel } from '@/model/venues.model';
+import { ActorModel, IActor } from '@/model/actors.model';
 import { ActorCard } from '@/atoms/ActorCard/ActorCard';
-import { dbClientPromise } from '@/lib/mongodb';
-import { IRootObject, ITroupeElement } from '@/lib/types';
+import {
+  IMainCarouselElement,
+  MainCarouselModel,
+} from '@/model/mainCarousel.model';
+import { isEmpty } from 'lodash';
+import { OurProjects } from '@/features/OurProjects';
+import { Section } from '@/layouts/Section';
+import { Metadata } from 'next';
+import ErrorBoundary from 'antd/lib/alert/ErrorBoundary';
 
 export const dynamic = 'force-dynamic';
 
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: LUNA_ART_STUDIO_TITLE,
+    description: 'Погружение в удивительный мир искусства',
+    openGraph: {
+      title: LUNA_ART_STUDIO_TITLE,
+      description: 'Погружение в удивительный мир искусства',
+      url: process.env.PUBLIC_SITE_URL,
+      siteName: LUNA_ART_STUDIO_TITLE,
+      images: [
+        {
+          url: '/preview.png',
+          width: 300,
+          height: 300,
+          alt: LUNA_ART_STUDIO_TITLE,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: LUNA_ART_STUDIO_TITLE,
+      description: 'Погружение в удивительный мир искусства',
+      images: [`${process.env.PUBLIC_SITE_URL}/preview.png`],
+    },
+  };
+}
+
 export default async function MainPage() {
-  const client = await dbClientPromise;
-  const data = await client
-    .collection('events')
-    .find<IRootObject>({})
-    .toArray();
-  const troupe = await client
-    .collection('troupe')
-    .find<ITroupeElement>({})
-    .toArray();
-  if (!data) {
+  await dbConnect();
+  const venues = await VenueModel.find({})
+    .populate({
+      path: 'events',
+      populate: {
+        path: 'posterImg',
+      },
+    })
+    .catch(() => notFound()); // TODO: Поменять на exec или что там
+  const actors = await ActorModel.find<IActor>({}).populate('image');
+  const carousel = await MainCarouselModel.find({})
+    .populate('image')
+    .lean<IMainCarouselElement>();
+  if (!venues) {
     notFound();
   }
-
   return (
     <>
       <YandexMetrika id={String(MAIN_YANDEX_METRICA_ID)} />
@@ -62,37 +100,45 @@ export default async function MainPage() {
         </div>
       </header>
       <div className={styles.container}>
-        {data.map(({ url, title, label, elements }) => {
+        {venues.map(({ id, title, label, events }) => {
           return (
             <AnnounceSection
-              key={url}
+              key={id}
+              venueId={id}
               label={label}
               title={title}
-              eventsData={elements}
-              place={url}
+              events={events}
             />
           );
         })}
-        <OurProjects />
+        {
+          // @ts-ignore TODO: Убрать
+          !isEmpty(carousel) && <OurProjects carousel={carousel} />
+        }
         <AboutSection />
-        <div
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            justifyContent: 'space-evenly',
-          }}
-        >
-          {troupe?.map(({ src, actorName, role, blurDataUrl }) => (
-            <ActorCard
-              key={src}
-              src={src}
-              actorName={actorName}
-              role={role}
-              blurDataUrl={blurDataUrl}
-            />
-          ))}
-        </div>
-        <AddressSection title="Контакты" mapKey="main" />
+        <AddressSection
+          title="Контакты"
+          mapUri="https://yandex.ru/map-widget/v1/org/letuchaya_mysh/91074484875/?ll=36.729552%2C56.329304&z=18"
+        />
+        <Section title="Коллектив:">
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              justifyContent: 'space-evenly',
+            }}
+          >
+            {actors?.map(({ id, image, name, description }) => (
+              <ActorCard
+                key={id}
+                src={image.src}
+                title={name}
+                subtitle={description}
+                blurDataUrl={image.blurDataUrl}
+              />
+            ))}
+          </div>
+        </Section>
       </div>
     </>
   );

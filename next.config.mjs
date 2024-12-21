@@ -1,13 +1,22 @@
-// next.config.js
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    esmExternals: "loose",
+    serverComponentsExternalPackages: ["mongoose"],
+  },
+  webpack: (config) => {
+    config.experiments = {
+      topLevelAwait: true,
+      layers: true, // Активируем layers
+    };
+    return config;
+  },
   async redirects() {
     return [
       {
         source: '/enchanted_hut',
         destination: '/ruza_19_10_24/enchanted_hut',
-        permanent: true, // Используйте true для 301 редиректа или false для 302
+        permanent: true,
       },
       {
         source: '/sweet_box',

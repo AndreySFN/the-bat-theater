@@ -1,3 +1,4 @@
+// TODO: Переписать на серверный
 'use client';
 import Link from 'next/link';
 import React, { useState } from 'react';
@@ -16,12 +17,15 @@ export const Footer: React.FC<IFooterProps> = ({
 }) => {
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [content, setContent] = useState('');
+  const [title, setTitle] = useState('');
   const showPrivatePolicyModal = () => {
+    setTitle('Политика конфиденциальности');
     setContent(privatePolicy);
     setIsModalVisible(true);
   };
 
   const showUserAgreementModal = () => {
+    setTitle('Пользовательское соглашение');
     setContent(userAgreement);
     setIsModalVisible(true);
   };
@@ -65,7 +69,7 @@ export const Footer: React.FC<IFooterProps> = ({
           isVisible={isModalVisible}
           onClose={handleClose}
           markdownContent={content}
-          title="Пользовательское соглашение"
+          title={title}
           okText="Прочитал(а) и соглас(ен/на)"
         />
         <RouteLoader />

@@ -4,20 +4,20 @@ import styles from './ActorCard.module.scss';
 import cn from 'classnames';
 export interface IActorCardProps {
   src?: string;
-  actorName: string;
-  role?: string;
+  title: string;
+  subtitle?: string;
   blurDataUrl?: string;
-  isRoleFirst?: boolean;
+  isSubtitleFirst?: boolean;
   width?: number;
   height?: number;
 }
 
 export const ActorCard = ({
   src,
-  actorName,
-  role,
+  title,
+  subtitle,
   blurDataUrl,
-  isRoleFirst = false,
+  isSubtitleFirst = false,
   width = 250,
   height = 250,
 }: IActorCardProps) => {
@@ -28,14 +28,14 @@ export const ActorCard = ({
           src={src}
           width={width}
           height={height}
-          alt={`${actorName} в роли ${role}`}
+          alt={`${title} в роли ${subtitle}`}
           placeholder={'blur'}
           blurDataURL={blurDataUrl}
         />
       )}
       <div className={styles.goldenDetail}>
-        <h2>{isRoleFirst ? role : actorName}</h2>
-        <h3>{isRoleFirst ? actorName : role}</h3>
+        <h2>{isSubtitleFirst ? subtitle : title}</h2>
+        <h3>{isSubtitleFirst ? title : subtitle}</h3>
       </div>
     </div>
   );
