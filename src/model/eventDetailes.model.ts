@@ -3,7 +3,7 @@ import mongoose, { Schema, Document } from 'mongoose';
 import { ISchedule } from '@/model/shedules.model';
 import { IRole } from '@/model/roles.model';
 import { IAlbumElement } from '@/model/albumElement.model';
-import {IMetadata} from "@/model/metadata.model";
+import { IMetadata } from '@/model/metadata.model';
 
 export interface IEventDetails extends Document {
   coverImg: IImage;
@@ -22,7 +22,7 @@ const EventDetailsSchema = new Schema<IEventDetails>({
   schedule: [{ type: Schema.Types.ObjectId, ref: 'schedules' }],
   roles: [{ type: Schema.Types.ObjectId, ref: 'roles' }],
   previews: [{ type: Schema.Types.ObjectId, ref: 'albums' }],
-  metadata: {type: Schema.Types.ObjectId, ref: 'metadata'}
+  metadata: { type: Schema.Types.ObjectId, ref: 'metadata' },
 });
 
 export const EventDetailsModel =

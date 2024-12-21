@@ -11,18 +11,14 @@ export interface IMetadata extends Document {
 }
 
 const MetadataSchema = new Schema<IMetadata>({
-  title: {type: String, req: false},
-  description: {type: String, req: false},
-  image: {type: Schema.Types.ObjectId, ref: 'images', req: false},
-  width: {type: Number, req: false},
-  height: {type: Number, req: false},
-  alt: {type: String, req: false},
+  title: { type: String, req: false },
+  description: { type: String, req: false },
+  image: { type: Schema.Types.ObjectId, ref: 'images', req: false },
+  width: { type: Number, req: false },
+  height: { type: Number, req: false },
+  alt: { type: String, req: false },
 });
 
 export const MetadataModel =
   mongoose.models.metadata ||
-  mongoose.model<IMetadata>(
-    'metadata',
-      MetadataSchema,
-    'metadata'
-  );
+  mongoose.model<IMetadata>('metadata', MetadataSchema, 'metadata');

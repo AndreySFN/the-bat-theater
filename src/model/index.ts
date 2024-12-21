@@ -7,4 +7,4 @@ export * from './eventDetailes.model';
 export * from './albumElement.model';
 export * from './shedules.model';
 export * from './metadata.model';
-export * from './albums.model'
+export * from './albums.model';
