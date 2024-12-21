@@ -12,11 +12,9 @@ import { Schedule } from '@/sections/Schedule';
 import { EUrlSearchKeyList } from '@/lib/types';
 import {
   LUNA_ART_STUDIO_TITLE,
-  MAX_WIDTH,
   PHONE_NUMBER,
   PHONE_NUMBER_LINK,
 } from '@/consts';
-import { CustomCarousel } from '@/atoms/CustomCarousel';
 import { OurProjects } from '@/features/OurProjects';
 import { YandexMetrika } from '@/atoms/YandexMetrika';
 import ScrollButton from '@/atoms/ScrollButton';
@@ -26,22 +24,18 @@ import { IVenue, VenueModel } from '@/model/venues.model';
 import dbConnect from '@/lib/dbconnect';
 import {
   EventDetailsModel,
-  IImage,
-  IMainCarouselElement,
-  MainCarouselModel,
+  AlbumElementModel, AlbumModel, IAlbum,
 } from '@/model';
 import { AddressSection } from '@/sections/AddressSection';
 import { Metadata } from 'next';
 import { notFoundRedirect } from '@/utils/notFoundRedirect';
+import {silentCatch} from "@/utils/silentCatch";
 
 export const dynamic = 'force-dynamic';
 interface Props {
   params: { venueId: string; eventId: string };
   searchParams: Record<EUrlSearchKeyList, string>; // Добавлено
 }
-
-const imageItemToMainCarouselElementMaper = (a: IImage) =>
-  ({ image: a }) as IMainCarouselElement;
 
 export async function generateMetadata({
   params: { eventId, venueId },
@@ -103,7 +97,6 @@ export default async function EventPage({ params }: Props) {
       .populate({
         path: 'eventDetails',
         populate: [
-          { path: 'previews' },
           {
             path: 'schedule',
           },
@@ -124,12 +117,9 @@ export default async function EventPage({ params }: Props) {
   }
 
   const { title, subtitle, eventDetails } = event;
-  const carousel = isEmpty(eventDetails?.previews)
-    ? await MainCarouselModel.find()
-        .populate('image')
-        .lean<Array<IMainCarouselElement>>()
-    : null;
-
+  const carousel = await silentCatch(() =>AlbumModel.findById(eventDetails?.previews || "6766d8b35a55cba3ac9bf17b") // TODO: Хардкод. Убрать
+      .populate({path: 'elements', populate:{path: 'image'}})
+      .lean<IAlbum>())
   const advertisment = venue.events.filter(
     // @ts-ignore
     ({ _id }) => _id.toHexString() !== eventId
@@ -184,14 +174,8 @@ export default async function EventPage({ params }: Props) {
         <h2 style={{ fontWeight: 100, padding: '3rem', textAlign: 'center' }}>
           <Link href={PHONE_NUMBER_LINK}>☎️ {PHONE_NUMBER} ☎️</Link>
         </h2>
-        {eventDetails && !isEmpty(eventDetails?.previews) && (
-          <CustomCarousel
-            imagesList={eventDetails.previews?.map(
-              imageItemToMainCarouselElementMaper
-            )} // TODO: Убрать костыль
-            width={MAX_WIDTH}
-            height={MAX_WIDTH / 1.5}
-          />
+        {!isEmpty(carousel?.elements) && (
+            <OurProjects carousel={carousel?.elements || []} />
         )}
         {eventDetails?.description && (
           <EventAboutSection
@@ -204,9 +188,6 @@ export default async function EventPage({ params }: Props) {
               </div>
             }
           />
-        )}
-        {isEmpty(eventDetails?.previews) && carousel && (
-          <OurProjects carousel={carousel} />
         )}
         {venue.mapUrl && (
           <AddressSection mapUri={venue.mapUrl} address={venue.address} />

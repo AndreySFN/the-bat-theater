@@ -22,14 +22,15 @@ import { VenueModel } from '@/model/venues.model';
 import { ActorModel, IActor } from '@/model/actors.model';
 import { ActorCard } from '@/atoms/ActorCard/ActorCard';
 import {
-  IMainCarouselElement,
-  MainCarouselModel,
-} from '@/model/mainCarousel.model';
-import { isEmpty } from 'lodash';
+  IAlbumElement,
+  AlbumElementModel,
+} from '@/model/albumElement.model';
+import {isEmpty, shuffle} from 'lodash';
 import { OurProjects } from '@/features/OurProjects';
 import { Section } from '@/layouts/Section';
 import { Metadata } from 'next';
 import ErrorBoundary from 'antd/lib/alert/ErrorBoundary';
+import {notFoundRedirect} from "@/utils/notFoundRedirect";
 
 export const dynamic = 'force-dynamic';
 
@@ -62,18 +63,17 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function MainPage() {
   await dbConnect();
-  const venues = await VenueModel.find({})
+  const venues = await notFoundRedirect(() => VenueModel.find({})
     .populate({
       path: 'events',
       populate: {
         path: 'posterImg',
       },
-    })
-    .catch(() => notFound()); // TODO: Поменять на exec или что там
+    }));
   const actors = await ActorModel.find<IActor>({}).populate('image');
-  const carousel = await MainCarouselModel.find({})
+  const carousel = shuffle(await AlbumElementModel.find({})
     .populate('image')
-    .lean<IMainCarouselElement>();
+    .lean<IAlbumElement>());
   if (!venues) {
     notFound();
   }

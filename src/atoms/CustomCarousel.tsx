@@ -6,10 +6,10 @@ import { AlbumPreview } from '@/atoms/AlbumPreview';
 import { LeftCircleOutlined, RightCircleOutlined } from '@ant-design/icons';
 import styles from './CustomCarousel.module.scss';
 import { gray } from '@ant-design/colors';
-import { IMainCarouselElement } from '@/model/mainCarousel.model';
+import { IAlbumElement } from '@/model/albumElement.model';
 
 export interface ICustomCarouselProps {
-  imagesList?: Array<IMainCarouselElement>;
+  imagesList?: Array<IAlbumElement>;
   speed?: number;
   width?: number;
   height?: number;
