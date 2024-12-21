@@ -24,12 +24,14 @@ import { IVenue, VenueModel } from '@/model/venues.model';
 import dbConnect from '@/lib/dbconnect';
 import {
   EventDetailsModel,
-  AlbumElementModel, AlbumModel, IAlbum,
+  AlbumElementModel,
+  AlbumModel,
+  IAlbum,
 } from '@/model';
 import { AddressSection } from '@/sections/AddressSection';
 import { Metadata } from 'next';
 import { notFoundRedirect } from '@/utils/notFoundRedirect';
-import {silentCatch} from "@/utils/silentCatch";
+import { silentCatch } from '@/utils/silentCatch';
 
 export const dynamic = 'force-dynamic';
 interface Props {
@@ -117,9 +119,11 @@ export default async function EventPage({ params }: Props) {
   }
 
   const { title, subtitle, eventDetails } = event;
-  const carousel = await silentCatch(() =>AlbumModel.findById(eventDetails?.previews || "6766d8b35a55cba3ac9bf17b") // TODO: Хардкод. Убрать
-      .populate({path: 'elements', populate:{path: 'image'}})
-      .lean<IAlbum>())
+  const carousel = await silentCatch(() =>
+    AlbumModel.findById(eventDetails?.previews || '6766d8b35a55cba3ac9bf17b') // TODO: Хардкод. Убрать
+      .populate({ path: 'elements', populate: { path: 'image' } })
+      .lean<IAlbum>()
+  );
   const advertisment = venue.events.filter(
     // @ts-ignore
     ({ _id }) => _id.toHexString() !== eventId
@@ -175,7 +179,7 @@ export default async function EventPage({ params }: Props) {
           <Link href={PHONE_NUMBER_LINK}>☎️ {PHONE_NUMBER} ☎️</Link>
         </h2>
         {!isEmpty(carousel?.elements) && (
-            <OurProjects carousel={carousel?.elements || []} />
+          <OurProjects carousel={carousel?.elements || []} />
         )}
         {eventDetails?.description && (
           <EventAboutSection
