@@ -42,7 +42,8 @@ export const MarkdownModal: React.FC<IMarkdownModalProps> = ({
   return (
     <Modal
       title={title}
-      visible={isVisible}
+      open={isVisible}
+      centered
       onOk={handleOk}
       onCancel={handleCancel}
       footer={[]}

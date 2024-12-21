@@ -24,9 +24,15 @@ import { ActorCard } from '@/atoms/ActorCard/ActorCard';
 import { EventModel, IEvent } from '@/model/events.model';
 import { IVenue, VenueModel } from '@/model/venues.model';
 import dbConnect from '@/lib/dbconnect';
-import { MapComponent } from '@/atoms/MapComponent';
-import { IImage, IMainCarouselElement, MainCarouselModel } from '@/model';
+import {
+  EventDetailsModel,
+  IImage,
+  IMainCarouselElement,
+  MainCarouselModel,
+} from '@/model';
 import { AddressSection } from '@/sections/AddressSection';
+import { Metadata } from 'next';
+import { notFoundRedirect } from '@/utils/notFoundRedirect';
 
 export const dynamic = 'force-dynamic';
 interface Props {
@@ -37,60 +43,111 @@ interface Props {
 const imageItemToMainCarouselElementMaper = (a: IImage) =>
   ({ image: a }) as IMainCarouselElement;
 
-// TODO: Вернуть генерацию метаданных
+export async function generateMetadata({
+  params: { eventId, venueId },
+}: Props): Promise<Metadata> {
+  if (!eventId || !venueId) return {};
+  try {
+    const url = `${process.env.PUBLIC_SITE_URL}/${venueId}/${eventId}`;
+    const eventDetailId = (await EventModel.findById<IEvent>(eventId))
+      ?.eventDetails;
+    if (!eventDetailId) return {};
+    const { title, description, width, height, image, alt } =
+      await EventDetailsModel.findById(eventDetailId);
+    const imageSrc = `${process.env.PUBLIC_SITE_URL}/${image.src}`;
+    return {
+      title,
+      description,
+      openGraph: {
+        title,
+        description,
+        url,
+        siteName: LUNA_ART_STUDIO_TITLE,
+        images: [
+          {
+            url: imageSrc,
+            width,
+            height,
+            alt,
+          },
+        ],
+      },
+      twitter: {
+        card: 'summary_large_image',
+        title,
+        description,
+        images: [imageSrc],
+      },
+    };
+  } catch {
+    return {};
+  }
+  return {};
+}
 
 export default async function EventPage({ params }: Props) {
   await dbConnect();
   const { venueId, eventId } = params;
-  const venue = await VenueModel.findById<IVenue>(venueId)
-    .populate({ path: 'events', populate: 'posterImg' })
-    .lean<IVenue>();
+  const venue = await notFoundRedirect(
+    async () =>
+      await VenueModel.findById<IVenue>(venueId)
+        .populate({ path: 'events', populate: 'posterImg' })
+        .lean<IVenue>()
+  );
   if (!venue) {
     notFound();
   }
-  const event = await EventModel.findById(eventId)
-    .populate('posterImg') // Заполняем постер
-    .populate({
-      path: 'eventDetails', // Заполняем eventDetails
-      populate: [
-        { path: 'previews' },
-        {
-          path: 'schedule', // Расписание
-        },
-        {
-          path: 'coverImg', // Обложка
-        },
-        {
-          path: 'roles', // Роли
-          populate: 'image',
-        },
-      ],
-    })
-    .lean<IEvent>();
+  const event = await notFoundRedirect(() =>
+    EventModel.findById(eventId)
+      .populate('posterImg')
+      .populate({
+        path: 'eventDetails',
+        populate: [
+          { path: 'previews' },
+          {
+            path: 'schedule',
+          },
+          {
+            path: 'coverImg',
+          },
+          {
+            path: 'roles',
+            populate: 'image',
+          },
+        ],
+      })
+      .lean<IEvent>()
+  );
 
   if (!event) {
     notFound();
   }
 
-  const { title, subtitle, posterImg, eventDetails } = event;
-  // const carousel = await MainCarouselModel.find({}).populate('image').lean()
+  const { title, subtitle, eventDetails } = event;
   const carousel = isEmpty(eventDetails?.previews)
     ? await MainCarouselModel.find()
         .populate('image')
         .lean<Array<IMainCarouselElement>>()
     : null;
-  console.log(carousel);
+
   const advertisment = venue.events.filter(
     // @ts-ignore
     ({ _id }) => _id.toHexString() !== eventId
   );
-  // console.log('venue mapUrl: ', venue.mapUrl )
-  //
-  // : null;
-
   return (
     <>
-      {/*<YandexMetrika id={String(ym)} />*/}
+      {eventDetails?.ym && (
+        <YandexMetrika
+          id={String(eventDetails?.ym)}
+          options={{
+            clickmap: true,
+            trackLinks: true,
+            accurateTrackBounce: true,
+            webvisor: true,
+            ecommerce: 'dataLayer',
+          }}
+        />
+      )}
       <header
         className={styles.header}
         style={{ backgroundImage: `url('${eventDetails?.coverImg?.src}')` }}
@@ -98,7 +155,6 @@ export default async function EventPage({ params }: Props) {
         <div className={styles.headerContainer}>
           <div>
             <h3 style={{ fontStyle: 'italic', fontWeight: 100 }}>
-              {/* eslint-disable-next-line react/no-unescaped-entities */}
               {LUNA_ART_STUDIO_TITLE}
             </h3>
             <h1>{title}</h1>
@@ -112,16 +168,14 @@ export default async function EventPage({ params }: Props) {
       <div className={styles.container}>
         <Schedule id="schedule">
           {eventDetails?.schedule?.map(
-            (
-              { id, ticketUrl, dateTime, place, price } // Добавлено price
-            ) => {
+            ({ _id, ticketUrl, dateTime, place, price }) => {
               return (
                 <ShowtimeCard
-                  key={id} // Уникальный ключ
-                  link={ticketUrl} // Предполагаем, что ссылка берется из 'other'
-                  dateTime={dateTime} // Теперь это Date
+                  key={_id.toHexString()}
+                  link={ticketUrl}
+                  dateTime={dateTime}
                   place={place}
-                  price={price} // Передаем цену
+                  price={price}
                 />
               );
             }
@@ -154,6 +208,9 @@ export default async function EventPage({ params }: Props) {
         {isEmpty(eventDetails?.previews) && carousel && (
           <OurProjects carousel={carousel} />
         )}
+        {venue.mapUrl && (
+          <AddressSection mapUri={venue.mapUrl} address={venue.address} />
+        )}
         {!isEmpty(eventDetails?.roles) && (
           <>
             <h2
@@ -185,10 +242,7 @@ export default async function EventPage({ params }: Props) {
             </div>
           </>
         )}
-        {/*{venue?.mapUrl && <MapComponent mapUrl={venue.mapUrl} />}*/}
-        {venue.mapUrl && (
-          <AddressSection mapUri={venue.mapUrl} address={venue.address} />
-        )}
+
         {!isEmpty(advertisment) && (
           <AnnounceSection title="Другие мероприятия" events={advertisment} />
         )}

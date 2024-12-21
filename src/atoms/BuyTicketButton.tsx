@@ -5,6 +5,7 @@ interface BuyTicketButtonProps {
   url: string;
   price?: string;
   className?: string;
+  disabled?: boolean;
 }
 
 import s from './BuyTicketButton.module.scss';
@@ -14,6 +15,7 @@ export const BuyTicketButton = ({
   url,
   price,
   className = '',
+  disabled,
 }: BuyTicketButtonProps) => {
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -25,11 +27,14 @@ export const BuyTicketButton = ({
       <Button
         type="primary"
         className={className}
+        disabled={disabled}
         onClick={() => setVisible(true)}
       >
         <div>
-          <h3>{'КУПИТЬ БИЛЕТ'}</h3>
-          <div>{price && <h4>{price}</h4>}</div>
+          <h3>{disabled ? 'ПРОДАЖИ ЗАКРЫТЫ' : 'КУПИТЬ БИЛЕТ'}</h3>
+          <div>
+            {price && <h4>{disabled ? 'все билеты проданы' : price}</h4>}
+          </div>
         </div>
       </Button>
       <Modal

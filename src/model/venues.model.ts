@@ -1,4 +1,4 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document, Types } from 'mongoose';
 import { IEvent } from '@/model/events.model';
 
 export interface IVenue extends Document {

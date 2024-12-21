@@ -58,14 +58,13 @@ export const CustomCarousel = ({
       >
         {imagesList?.map((props) => {
           const {
-            id,
             title,
             subtitle,
             image: { blurDataUrl, src },
           } = props;
           return (
             <div
-              key={id}
+              key={title}
               style={{
                 display: 'flex',
                 flexDirection: 'column',

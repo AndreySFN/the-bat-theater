@@ -6,3 +6,4 @@ export * from './events.model';
 export * from './eventDetailes.model';
 export * from './mainCarousel.model';
 export * from './shedules.model';
+export * from './metadata.model';

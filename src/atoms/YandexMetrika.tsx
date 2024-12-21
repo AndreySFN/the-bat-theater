@@ -20,10 +20,10 @@ interface YandexMetrikaProps {
 export const YandexMetrika: React.FC<YandexMetrikaProps> = ({
   id,
   options,
-}) => (
-  <>
-    <Script id={`yandex-metrika-${id}`} strategy="afterInteractive">
-      {`
+}) => {
+  return <>
+  <Script id={`yandex-metrika-${id}`} strategy="afterInteractive">
+    {`
         (function(m,e,t,r,i,k,a){
           m[i]=m[i]||function(){
             (m[i].a=m[i].a||[]).push(arguments)
@@ -39,9 +39,9 @@ export const YandexMetrika: React.FC<YandexMetrikaProps> = ({
 
         ym(${id}, "init", ${JSON.stringify(options)});
       `}
-    </Script>
-  </>
-);
+  </Script>
+</>;
+}
 
 YandexMetrika.defaultProps = {
   options: {

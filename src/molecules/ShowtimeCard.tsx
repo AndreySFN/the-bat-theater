@@ -8,19 +8,21 @@ export interface ShowtimeCardProps {
   place: string;
   link: string;
   price?: string;
+  isSoldOut?: boolean;
   unsoldTotalCount?: number | null;
 }
 
 // Добавьте 'async' перед компонентом
-export const ShowtimeCard = ({
+export const ShowtimeCard = async ({
   dateTime,
   place,
   link,
   price,
-  unsoldTotalCount,
 }: ShowtimeCardProps) => {
   // Выполняем запрос на сервере
-
+  const isSoldOut = await fetch(link)
+    .then((res) => !res.ok)
+    .catch(() => true);
   return (
     <div className={styles.showtimeCard}>
       <Card
@@ -31,6 +33,7 @@ export const ShowtimeCard = ({
           <h3 style={{ fontWeight: 100 }}>{place}</h3>
           <div className={styles.footer}>
             <BuyTicketButton
+              disabled={isSoldOut}
               className={styles.button}
               price={price}
               url={link}

@@ -14,7 +14,7 @@ export enum EAnnounceSectionTitleDirections {
 }
 
 interface AnnounceSectionProps {
-  venueId?: number;
+  venueId?: string;
   title?: string;
   label?: string;
   events: Array<IEvent>;
