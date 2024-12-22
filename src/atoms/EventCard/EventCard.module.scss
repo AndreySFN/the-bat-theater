@@ -9,6 +9,7 @@
   position: relative;
   @media(max-width: 1000px) {
     min-width: 100%;
+    max-height: inherit;
   }
 }
 

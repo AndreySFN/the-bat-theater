@@ -28,6 +28,8 @@ import { Section } from '@/layouts/Section';
 import { Metadata } from 'next';
 import ErrorBoundary from 'antd/lib/alert/ErrorBoundary';
 import { notFoundRedirect } from '@/utils/notFoundRedirect';
+import { Button } from 'antd';
+import { SocialMediaBlock } from '@/features/SocialMediaBlock';
 
 export const dynamic = 'force-dynamic';
 
@@ -78,16 +80,10 @@ export default async function MainPage() {
   return (
     <>
       <YandexMetrika id={String(MAIN_YANDEX_METRICA_ID)} />
-      <header className={styles.header}>
-        <Image
-          src={MAIN_COVERAGE_URL}
-          placeholder="blur"
-          blurDataURL={MAIN_COVERAGE_BLUR_URL}
-          alt="Афиша"
-          width={2000}
-          height={300}
-          className={styles.backgroundImage}
-        />
+      <header // TODO: вынести дублирующийся код с [venuId]/[eventId]/page.tsx
+        className={styles.header}
+        style={{ backgroundImage: `url('${MAIN_COVERAGE_URL}')` }}
+      >
         <div className={styles.headerContainer}>
           {/* eslint-disable-next-line react/no-unescaped-entities */}
           <h1>{LUNA_ART_STUDIO_TITLE}</h1>
@@ -96,7 +92,11 @@ export default async function MainPage() {
             <p>{PHONE_NUMBER}</p>
           </Link>
         </div>
+        <Image height={200} width={200} src="/main_logo.png" alt="logo" />
       </header>
+      <div className={styles.container}>
+        <SocialMediaBlock />
+      </div>
       <div className={styles.container}>
         {venues.map(({ id, title, label, events }) => {
           return (
