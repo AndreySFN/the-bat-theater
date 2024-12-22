@@ -3,7 +3,7 @@ import { isEmpty } from 'lodash';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import React from 'react';
-
+import Image from 'next/image';
 import styles from './EventPage.module.scss';
 import { ShowtimeCard } from '@/molecules/ShowtimeCard';
 import { AnnounceSection } from '@/sections/AnnounceSection';
@@ -32,6 +32,7 @@ import { AddressSection } from '@/sections/AddressSection';
 import { Metadata } from 'next';
 import { notFoundRedirect } from '@/utils/notFoundRedirect';
 import { silentCatch } from '@/utils/silentCatch';
+import { SocialMediaBlock } from '@/features/SocialMediaBlock';
 
 export const dynamic = 'force-dynamic';
 interface Props {
@@ -142,7 +143,7 @@ export default async function EventPage({ params }: Props) {
           }}
         />
       )}
-      <header
+      <header // TODO: вынести дублирующийся код с [venuId]/[eventId]/page.tsx
         className={styles.header}
         style={{ backgroundImage: `url('${eventDetails?.coverImg?.src}')` }}
       >
@@ -158,7 +159,11 @@ export default async function EventPage({ params }: Props) {
             <Button style={{ fontWeight: 200 }}>📅 ВСЕ МЕРОПРИЯТИЯ 📅</Button>
           </Link>
         </div>
+        <Image height={200} width={200} src="/main_logo.png" alt="logo" />
       </header>
+      <div className={styles.container}>
+        <SocialMediaBlock />
+      </div>
       <div className={styles.container}>
         <Schedule id="schedule">
           {eventDetails?.schedule?.map(

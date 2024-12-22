@@ -27,12 +27,12 @@
 }
 
 .header {
+  padding-right: 10px;
   color: white;
   display: flex;
-  flex-direction: column;
+  justify-content: space-between;
   gap: 1rem;
   align-items: flex-start;
-  justify-content: center;
   background-size: cover;
   h1 {
     font-size: 4rem;
