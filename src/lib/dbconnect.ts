@@ -9,7 +9,7 @@ import { ImageModel } from '@/model/image.model';
 import { AlbumElementModel } from '@/model/albumElement.model';
 import { ScheduleModel } from '@/model/shedules.model';
 import '@/model';
-import { AlbumModel, MetadataModel } from '@/model';
+import {AlbumModel, MetadataModel, RoleModel} from '@/model';
 
 declare global {
   var mongoose: any; // This must be a `var` and not a `let / const`
@@ -32,6 +32,7 @@ async function dbConnect() {
     ScheduleModel,
     MetadataModel,
     AlbumModel,
+    RoleModel
   ];
 
   const MONGODB_URI = process.env.MONGODB_URI!;
