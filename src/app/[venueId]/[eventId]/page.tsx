@@ -108,7 +108,15 @@ export default async function EventPage({ params }: Props) {
           },
           {
             path: 'roles',
-            populate: 'image',
+            populate: [
+              {
+                path: 'image'
+              },
+              {
+                path: 'actor',
+                populate: 'image',
+              },
+            ],
           },
         ],
       })
@@ -220,13 +228,13 @@ export default async function EventPage({ params }: Props) {
                 justifyContent: 'space-evenly',
               }}
             >
-              {eventDetails?.roles?.map(({ id, image, actorName, role }) => (
+              {eventDetails?.roles?.map(({ id, image, actor, role }) => (
                 <ActorCard
                   key={id}
-                  src={image?.src || ''}
-                  title={actorName}
+                  src={image?.src || actor?.image?.src}
+                  title={actor?.name}
                   subtitle={role}
-                  blurDataUrl={image?.blurDataUrl || ''}
+                  blurDataUrl={image?.blurDataUrl || actor?.image?.blurDataUrl}
                 />
               ))}
             </div>

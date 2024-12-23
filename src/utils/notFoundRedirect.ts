@@ -5,7 +5,8 @@ export const notFoundRedirect = async <T>( // TODO: Подумать есть л
 ): Promise<T> => {
   try {
     return await callback();
-  } catch {
+  } catch (e) {
     notFound();
+    console.error(e)
   }
 };
