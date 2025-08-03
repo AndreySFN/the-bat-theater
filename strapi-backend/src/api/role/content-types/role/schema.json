@@ -1,0 +1,44 @@
+{
+  "kind": "collectionType",
+  "collectionName": "roles",
+  "info": {
+    "singularName": "role",
+    "pluralName": "roles",
+    "displayName": "Role",
+    "description": "Роли актеров"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "role": {
+      "type": "string"
+    },
+    "actor": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::actor.actor",
+      "inversedBy": "roles"
+    },
+    "characterPhoto": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "characterPhotoSquare": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "event": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::event.event",
+      "inversedBy": "roles"
+    }
+  }
+}

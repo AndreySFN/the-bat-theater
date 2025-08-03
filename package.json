@@ -3,12 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next lint --fix && next build",
+    "dev": "next dev -H localhost -p 4000",
+    "build": "next build",
     "start": "next start",
-    "lint": "next lint --fix",
-    "build:prod": "next build",
-    "deploy": "yarn install && yarn build:prod && sudo systemctl restart luna-art"
+    "lint": "next lint"
   },
   "dependencies": {
     "@ant-design/icons": "^5.5.1",

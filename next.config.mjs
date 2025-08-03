@@ -4,6 +4,22 @@ const nextConfig = {
     esmExternals: "loose",
     serverComponentsExternalPackages: ["mongoose"],
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '1337',
+        pathname: '/uploads/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'localhost',
+        port: '1337',
+        pathname: '/uploads/**',
+      },
+    ],
+  },
   webpack: (config) => {
     config.experiments = {
       topLevelAwait: true,

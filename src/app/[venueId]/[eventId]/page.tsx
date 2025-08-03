@@ -17,27 +17,19 @@ import {
 } from '@/consts';
 import { OurProjects } from '@/features/OurProjects';
 import { YandexMetrika } from '@/atoms/YandexMetrika';
-import ScrollButton from '@/atoms/ScrollButton';
 import { ActorCard } from '@/atoms/ActorCard/ActorCard';
-import { EventModel, IEvent } from '@/model/events.model';
-import { IVenue, VenueModel } from '@/model/venues.model';
-import dbConnect from '@/lib/dbconnect';
-import {
-  EventDetailsModel,
-  AlbumElementModel,
-  AlbumModel,
-  IAlbum,
-} from '@/model';
+import { strapiServices } from '@/lib/strapi-services';
+import { adaptStrapiVenueToLegacy, adaptStrapiEventToLegacy } from '@/lib/strapi-adapters';
+import { getImageUrlFromStrapi } from '@/lib/simple-image-utils';
 import { AddressSection } from '@/sections/AddressSection';
 import { Metadata } from 'next';
-import { notFoundRedirect } from '@/utils/notFoundRedirect';
-import { silentCatch } from '@/utils/silentCatch';
 import { SocialMediaBlock } from '@/features/SocialMediaBlock';
+import { AboutSection } from '@/sections/AboutSection';
 
 export const dynamic = 'force-dynamic';
 interface Props {
   params: { venueId: string; eventId: string };
-  searchParams: Record<EUrlSearchKeyList, string>; // Добавлено
+  searchParams: Record<EUrlSearchKeyList, string>;
 }
 
 export async function generateMetadata({
@@ -46,205 +38,185 @@ export async function generateMetadata({
   if (!eventId || !venueId) return {};
   try {
     const url = `${process.env.PUBLIC_SITE_URL}/${venueId}/${eventId}`;
-    const eventDetailId = (await EventModel.findById<IEvent>(eventId))
-      ?.eventDetails;
-    if (!eventDetailId) return {};
-    const { title, description, width, height, image, alt } =
-      await EventDetailsModel.findById(eventDetailId);
-    const imageSrc = `${process.env.PUBLIC_SITE_URL}/${image.src}`;
+    const event = await strapiServices.getEventById(eventId);
+    if (!event) return {};
+    
+    const { title, subtitle, coverImage } = event;
+    const imageSrc = coverImage ? getImageUrlFromStrapi(coverImage) : '';
+    
     return {
-      title,
-      description,
+      title: title || subtitle,
+      description: event.description,
       openGraph: {
-        title,
-        description,
+        title: title || subtitle,
+        description: event.description,
         url,
         siteName: LUNA_ART_STUDIO_TITLE,
-        images: [
+        images: imageSrc ? [
           {
             url: imageSrc,
-            width,
-            height,
-            alt,
+            width: coverImage?.width || 1200,
+            height: coverImage?.height || 630,
+            alt: coverImage?.alternativeText || '',
           },
-        ],
+        ] : [],
       },
       twitter: {
         card: 'summary_large_image',
-        title,
-        description,
-        images: [imageSrc],
+        title: title || subtitle,
+        description: event.description,
+        images: imageSrc ? [imageSrc] : [],
       },
     };
   } catch {
     return {};
   }
-  return {};
 }
 
 export default async function EventPage({ params }: Props) {
-  await dbConnect();
-  const { venueId, eventId } = params;
-  const venue = await notFoundRedirect(
-    async () =>
-      await VenueModel.findById<IVenue>(venueId)
-        .populate({ path: 'events', populate: 'posterImg' })
-        .lean<IVenue>()
-  );
-  if (!venue) {
-    notFound();
-  }
-  const event = await notFoundRedirect(() =>
-    EventModel.findById(eventId)
-      .populate('posterImg')
-      .populate({
-        path: 'eventDetails',
-        populate: [
-          {
-            path: 'schedule',
-          },
-          {
-            path: 'coverImg',
-          },
-          {
-            path: 'roles',
-            populate: [
-              {
-                path: 'image'
-              },
-              {
-                path: 'actor',
-                populate: 'image',
-              },
-            ],
-          },
-        ],
-      })
-      .lean<IEvent>()
-  );
+  try {
+    const { venueId, eventId } = params;
+    
+    // Получаем данные из Strapi
+    const venue = await strapiServices.getVenueById(venueId);
+    const event = await strapiServices.getEventById(eventId);
+    
+    if (!venue || !event) {
+      notFound(); // Для конкретной страницы события логично возвращать 404
+    }
+    
+    // Преобразуем данные в старый формат для совместимости
+    const transformedVenue = adaptStrapiVenueToLegacy(venue);
+    const transformedEvent = adaptStrapiEventToLegacy(event);
+    
+    const { title, subtitle } = transformedEvent;
+    
+    // Получаем карусель из превью события
+    const carousel = transformedEvent.previews || null;
+    
+    // Рекламные события (все события места, кроме текущего)
+    const advertisment = transformedVenue.events.filter(
+      ({ _id }: { _id: string }) => _id !== eventId
+    );
 
-  if (!event) {
-    notFound();
-  }
-
-  const { title, subtitle, eventDetails } = event;
-  const carousel = await silentCatch(() =>
-    AlbumModel.findById(eventDetails?.previews || '6766d8b35a55cba3ac9bf17b') // TODO: Хардкод. Убрать
-      .populate({ path: 'elements', populate: { path: 'image' } })
-      .lean<IAlbum>()
-  );
-  const advertisment = venue.events.filter(
-    // @ts-ignore
-    ({ _id }) => _id.toHexString() !== eventId
-  );
-  return (
-    <>
-      {eventDetails?.ym && (
-        <YandexMetrika
-          id={String(eventDetails?.ym)}
-          options={{
-            clickmap: true,
-            trackLinks: true,
-            accurateTrackBounce: true,
-            webvisor: true,
-            ecommerce: 'dataLayer',
-          }}
-        />
-      )}
-      <header // TODO: вынести дублирующийся код с [venuId]/[eventId]/page.tsx
-        className={styles.header}
-        style={{ backgroundImage: `url('${eventDetails?.coverImg?.src}')` }}
-      >
-        <div className={styles.headerContainer}>
-          <div>
-            <h3 style={{ fontStyle: 'italic', fontWeight: 100 }}>
-              {LUNA_ART_STUDIO_TITLE}
-            </h3>
-            <h1>{title}</h1>
-            <p>{subtitle}</p>
-          </div>
-          <Link href="/" className={styles.allEventsBtn}>
-            <Button style={{ fontWeight: 200 }}>📅 ВСЕ МЕРОПРИЯТИЯ 📅</Button>
-          </Link>
-        </div>
-        <Image height={200} width={200} src="/main_logo.png" alt="logo" />
-      </header>
-      <div className={styles.container}>
-        <SocialMediaBlock />
-      </div>
-      <div className={styles.container}>
-        <Schedule id="schedule">
-          {eventDetails?.schedule?.map(
-            ({ _id, ticketUrl, dateTime, place, price }) => {
-              return (
-                <ShowtimeCard
-                  key={_id.toHexString()}
-                  link={ticketUrl}
-                  dateTime={dateTime}
-                  place={place}
-                  price={price}
-                />
-              );
-            }
-          )}
-        </Schedule>
-        <h2 style={{ fontWeight: 100, padding: '3rem', textAlign: 'center' }}>
-          <Link href={PHONE_NUMBER_LINK}>☎️ {PHONE_NUMBER} ☎️</Link>
-        </h2>
-        {!isEmpty(carousel?.elements) && (
-          <OurProjects carousel={carousel?.elements || []} />
-        )}
-        {eventDetails?.description && (
-          <EventAboutSection
-            description={eventDetails?.description}
-            footer={
-              <div style={{ display: 'flex', justifyContent: 'center' }}>
-                <ScrollButton className={styles.toScheduleBtn}>
-                  <h2>📅 Расписание показов 🕑</h2>
-                </ScrollButton>
-              </div>
-            }
+    return (
+      <>
+        {transformedEvent?.ym && (
+          <YandexMetrika
+            id={String(transformedEvent?.ym)}
+            options={{
+              clickmap: true,
+              trackLinks: true,
+              accurateTrackBounce: true,
+            }}
           />
         )}
-        {venue.mapUrl && (
-          <AddressSection mapUri={venue.mapUrl} address={venue.address} />
-        )}
-        {!isEmpty(eventDetails?.roles) && (
-          <>
-            <h2
-              style={{
-                textAlign: 'center',
-                backgroundColor: '#610b00',
-                color: 'white',
-                margin: '1rem 0',
-              }}
-            >
-              Актёрский состав:
-            </h2>
-            <div
-              style={{
-                display: 'flex',
-                flexWrap: 'wrap',
-                justifyContent: 'space-evenly',
-              }}
-            >
-              {eventDetails?.roles?.map(({ id, image, actor, role }) => (
-                <ActorCard
-                  key={id}
-                  src={image?.src || actor?.image?.src}
-                  title={actor?.name}
-                  subtitle={role}
-                  blurDataUrl={image?.blurDataUrl || actor?.image?.blurDataUrl}
-                />
-              ))}
-            </div>
-          </>
-        )}
-
-        {!isEmpty(advertisment) && (
-          <AnnounceSection title="Другие мероприятия" events={advertisment} />
-        )}
-      </div>
-    </>
-  );
+        <header
+          className={styles.header}
+          style={{ backgroundImage: `url('${transformedEvent?.coverImg?.src}')` }}
+        >
+          <div className={styles.headerContainer}>
+            <h1>{title}</h1>
+            <p>{subtitle}</p>
+            <Link href={PHONE_NUMBER_LINK}>
+              <p>{PHONE_NUMBER}</p>
+            </Link>
+          </div>
+          <Image height={200} width={200} src="/main_logo.png" alt="logo" />
+        </header>
+        <div className={styles.container}>
+          <SocialMediaBlock />
+        </div>
+        <div className={styles.container}>
+          <Schedule id="schedule">
+            {transformedEvent?.schedule?.map(
+              ({ _id, ticketUrl, dateTime, place, price }: { 
+                _id: string; 
+                ticketUrl: string; 
+                dateTime: string; 
+                place: string; 
+                price: string; 
+              }) => {
+                return (
+                  <ShowtimeCard
+                    key={_id}
+                    link={ticketUrl}
+                    dateTime={new Date(dateTime)}
+                    place={place}
+                    price={price}
+                  />
+                );
+              }
+            )}
+          </Schedule>
+          {!isEmpty(carousel?.elements) && (
+            <OurProjects carousel={carousel?.elements as any} />
+          )}
+          {transformedEvent?.description && (
+            <EventAboutSection
+              description={transformedEvent?.description}
+              footer={
+                <div style={{ display: 'flex', justifyContent: 'center' }}>
+                  <Button type="primary" size="large">
+                    <Link href="#schedule">Купить билет</Link>
+                  </Button>
+                </div>
+              }
+            />
+          )}
+          {transformedVenue.mapUrl && (
+            <AddressSection mapUri={transformedVenue.mapUrl} address={transformedVenue.address} />
+          )}
+          {!isEmpty(transformedEvent?.roles) && (
+            <>
+              <h2
+                style={{
+                  textAlign: 'center',
+                  margin: '2rem 0',
+                  fontSize: '2rem',
+                  fontWeight: 100,
+                }}
+              >
+                В ролях:
+              </h2>
+              <div
+                style={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  justifyContent: 'space-evenly',
+                  marginBottom: '2rem',
+                }}
+              >
+                {transformedEvent?.roles?.map(({ id, image, actor, role }: { 
+                  id: string; 
+                  image: any; 
+                  actor: any; 
+                  role: string; 
+                }) => (
+                  <ActorCard
+                    key={id}
+                    src={image?.src || ''}
+                    title={actor?.name || ''}
+                    subtitle={role}
+                    blurDataUrl={image?.blurDataUrl || ''}
+                  />
+                ))}
+              </div>
+            </>
+          )}
+          {!isEmpty(advertisment) && (
+            <AnnounceSection
+              venueId={venueId}
+              label={transformedVenue.label}
+              title={transformedVenue.title}
+              events={advertisment}
+            />
+          )}
+        </div>
+      </>
+    );
+  } catch (error) {
+    console.error('Error loading event page:', error);
+    notFound(); // При ошибке также возвращаем 404
+  }
 }

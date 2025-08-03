@@ -17,17 +17,18 @@ import {
   PHONE_NUMBER_LINK,
 } from '@/consts';
 import { YandexMetrika } from '@/atoms/YandexMetrika';
-import dbConnect from '@/lib/dbconnect';
-import { VenueModel } from '@/model/venues.model';
-import { ActorModel, IActor } from '@/model/actors.model';
+import { strapiServices } from '@/lib/strapi-services';
+import {
+  adaptStrapiVenueToLegacy,
+  adaptStrapiActorToLegacy,
+  adaptStrapiAlbumToLegacy,
+} from '@/lib/strapi-adapters';
 import { ActorCard } from '@/atoms/ActorCard/ActorCard';
-import { IAlbumElement, AlbumElementModel } from '@/model/albumElement.model';
 import { isEmpty, shuffle } from 'lodash';
 import { OurProjects } from '@/features/OurProjects';
 import { Section } from '@/layouts/Section';
 import { Metadata } from 'next';
 import ErrorBoundary from 'antd/lib/alert/ErrorBoundary';
-import { notFoundRedirect } from '@/utils/notFoundRedirect';
 import { Button } from 'antd';
 import { SocialMediaBlock } from '@/features/SocialMediaBlock';
 
@@ -61,83 +62,127 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function MainPage() {
-  await dbConnect();
-  const venues = await notFoundRedirect(() =>
-    VenueModel.find({}).populate({
-      path: 'events',
-      populate: {
-        path: 'posterImg',
-      },
-    })
-  );
-  const actors = await ActorModel.find<IActor>({}).populate('image');
-  const carousel = shuffle(
-    await AlbumElementModel.find({}).populate('image').lean<IAlbumElement>()
-  );
-  if (!venues) {
-    notFound();
-  }
-  return (
-    <>
-      <YandexMetrika id={String(MAIN_YANDEX_METRICA_ID)} />
-      <header // TODO: вынести дублирующийся код с [venuId]/[eventId]/page.tsx
-        className={styles.header}
-        style={{ backgroundImage: `url('${MAIN_COVERAGE_URL}')` }}
-      >
-        <div className={styles.headerContainer}>
-          {/* eslint-disable-next-line react/no-unescaped-entities */}
-          <h1>{LUNA_ART_STUDIO_TITLE}</h1>
-          <p>Погружение в удивительный мир искусства</p>
-          <Link href={PHONE_NUMBER_LINK}>
-            <p>{PHONE_NUMBER}</p>
-          </Link>
-        </div>
-        <Image height={200} width={200} src="/main_logo.png" alt="logo" />
-      </header>
-      <div className={styles.container}>
-        <SocialMediaBlock />
-      </div>
-      <div className={styles.container}>
-        {venues.map(({ id, title, label, events }) => {
-          return (
-            <AnnounceSection
-              key={id}
-              venueId={id}
-              label={label}
-              title={title}
-              events={events}
-            />
-          );
-        })}
-        {
-          // @ts-ignore TODO: Убрать
-          !isEmpty(carousel) && <OurProjects carousel={carousel} />
-        }
-        <AboutSection />
-        <AddressSection
-          title="Контакты"
-          mapUri="https://yandex.ru/map-widget/v1/org/letuchaya_mysh/91074484875/?ll=36.729552%2C56.329304&z=18"
-        />
-        <Section title="Коллектив:">
-          <div
-            style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              justifyContent: 'space-evenly',
-            }}
-          >
-            {actors?.map(({ id, image, name, description }) => (
-              <ActorCard
-                key={id}
-                src={image.src}
-                title={name}
-                subtitle={description}
-                blurDataUrl={image.blurDataUrl}
-              />
-            ))}
+  try {
+    console.log(1)
+    const venues = await strapiServices.getVenues();
+    console.log(2)
+    const actors = await strapiServices.getActors();
+    console.log(3)
+    const albums = await strapiServices.getAlbums();
+    console.log(4)
+    // Преобразуем данные в старый формат для совместимости
+    const transformedVenues = venues?.map(adaptStrapiVenueToLegacy) || [];
+    console.log(5)
+    const transformedActors = actors?.map(adaptStrapiActorToLegacy) || [];
+    console.log(6)
+    const transformedCarousel = shuffle(albums?.map(adaptStrapiAlbumToLegacy) || []);
+
+    return (
+      <>
+        <YandexMetrika id={String(MAIN_YANDEX_METRICA_ID)} />
+        <header // TODO: вынести дублирующийся код с [venuId]/[eventId]/page.tsx
+          className={styles.header}
+          style={{ backgroundImage: `url('${MAIN_COVERAGE_URL}')` }}
+        >
+          <div className={styles.headerContainer}>
+            {/* eslint-disable-next-line react/no-unescaped-entities */}
+            <h1>{LUNA_ART_STUDIO_TITLE}</h1>
+            <p>Погружение в удивительный мир искусства</p>
+            <Link href={PHONE_NUMBER_LINK}>
+              <p>{PHONE_NUMBER}</p>
+            </Link>
           </div>
-        </Section>
-      </div>
-    </>
-  );
+          <Image height={200} width={200} src="/main_logo.png" alt="logo" />
+        </header>
+        <div className={styles.container}>
+          <SocialMediaBlock />
+        </div>
+        <div className={styles.container}>
+          {transformedVenues.map(({ _id, title, label, events }) => {
+            return (
+              <AnnounceSection
+                key={_id}
+                venueId={_id}
+                label={label}
+                title={title}
+                events={events}
+              />
+            );
+          })}
+          {
+            // @ts-ignore TODO: Убрать
+            !isEmpty(transformedCarousel) && (
+              <OurProjects carousel={transformedCarousel} />
+            )
+          }
+          <AboutSection />
+          <AddressSection
+            title="Контакты"
+            mapUri="https://yandex.ru/map-widget/v1/org/letuchaya_mysh/91074484875/?ll=36.729552%2C56.329304&z=18"
+          />
+          <Section title="Коллектив:">
+            <div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                justifyContent: 'space-evenly',
+              }}
+            >
+              {transformedActors?.map(({ _id, image, name, description }) => (
+                <ActorCard
+                  key={_id}
+                  src={image?.src || ''}
+                  title={name}
+                  subtitle={description}
+                  blurDataUrl={image?.blurDataUrl || ''}
+                />
+              ))}
+            </div>
+          </Section>
+        </div>
+      </>
+    );
+  } catch (error) {
+    console.error('Error loading data from Strapi:', error);
+    // Возвращаем страницу с пустыми данными вместо notFound
+    return (
+      <>
+        <YandexMetrika id={String(MAIN_YANDEX_METRICA_ID)} />
+        <header
+          className={styles.header}
+          style={{ backgroundImage: `url('${MAIN_COVERAGE_URL}')` }}
+        >
+          <div className={styles.headerContainer}>
+            <h1>{LUNA_ART_STUDIO_TITLE}</h1>
+            <p>Погружение в удивительный мир искусства</p>
+            <Link href={PHONE_NUMBER_LINK}>
+              <p>{PHONE_NUMBER}</p>
+            </Link>
+          </div>
+          <Image height={200} width={200} src="/main_logo.png" alt="logo" />
+        </header>
+        <div className={styles.container}>
+          <SocialMediaBlock />
+        </div>
+        <div className={styles.container}>
+          <AboutSection />
+          <AddressSection
+            title="Контакты"
+            mapUri="https://yandex.ru/map-widget/v1/org/letuchaya_mysh/91074484875/?ll=36.729552%2C56.329304&z=18"
+          />
+          <Section title="Коллектив:">
+            <div
+              style={{
+                display: 'flex',
+                flexWrap: 'wrap',
+                justifyContent: 'space-evenly',
+              }}
+            >
+              {/* Пустой список актеров */}
+            </div>
+          </Section>
+        </div>
+      </>
+    );
+  }
 }

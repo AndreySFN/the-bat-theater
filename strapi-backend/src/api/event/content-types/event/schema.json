@@ -1,0 +1,101 @@
+{
+  "kind": "collectionType",
+  "collectionName": "events",
+  "info": {
+    "singularName": "event",
+    "pluralName": "events",
+    "displayName": "Event",
+    "description": "События"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "subtitle": {
+      "type": "string"
+    },
+    "poster": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "posterSquare": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "posterWide": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "posterMobile": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "ym": {
+      "type": "string"
+    },
+    "coverImage": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "coverWide": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "coverMobile": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "description": {
+      "type": "richtext"
+    },
+    "schedule": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::schedule.schedule",
+      "mappedBy": "event"
+    },
+    "roles": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::role.role",
+      "mappedBy": "event"
+    },
+    "previews": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::album.album",
+      "inversedBy": "events"
+    },
+    "venue": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::venue.venue",
+      "inversedBy": "events"
+    }
+  }
+}

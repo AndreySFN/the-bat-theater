@@ -1,0 +1,49 @@
+{
+  "kind": "collectionType",
+  "collectionName": "actors",
+  "info": {
+    "singularName": "actor",
+    "pluralName": "actors",
+    "displayName": "Actor",
+    "description": "Актеры театра"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "photo": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "photoSquare": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "photoThumbnail": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "roles": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::role.role",
+      "mappedBy": "actor"
+    }
+  }
+}

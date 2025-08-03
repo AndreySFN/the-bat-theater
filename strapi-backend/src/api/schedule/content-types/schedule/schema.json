@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "schedules",
+  "info": {
+    "singularName": "schedule",
+    "pluralName": "schedules",
+    "displayName": "Schedule",
+    "description": "Расписание показов"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "ticketUrl": {
+      "type": "string",
+      "required": true
+    },
+    "place": {
+      "type": "string",
+      "required": true
+    },
+    "dateTime": {
+      "type": "datetime",
+      "required": true
+    },
+    "price": {
+      "type": "string",
+      "required": true
+    },
+    "event": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::event.event",
+      "inversedBy": "schedule"
+    }
+  }
+}

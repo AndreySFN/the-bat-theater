@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "venues",
+  "info": {
+    "singularName": "venue",
+    "pluralName": "venues",
+    "displayName": "Venue",
+    "description": "Места проведения"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "label": {
+      "type": "string",
+      "required": true
+    },
+    "address": {
+      "type": "string",
+      "required": true
+    },
+    "mapUrl": {
+      "type": "string"
+    },
+    "events": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::event.event",
+      "mappedBy": "venue"
+    }
+  }
+}
